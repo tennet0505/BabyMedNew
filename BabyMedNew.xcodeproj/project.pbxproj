@@ -8,22 +8,42 @@
 
 /* Begin PBXBuildFile section */
 		0640338320EB3145003776CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0640338220EB3145003776CD /* AppDelegate.swift */; };
-		0640338520EB3145003776CD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0640338420EB3145003776CD /* ViewController.swift */; };
 		0640338820EB3145003776CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0640338620EB3145003776CD /* Main.storyboard */; };
 		0640338B20EB3145003776CD /* BabyMedNew.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0640338920EB3145003776CD /* BabyMedNew.xcdatamodeld */; };
 		0640338D20EB3146003776CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0640338C20EB3146003776CD /* Assets.xcassets */; };
 		0640339020EB3146003776CD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0640338E20EB3146003776CD /* LaunchScreen.storyboard */; };
+		0640339920EB31DF003776CD /* ChildsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0640339820EB31DF003776CD /* ChildsTableViewController.swift */; };
+		0640339B20EB31F2003776CD /* IllnessTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0640339A20EB31F2003776CD /* IllnessTableViewController.swift */; };
+		0640339F20EB3384003776CD /* ChildModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0640339E20EB3384003776CD /* ChildModel.swift */; };
+		064033A120EB3393003776CD /* IllModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064033A020EB3393003776CD /* IllModel.swift */; };
+		064033A520EB3757003776CD /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064033A420EB3757003776CD /* MainViewController.swift */; };
+		064033A720EB3801003776CD /* NewChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064033A620EB3801003776CD /* NewChildViewController.swift */; };
+		064033A920EB66A9003776CD /* PersonalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064033A820EB66A9003776CD /* PersonalViewController.swift */; };
+		064033AB20EB6F9D003776CD /* NewIllnesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064033AA20EB6F9D003776CD /* NewIllnesViewController.swift */; };
+		064033AD20EB9741003776CD /* DescriptionIllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064033AC20EB9741003776CD /* DescriptionIllViewController.swift */; };
+		A47AF1770982426D838EEB2F /* Pods_BabyMedNew.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23E00FA166380BB22953B847 /* Pods_BabyMedNew.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		02A640D9CD008ED778851A64 /* Pods-BabyMedNew.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BabyMedNew.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BabyMedNew/Pods-BabyMedNew.debug.xcconfig"; sourceTree = "<group>"; };
 		0640337F20EB3145003776CD /* BabyMedNew.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyMedNew.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0640338220EB3145003776CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0640338420EB3145003776CD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		0640338720EB3145003776CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0640338A20EB3145003776CD /* BabyMedNew.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BabyMedNew.xcdatamodel; sourceTree = "<group>"; };
 		0640338C20EB3146003776CD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0640338F20EB3146003776CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0640339120EB3146003776CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0640339820EB31DF003776CD /* ChildsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildsTableViewController.swift; sourceTree = "<group>"; };
+		0640339A20EB31F2003776CD /* IllnessTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllnessTableViewController.swift; sourceTree = "<group>"; };
+		0640339E20EB3384003776CD /* ChildModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildModel.swift; sourceTree = "<group>"; };
+		064033A020EB3393003776CD /* IllModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllModel.swift; sourceTree = "<group>"; };
+		064033A420EB3757003776CD /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		064033A620EB3801003776CD /* NewChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChildViewController.swift; sourceTree = "<group>"; };
+		064033A820EB66A9003776CD /* PersonalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalViewController.swift; sourceTree = "<group>"; };
+		064033AA20EB6F9D003776CD /* NewIllnesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIllnesViewController.swift; sourceTree = "<group>"; };
+		064033AC20EB9741003776CD /* DescriptionIllViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionIllViewController.swift; sourceTree = "<group>"; };
+		23E00FA166380BB22953B847 /* Pods_BabyMedNew.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BabyMedNew.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE3C20C4414FD0FA02B2BF8C /* Pods-BabyMedNew.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BabyMedNew.release.xcconfig"; path = "Pods/Target Support Files/Pods-BabyMedNew/Pods-BabyMedNew.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A47AF1770982426D838EEB2F /* Pods_BabyMedNew.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +63,8 @@
 			children = (
 				0640338120EB3145003776CD /* BabyMedNew */,
 				0640338020EB3145003776CD /* Products */,
+				9B999BF02E744DBCA2B4F869 /* Pods */,
+				D42CA724715AFC709919A5A3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,14 +80,63 @@
 			isa = PBXGroup;
 			children = (
 				0640338220EB3145003776CD /* AppDelegate.swift */,
-				0640338420EB3145003776CD /* ViewController.swift */,
-				0640338620EB3145003776CD /* Main.storyboard */,
-				0640338C20EB3146003776CD /* Assets.xcassets */,
-				0640338E20EB3146003776CD /* LaunchScreen.storyboard */,
+				0640339720EB31AD003776CD /* Controllers */,
+				0640339D20EB3369003776CD /* DataModel */,
+				0640339C20EB31FD003776CD /* View */,
 				0640339120EB3146003776CD /* Info.plist */,
 				0640338920EB3145003776CD /* BabyMedNew.xcdatamodeld */,
 			);
 			path = BabyMedNew;
+			sourceTree = "<group>";
+		};
+		0640339720EB31AD003776CD /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				064033A420EB3757003776CD /* MainViewController.swift */,
+				064033A620EB3801003776CD /* NewChildViewController.swift */,
+				0640339820EB31DF003776CD /* ChildsTableViewController.swift */,
+				0640339A20EB31F2003776CD /* IllnessTableViewController.swift */,
+				064033A820EB66A9003776CD /* PersonalViewController.swift */,
+				064033AA20EB6F9D003776CD /* NewIllnesViewController.swift */,
+				064033AC20EB9741003776CD /* DescriptionIllViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		0640339C20EB31FD003776CD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0640338620EB3145003776CD /* Main.storyboard */,
+				0640338C20EB3146003776CD /* Assets.xcassets */,
+				0640338E20EB3146003776CD /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0640339D20EB3369003776CD /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				0640339E20EB3384003776CD /* ChildModel.swift */,
+				064033A020EB3393003776CD /* IllModel.swift */,
+			);
+			path = DataModel;
+			sourceTree = "<group>";
+		};
+		9B999BF02E744DBCA2B4F869 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				02A640D9CD008ED778851A64 /* Pods-BabyMedNew.debug.xcconfig */,
+				AE3C20C4414FD0FA02B2BF8C /* Pods-BabyMedNew.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		D42CA724715AFC709919A5A3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				23E00FA166380BB22953B847 /* Pods_BabyMedNew.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +146,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0640339420EB3146003776CD /* Build configuration list for PBXNativeTarget "BabyMedNew" */;
 			buildPhases = (
+				8BF46355D4D320A052954379 /* [CP] Check Pods Manifest.lock */,
 				0640337B20EB3145003776CD /* Sources */,
 				0640337C20EB3145003776CD /* Frameworks */,
 				0640337D20EB3145003776CD /* Resources */,
+				7D4E6F44141D5663DFDCA260 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -133,14 +207,65 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		7D4E6F44141D5663DFDCA260 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-BabyMedNew/Pods-BabyMedNew-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeCellKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BabyMedNew/Pods-BabyMedNew-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8BF46355D4D320A052954379 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BabyMedNew-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0640337B20EB3145003776CD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0640338520EB3145003776CD /* ViewController.swift in Sources */,
+				064033A520EB3757003776CD /* MainViewController.swift in Sources */,
+				0640339B20EB31F2003776CD /* IllnessTableViewController.swift in Sources */,
 				0640338B20EB3145003776CD /* BabyMedNew.xcdatamodeld in Sources */,
 				0640338320EB3145003776CD /* AppDelegate.swift in Sources */,
+				064033AD20EB9741003776CD /* DescriptionIllViewController.swift in Sources */,
+				064033AB20EB6F9D003776CD /* NewIllnesViewController.swift in Sources */,
+				064033A920EB66A9003776CD /* PersonalViewController.swift in Sources */,
+				064033A720EB3801003776CD /* NewChildViewController.swift in Sources */,
+				064033A120EB3393003776CD /* IllModel.swift in Sources */,
+				0640339F20EB3384003776CD /* ChildModel.swift in Sources */,
+				0640339920EB31DF003776CD /* ChildsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +407,7 @@
 		};
 		0640339520EB3146003776CD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 02A640D9CD008ED778851A64 /* Pods-BabyMedNew.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -300,6 +426,7 @@
 		};
 		0640339620EB3146003776CD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AE3C20C4414FD0FA02B2BF8C /* Pods-BabyMedNew.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
