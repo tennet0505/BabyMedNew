@@ -85,30 +85,31 @@ class IllnessTableViewController: UITableViewController {
     }
     
     
-
-   
- //   override func updateData(at IndexPath: IndexPath) {
-//        if let item = todoItems?[IndexPath.row]{
-//            
-//            do{
-//                try realm.write {
-//                    realm.delete(item)
-//                }
-//                
-//            }catch{
-//                print("Error")
-//            }
-//        }
-//        tableView.reloadData()
-        
- //   }
-    
-    
     func loadIllness() {
         
         illArray = selectedChild?.ills.sorted(byKeyPath: "illName", ascending: true)
         
         tableView.reloadData()
+    }
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            print("Deleted")
+            
+            if let item = illArray?[indexPath.row]{
+                
+                do{
+                    try realm.write {
+                        realm.delete(item)
+                    }
+                    
+                }catch{
+                    print("Error")
+                }
+            }
+            
+        }
+        self.tableView.deleteRows(at: [indexPath], with: .automatic)
     }
 
 }
