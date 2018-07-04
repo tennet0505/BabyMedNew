@@ -53,20 +53,35 @@ class IllnessTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-//        if let ill = illArray?[indexPath.row]{
-//
-//            do{
-//                try realm.write {
-//                    ill.done = !item.done
-//                }
-//
-//            }catch{
-//                print("Error")
-//            }
-//        }
-//        tableView.reloadData()
-//
-//        tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "toDescriptionIll", sender: self)
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "toDescriptionIll",
+            let vc = segue.destination as? DescriptionIllViewController{
+            
+        let child = selectedChild
+        
+        if let indexPath = tableView.indexPathForSelectedRow{
+            
+            let ill = illArray[indexPath.row]
+           
+            
+            vc.simptoms = ill.simptoms
+            vc.treatment = ill.treatment
+            vc.nameIll = ill.illName
+            vc.date = ill.DateIll
+            vc.name = (child?.name)!
+            vc.bd = (child?.birthDate)!
+            
+            }
+     
+           
+        }
+        
+        
     }
     
     

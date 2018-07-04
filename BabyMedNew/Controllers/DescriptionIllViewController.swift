@@ -10,26 +10,29 @@ import UIKit
 
 class DescriptionIllViewController: UIViewController {
 
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var birthDayLabel: UILabel!
+    @IBOutlet weak var nameIllLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var simptomsTextView: UITextView!
+    @IBOutlet weak var treatmentTextView: UITextView!
+    
+    var name = ""
+    var bd = ""
+    var nameIll = ""
+    var date = ""
+    var simptoms = ""
+    var treatment = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        nameLabel.text = name
+        birthDayLabel.text = bd
+        nameIllLabel.text = nameIll
+        dateLabel.text = date
+        simptomsTextView.text = simptoms
+        treatmentTextView.text = treatment
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
