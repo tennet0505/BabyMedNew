@@ -40,7 +40,7 @@
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aXQ-iP-tcL">
                                 <rect key="frame" x="40" y="114" width="86" height="21"/>
@@ -100,7 +100,7 @@
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weight" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ig-5R-ilu">
                                 <rect key="frame" x="40" y="351" width="86" height="21"/>
@@ -132,12 +132,22 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KXT-5J-Ehk">
+                                <rect key="frame" x="40" y="301" width="200" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="bAI-8W-0A3"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="sexChoiceButton:" destination="lqH-Qi-GRv" eventType="touchUpInside" id="p9K-Zm-yEM"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="hH7-dG-peY" firstAttribute="leading" secondItem="Tr8-q3-m9e" secondAttribute="leading" constant="40" id="0sE-Rj-GKf"/>
                             <constraint firstItem="hho-Zm-s5K" firstAttribute="leading" secondItem="Tr8-q3-m9e" secondAttribute="leading" constant="40" id="14X-85-MUs"/>
                             <constraint firstItem="tql-Jh-8QW" firstAttribute="top" secondItem="ztk-ta-dSl" secondAttribute="bottom" constant="20" id="2MM-uT-LFS"/>
+                            <constraint firstItem="KXT-5J-Ehk" firstAttribute="top" secondItem="tql-Jh-8QW" secondAttribute="bottom" constant="8" id="2gV-wh-6aw"/>
                             <constraint firstItem="ztk-ta-dSl" firstAttribute="leading" secondItem="Tr8-q3-m9e" secondAttribute="leading" constant="40" id="3nG-H2-d7m"/>
                             <constraint firstItem="vvh-vD-Tun" firstAttribute="top" secondItem="oxm-MA-geD" secondAttribute="bottom" constant="20" id="Abu-oV-nqc"/>
                             <constraint firstItem="ede-um-6Gq" firstAttribute="leading" secondItem="Tr8-q3-m9e" secondAttribute="leading" constant="80" id="BKP-UU-605"/>
@@ -149,6 +159,7 @@
                             <constraint firstItem="tql-Jh-8QW" firstAttribute="leading" secondItem="Tr8-q3-m9e" secondAttribute="leading" constant="40" id="VWG-CG-onS"/>
                             <constraint firstItem="AaE-7z-18y" firstAttribute="leading" secondItem="Tr8-q3-m9e" secondAttribute="leading" constant="40" id="X6s-Gb-RXJ"/>
                             <constraint firstItem="hho-Zm-s5K" firstAttribute="top" secondItem="tql-Jh-8QW" secondAttribute="bottom" constant="8" id="YKA-JJ-POk"/>
+                            <constraint firstItem="KXT-5J-Ehk" firstAttribute="leading" secondItem="Tr8-q3-m9e" secondAttribute="leading" constant="40" id="Yey-pb-Rnz"/>
                             <constraint firstItem="aXQ-iP-tcL" firstAttribute="leading" secondItem="Tr8-q3-m9e" secondAttribute="leading" constant="40" id="cda-cC-Ffc"/>
                             <constraint firstItem="c2Y-1o-ovZ" firstAttribute="leading" secondItem="Tr8-q3-m9e" secondAttribute="leading" constant="40" id="e5w-h5-nP5"/>
                             <constraint firstItem="2ig-5R-ilu" firstAttribute="top" secondItem="hho-Zm-s5K" secondAttribute="bottom" constant="20" id="k0w-Lr-IFr"/>
@@ -172,7 +183,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j2b-ZM-TF9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2407" y="-448"/>
+            <point key="canvasLocation" x="2405.625" y="-448.94366197183098"/>
         </scene>
         <!--Childs-->
         <scene sceneID="xdc-MJ-7Z4">

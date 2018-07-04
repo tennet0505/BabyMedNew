@@ -16,6 +16,8 @@ class NewIllnesViewController: UIViewController {
     @IBOutlet weak var simptomsTextView: UITextView!
     @IBOutlet weak var treatmentTextView: UITextView!
     
+    let picker = UIDatePicker()
+    
     let realm = try! Realm()
     var illArray : Results<IllModel>?
     
@@ -29,6 +31,8 @@ class NewIllnesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        DatePicker()
+        
         
     }
 
@@ -69,6 +73,60 @@ class NewIllnesViewController: UIViewController {
 
         illArray = selectedChild?.ills.sorted(byKeyPath: "illName", ascending: true)
 
+    }
+    func DatePicker()  {
+        picker.datePickerMode = .date
+        
+        let loc = Locale(identifier: "Ru_ru")
+        self.picker.locale = loc
+        
+//        var components = DateComponents()
+//        components.year = -70
+//        let minDate = Calendar.current.date(byAdding: components, to: Date())
+//
+//        components.year = -17
+//        let maxDate = Calendar.current.date(byAdding: components, to: Date())
+//        
+//        picker.minimumDate = minDate
+//        picker.maximumDate = maxDate
+//
+//        picker.date = Calendar.current.date(byAdding: .year, value: -18, to: Date())!
+        
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donePressed));
+        
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
+        
+        toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
+        
+        
+        dateTextField.inputAccessoryView = toolbar
+        dateTextField.inputView = picker
+        
+    }
+    @objc func donePressed(){
+        let dateFormater = DateFormatter()
+        let dateFormater1 = DateFormatter()
+        dateFormater.dateFormat = "dd MMMM yyyy"///////////change date format
+        dateFormater.locale = Locale(identifier: "RU_ru")
+        dateTextField.text = dateFormater.string(from: picker.date)
+        
+        dateFormater1.dateFormat = "yyyy.MM.dd"///////////change date format
+        
+       // birthDayString = dateFormater1.string(from: picker.date)
+        
+        self.view.endEditing(true)
+        
+    }
+    
+    @objc func cancelDatePicker(){
+        
+        self.view.endEditing(true)
+        
     }
    
 }
