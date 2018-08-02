@@ -14,6 +14,8 @@ class ChildsTableViewController: UITableViewController {
     let realm = try! Realm()
     var childsArray : Results<ChildModel>!
     
+   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,19 +28,21 @@ class ChildsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? ChildTableViewCell
         
-        cell.textLabel?.text = childsArray?[indexPath.row].name ?? "No Child added"
-        cell.detailTextLabel?.text = childsArray?[indexPath.row].birthDate
+        cell?.labelName.text = childsArray?[indexPath.row].name ?? "No Child added"
+        cell?.labelAge.text = childsArray?[indexPath.row].birthDate
         
         
-        return cell
+        
+        return cell!
     }
     
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
+        
         performSegue(withIdentifier: "ToPersonal", sender: self)
 
     }
@@ -82,7 +86,7 @@ class ChildsTableViewController: UITableViewController {
                     print("Error")
                 }
             }
-            
+             
         }
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }

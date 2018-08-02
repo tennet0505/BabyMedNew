@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0621ECDA2113292B002686CF /* ChildTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0621ECD92113292B002686CF /* ChildTableViewCell.swift */; };
 		0640338320EB3145003776CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0640338220EB3145003776CD /* AppDelegate.swift */; };
 		0640338820EB3145003776CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0640338620EB3145003776CD /* Main.storyboard */; };
 		0640338B20EB3145003776CD /* BabyMedNew.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0640338920EB3145003776CD /* BabyMedNew.xcdatamodeld */; };
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		02A640D9CD008ED778851A64 /* Pods-BabyMedNew.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BabyMedNew.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BabyMedNew/Pods-BabyMedNew.debug.xcconfig"; sourceTree = "<group>"; };
+		0621ECD92113292B002686CF /* ChildTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildTableViewCell.swift; sourceTree = "<group>"; };
 		0640337F20EB3145003776CD /* BabyMedNew.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyMedNew.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0640338220EB3145003776CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0640338720EB3145003776CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				064033A420EB3757003776CD /* MainViewController.swift */,
 				064033A620EB3801003776CD /* NewChildViewController.swift */,
 				0640339820EB31DF003776CD /* ChildsTableViewController.swift */,
+				0621ECD92113292B002686CF /* ChildTableViewCell.swift */,
 				0640339A20EB31F2003776CD /* IllnessTableViewController.swift */,
 				064033A820EB66A9003776CD /* PersonalViewController.swift */,
 				064033AA20EB6F9D003776CD /* NewIllnesViewController.swift */,
@@ -265,6 +268,7 @@
 				064033A720EB3801003776CD /* NewChildViewController.swift in Sources */,
 				064033A120EB3393003776CD /* IllModel.swift in Sources */,
 				0640339F20EB3384003776CD /* ChildModel.swift in Sources */,
+				0621ECDA2113292B002686CF /* ChildTableViewCell.swift in Sources */,
 				0640339920EB31DF003776CD /* ChildsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

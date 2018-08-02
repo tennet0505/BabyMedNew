@@ -64,6 +64,7 @@ class NewIllnesViewController: UIViewController {
         simptomsTextView.text = ""
         treatmentTextView.text = ""
         
+        navigationController?.popViewController(animated: true)
         
     }
     
@@ -127,6 +128,9 @@ class NewIllnesViewController: UIViewController {
         
         self.view.endEditing(true)
         
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
    
 }

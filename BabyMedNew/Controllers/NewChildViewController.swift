@@ -8,8 +8,9 @@
 
 import UIKit
 import RealmSwift
+import AVKit
 
-class NewChildViewController: UIViewController {
+class NewChildViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     let realm = try! Realm()
     var childsArray : Results<ChildModel>!
@@ -21,7 +22,7 @@ class NewChildViewController: UIViewController {
     @IBOutlet weak var bloodTextField: UILabel!
     let picker = UIDatePicker()
     var birthDayString = ""
-
+    @IBOutlet weak var imageTakeFoto: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +55,7 @@ class NewChildViewController: UIViewController {
         }catch{
             print("error saving \(error)")
         }
-      //  self.tableView.reloadData()
+//        self.tableView.reloadData()
     }
     
     
@@ -147,6 +148,81 @@ class NewChildViewController: UIViewController {
         
     }
     
-   
+    @IBAction func buttonTakeFoto(_ sender: UIButton) {
+        
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.allowsEditing = true
+        
+        let actionTap = UIAlertController(title: "Фото", message: "Выберите источник:", preferredStyle: .actionSheet)
+        
+        actionTap.addAction(UIAlertAction(title: "Камера", style: .default, handler: {(action:UIAlertAction) in
+            
+            
+            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (granted :Bool) -> Void in
+                DispatchQueue.main.async {
+                    
+                    if granted == true
+                    {
+                        if UIImagePickerController.isSourceTypeAvailable(.camera){
+                            
+                            imagePickerController.sourceType = .camera
+                            self.present(imagePickerController, animated: true, completion: nil)
+                        }else{
+                            print("Camera not work")
+                        }
+                    }else{
+                        let alert = UIAlertController(title: "Attention!", message: "AccessToCamera", preferredStyle: .alert)
+                        
+                        alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { (_) in
+                            if let settingsURL = URL(string: UIApplicationOpenSettingsURLString) {
+                                UIApplication.shared.openURL(settingsURL)
+                            }
+                        }))
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        
+                        return
+                    }
+                    
+                }})
+            
+        }))
+       
+        actionTap.addAction(UIAlertAction(title: "FotoGallery", style: .default, handler: {(action:UIAlertAction) in
+            imagePickerController.sourceType = .photoLibrary
+            self.present(imagePickerController, animated: true, completion: nil)
+            
+        }))
+        
+        actionTap.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(actionTap, animated: true, completion: nil)
+        
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        
+        if let img = info[UIImagePickerControllerEditedImage] as? UIImage
+        {
+            imageTakeFoto.image = img
+            
+        }
+        else if let img = info[UIImagePickerControllerOriginalImage] as? UIImage
+        {
+            imageTakeFoto.image = img
+        }
+        
+        picker.dismiss(animated: true,completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
 
 }
