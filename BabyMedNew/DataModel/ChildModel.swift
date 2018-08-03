@@ -17,6 +17,11 @@ class ChildModel: Object {
     @objc dynamic var gender = ""
     @objc dynamic var blood = ""
     @objc dynamic var weight = ""
+    @objc dynamic var image = String()
+    
+    override static func primaryKey() -> String? {
+        return "id"
+    }
    
     let ills = List<IllModel>()
     

@@ -15,7 +15,6 @@ class NewIllnesViewController: UIViewController {
     @IBOutlet weak var dateTextField: UITextField!
     @IBOutlet weak var simptomsTextView: UITextView!
     @IBOutlet weak var treatmentTextView: UITextView!
-    
     let picker = UIDatePicker()
     
     let realm = try! Realm()
@@ -38,8 +37,6 @@ class NewIllnesViewController: UIViewController {
 
     @IBAction func saveButton(_ sender: UIButton) {
         
-      //   let currentChild = self.selectedChild
-            
             do{
                 try self.realm.write {
                     
@@ -49,7 +46,6 @@ class NewIllnesViewController: UIViewController {
                     newIll.DateIll = dateTextField.text!
                     newIll.simptoms = simptomsTextView.text!
                     newIll.treatment = treatmentTextView.text!
-                    
                     selectedChild?.ills.append(newIll)
                     
                 }
@@ -58,13 +54,12 @@ class NewIllnesViewController: UIViewController {
                 print("Error new Category")
                 
             }
-      // }
         
         nameIllTextField.text = ""
         simptomsTextView.text = ""
         treatmentTextView.text = ""
-        
         navigationController?.popViewController(animated: true)
+        
         
     }
     

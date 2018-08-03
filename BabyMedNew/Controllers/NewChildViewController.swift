@@ -19,29 +19,63 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     @IBOutlet weak var BirthDayTextField: UITextField!
     @IBOutlet weak var genderTextField: UITextField!
     @IBOutlet weak var weightTextField: UITextField!
-    @IBOutlet weak var bloodTextField: UILabel!
+    @IBOutlet weak var bloodTextField: UITextField!
     let picker = UIDatePicker()
     var birthDayString = ""
+    var idChild = NSUUID().uuidString
+    var editValue = 0
     @IBOutlet weak var imageTakeFoto: UIImageView!
     
+    var name = ""
+    var bd = ""
+    var gen = ""
+    var weight = ""
+    var blood = ""
+    
+    @IBOutlet weak var buttonSave: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        nameTextField.text = name
+        BirthDayTextField.text = bd
+        genderTextField.text = gen
+        weightTextField.text = weight
+        bloodTextField.text = blood
+        
+        buttonSave.isEnabled = true
         birthDatePicker()
+        
         
     }
 
     @IBAction func SaveData(_ sender: UIButton) {
-      
         let child = ChildModel()
-        
+        if editValue == 0{
+       
         child.name = nameTextField.text!
         child.birthDate = BirthDayTextField.text!
         child.gender = genderTextField.text!
         child.weight = weightTextField.text!
         child.blood = bloodTextField.text!
         
-        self.saveCategory(child: child)
+        saveCategory(child: child)
+       
+        }else{
+            child.name = nameTextField.text!
+            child.birthDate = BirthDayTextField.text!
+            child.gender = genderTextField.text!
+            child.weight = weightTextField.text!
+            child.blood = bloodTextField.text!
+            child.id = idChild
+            
+            updatePerdonalData(child: child)
+        }
+        nameTextField.text = ""
+        BirthDayTextField.text = ""
+        genderTextField.text = ""
+        weightTextField.text = ""
+        bloodTextField.text = ""
+        buttonSave.isEnabled = false
        
     }
     
@@ -57,6 +91,14 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         }
 //        self.tableView.reloadData()
     }
+    func updatePerdonalData(child: ChildModel){
+        
+            try! realm.write {
+                realm.add(child, update: true)
+            }
+       
+        
+    }
     
     
     func birthDatePicker()  {
@@ -67,16 +109,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         
         var components = DateComponents()
         components.year = -70
-        let minDate = Calendar.current.date(byAdding: components, to: Date())
-        
-        components.year = -17
-        let maxDate = Calendar.current.date(byAdding: components, to: Date())
-        
-        picker.minimumDate = minDate
-        picker.maximumDate = maxDate
-        
-        picker.date = Calendar.current.date(byAdding: .year, value: -18, to: Date())!
-        
+ 
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
         
@@ -207,6 +240,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         if let img = info[UIImagePickerControllerEditedImage] as? UIImage
         {
             imageTakeFoto.image = img
+            
             
         }
         else if let img = info[UIImagePickerControllerOriginalImage] as? UIImage

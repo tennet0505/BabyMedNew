@@ -35,6 +35,10 @@ class PersonalViewController: UIViewController {
             loadIllness()
         }
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,10 +52,6 @@ class PersonalViewController: UIViewController {
         selectedChild = childsArray[indexPath.row]
         print(indexPath)
         
-
-       
-        
-       
     }
  
     func loadChildsData() {
@@ -97,6 +97,23 @@ class PersonalViewController: UIViewController {
                 vc.bd = (child?.birthDate)!
             }
         }
+        if segue.identifier == "toPersonalForEdit",
+            let vc = segue.destination as? NewChildViewController{
+            
+           
+
+           // if let indexPath = tableView.indexPathForSelectedRow{
+             let child = childsArray[indexPath.row]
+                
+                vc.name = child.name
+                vc.bd =  child.birthDate
+                vc.gen = child.gender
+                vc.weight = child.weight
+                vc.blood = child.blood
+                vc.idChild = child.id
+                vc.editValue = 1
+            }
+       // }
     }
     func loadIllness() {
         
@@ -110,6 +127,11 @@ class PersonalViewController: UIViewController {
     
     @IBAction func newIllButton(_ sender: UIButton) {
          performSegue(withIdentifier: "ToNewIllness", sender: self)
+    }
+    
+    @IBAction func buttonEdit(_ sender: Any) {
+        performSegue(withIdentifier: "toPersonalForEdit", sender: self)
+        
     }
     
 
