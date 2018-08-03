@@ -60,7 +60,6 @@ class ChildsTableViewController: UITableViewController {
             vc.blood = child.blood
             vc.weight = child.weight
             vc.gen = child.gender
-            
             vc.indexPath = indexPath
             
            // vc.selectedCategory = childsArray?[indexPath.row]

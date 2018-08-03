@@ -95,6 +95,7 @@ class PersonalViewController: UIViewController {
                 vc.date = ill.DateIll
                 vc.name = (child?.name)!
                 vc.bd = (child?.birthDate)!
+                vc.ill = ill
             }
         }
         if segue.identifier == "toPersonalForEdit",

@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import RealmSwift
 
 class DescriptionIllViewController: UIViewController {
+    let realm = try! Realm()
+    var childsArray : Results<ChildModel>!
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var birthDayLabel: UILabel!
@@ -24,6 +27,15 @@ class DescriptionIllViewController: UIViewController {
     var simptoms = ""
     var treatment = ""
     
+    var ill = IllModel()
+    @IBOutlet weak var buttonEdit: UIBarButtonItem!
+  
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        nameLabel.text = name
+        birthDayLabel.text = bd
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,5 +46,29 @@ class DescriptionIllViewController: UIViewController {
         simptomsTextView.text = simptoms
         treatmentTextView.text = treatment
     }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "toIllForEdit",
+            let vc = segue.destination as? NewIllnesViewController{
+            
+            vc.simptom = ill.simptoms
+            vc.treatment = ill.treatment
+            vc.ill = ill.illName
+            vc.date = ill.DateIll
+            vc.editValue = 1
+            vc.idIll = ill.id
+            vc.name = name
+            vc.birthdate = date
+            
+        }
+       
+    }
+    
+    @IBAction func buttonEdit(_ sender: Any) {
+        performSegue(withIdentifier: "toIllForEdit", sender: self)
+
+    }
+    
+    
 
 }
