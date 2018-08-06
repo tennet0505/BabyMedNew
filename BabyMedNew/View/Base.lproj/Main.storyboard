@@ -438,7 +438,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iog-UI-4PV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4207.5" y="-450"/>
+            <point key="canvasLocation" x="4879" y="-449"/>
         </scene>
         <!--Title-->
         <scene sceneID="LRo-nu-TBm">
@@ -661,7 +661,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZMG-IY-Tlr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4419" y="480"/>
+            <point key="canvasLocation" x="4879" y="480"/>
         </scene>
         <!--Title-->
         <scene sceneID="NdH-rK-8aO">
@@ -902,12 +902,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sit-Dz-XEI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3405" y="480"/>
+            <point key="canvasLocation" x="4050" y="-43"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="i4m-Tf-f0H">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mZI-2B-hlc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="NyW-ju-O8X" customClass="MainViewController" customModule="BabyMedNew" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ptn-RL-1do">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -952,13 +951,13 @@
                     </view>
                     <navigationItem key="navigationItem" id="sad-5h-ZmZ"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mZI-2B-hlc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1563.75" y="-43.309859154929576"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Bxu-6A-ivQ">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6K8-fg-ssh" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vwT-dM-yr9" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="fww-ZN-Ff7">
@@ -970,6 +969,7 @@
                         <segue destination="NyW-ju-O8X" kind="relationship" relationship="rootViewController" id="hNY-5C-IMi"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6K8-fg-ssh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="624.79999999999995" y="-42.728635682158924"/>
         </scene>
@@ -978,7 +978,7 @@
         <image name="plus" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="TB1-gC-6No"/>
+        <segue reference="4ah-Uw-DPg"/>
         <segue reference="7dy-Wa-1B4"/>
         <segue reference="r7J-Z4-fTT"/>
     </inferredMetricsTieBreakers>

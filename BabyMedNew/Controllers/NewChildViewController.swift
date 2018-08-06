@@ -151,10 +151,10 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         
         let sexChoiceAlert = UIAlertController()
         
-        let action1 = UIAlertAction(title: "Male", style: .default, handler: { (action) in
+        let action1 = UIAlertAction(title: "Мальчик", style: .default, handler: { (action) in
             
             
-            self.genderTextField.text = "Male"
+            self.genderTextField.text = "Мальчик"
             if self.genderTextField.text == "Male"{
               //  self.sexTextString = "Male"
             }
@@ -162,8 +162,8 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         })
         
         
-        let action2 = UIAlertAction(title: "Female", style: .default, handler: { action in
-            self.genderTextField.text = "Female"
+        let action2 = UIAlertAction(title: "Девочка", style: .default, handler: { action in
+            self.genderTextField.text = "Девочка"
             if self.genderTextField.text == "Female"{
              //   self.sexTextString = "Female"
             }
@@ -233,13 +233,24 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         self.present(actionTap, animated: true, completion: nil)
         
     }
+    func loadImageFromPath(path: String) -> UIImage? {
+        
+        let image = UIImage(contentsOfFile: path as String)
+        
+        if image == nil {
+            return UIImage()
+        } else{
+            return image
+        }
+    }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         
-        if let img = info[UIImagePickerControllerEditedImage] as? UIImage
+        if let img = info[UIImagePickerControllerEditedImage] as? String
+            
         {
-            imageTakeFoto.image = img
+            imageTakeFoto.image = loadImageFromPath(path: img)
             
             
         }
