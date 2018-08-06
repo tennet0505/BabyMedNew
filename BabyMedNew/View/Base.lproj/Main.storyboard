@@ -426,7 +426,7 @@
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qd3-uN-zYT">
                                                         <rect key="frame" x="0.0" y="0.0" width="289" height="204"/>
-                                                        <color key="backgroundColor" red="1" green="0.49327188729999999" blue="0.47399842739999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S9G-Na-eXR">
                                                         <rect key="frame" x="245" y="0.0" width="44" height="44"/>
@@ -679,7 +679,7 @@
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6MS-uT-8BO">
                                                         <rect key="frame" x="0.0" y="0.0" width="289" height="204"/>
-                                                        <color key="backgroundColor" red="1" green="0.49327188729999999" blue="0.47399842739999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="backgroundColor" red="0.83741801979999997" green="0.83743780850000005" blue="0.83742713930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tsx-6r-IbO">
                                                         <rect key="frame" x="245" y="0.0" width="44" height="44"/>
@@ -990,7 +990,7 @@
                         <viewLayoutGuide key="safeArea" id="npH-gN-hgT"/>
                     </view>
                     <navigationItem key="navigationItem" title="Ребенок" id="iLu-k5-X0Q">
-                        <barButtonItem key="rightBarButtonItem" title="Редактировать" id="GmM-N6-YNr">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Редактировать" id="GmM-N6-YNr">
                             <connections>
                                 <action selector="buttonEdit:" destination="93M-uJ-FFF" id="4bA-ZZ-jMJ"/>
                                 <segue destination="lqH-Qi-GRv" kind="show" identifier="toPersonalForEdit" id="r7J-Z4-fTT"/>

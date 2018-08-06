@@ -52,9 +52,17 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         if editValue == 0{
             buttonEdit.isHidden = true
             buttonSave.isHidden = false
+            nameIllTextField.isEnabled = true
+            dateTextField.isEnabled = true
+            nameIllTextField.alpha = 1
+            dateTextField.alpha = 1
         }else{
             buttonEdit.isHidden = false
             buttonSave.isHidden = true
+            nameIllTextField.isEnabled = false
+            dateTextField.isEnabled = false
+            nameIllTextField.alpha = 0.5
+            dateTextField.alpha = 0.5
             
         }
     }

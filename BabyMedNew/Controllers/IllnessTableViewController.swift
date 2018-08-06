@@ -25,7 +25,7 @@ class IllnessTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-    //    loadIllness()
+
         
     }
     override func viewWillAppear(_ animated: Bool) {
