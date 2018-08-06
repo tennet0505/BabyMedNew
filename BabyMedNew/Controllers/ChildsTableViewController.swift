@@ -65,26 +65,26 @@ class ChildsTableViewController: UITableViewController {
 
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-        let vc = segue.destination as! PersonalViewController
-
-        if let indexPath = tableView.indexPathForSelectedRow{
-
-            let child = childsArray[indexPath.row]
-            
-            vc.name = child.name
-            vc.bd = child.birthDate
-            vc.blood = child.blood
-            vc.weight = child.weight
-            vc.gen = child.gender
-            vc.indexPath = indexPath
-            
-           // vc.selectedCategory = childsArray?[indexPath.row]
-        }
-      
-        
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//
+//        let vc = segue.destination as! PersonalViewController
+//
+//        if let indexPath = tableView.indexPathForSelectedRow{
+//
+//            let child = childsArray[indexPath.row]
+//
+//            vc.name = child.name
+//            vc.bd = child.birthDate
+//            vc.blood = child.blood
+//            vc.weight = child.weight
+//            vc.gen = child.gender
+//            vc.indexPath = indexPath
+//
+//           // vc.selectedCategory = childsArray?[indexPath.row]
+//        }
+//
+//
+//    }
     
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {

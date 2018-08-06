@@ -164,7 +164,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         }
     }
     
-
+   
 }
 extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
     

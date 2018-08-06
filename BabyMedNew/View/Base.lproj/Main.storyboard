@@ -141,20 +141,36 @@
                                     <action selector="sexChoiceButton:" destination="lqH-Qi-GRv" eventType="touchUpInside" id="p9K-Zm-yEM"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hYH-Ha-i3I">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cCe-B6-Q4T">
                                 <rect key="frame" x="243" y="70" width="70" height="70"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar_default" translatesAutoresizingMaskIntoConstraints="NO" id="hYH-Ha-i3I">
+                                        <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4mM-2A-b2e">
+                                        <rect key="frame" x="36" y="36" width="34" height="34"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="34" id="0jm-hA-aK9"/>
+                                            <constraint firstAttribute="height" constant="34" id="gCf-DM-lNI"/>
+                                        </constraints>
+                                        <state key="normal" image="icPhotoCamera24Px"/>
+                                        <connections>
+                                            <action selector="buttonTakeFoto:" destination="lqH-Qi-GRv" eventType="touchUpInside" id="TF5-fY-smO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="IVA-PP-39K"/>
-                                    <constraint firstAttribute="height" constant="70" id="Pl4-rX-Hjk"/>
+                                    <constraint firstAttribute="width" constant="70" id="2W4-m8-Zt2"/>
+                                    <constraint firstAttribute="trailing" secondItem="4mM-2A-b2e" secondAttribute="trailing" id="33z-uM-1Jd"/>
+                                    <constraint firstAttribute="height" constant="70" id="OYM-b2-aET"/>
+                                    <constraint firstAttribute="trailing" secondItem="hYH-Ha-i3I" secondAttribute="trailing" id="aku-U7-NoV"/>
+                                    <constraint firstItem="hYH-Ha-i3I" firstAttribute="leading" secondItem="cCe-B6-Q4T" secondAttribute="leading" id="ftp-fe-aqs"/>
+                                    <constraint firstItem="hYH-Ha-i3I" firstAttribute="top" secondItem="cCe-B6-Q4T" secondAttribute="top" id="gGh-YK-RZY"/>
+                                    <constraint firstAttribute="bottom" secondItem="4mM-2A-b2e" secondAttribute="bottom" id="pmP-A6-rLK"/>
+                                    <constraint firstAttribute="bottom" secondItem="hYH-Ha-i3I" secondAttribute="bottom" id="qbS-dJ-rzY"/>
                                 </constraints>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4mM-2A-b2e">
-                                <rect key="frame" x="250" y="142" width="59" height="30"/>
-                                <state key="normal" title="Add foto"/>
-                                <connections>
-                                    <action selector="buttonTakeFoto:" destination="lqH-Qi-GRv" eventType="touchUpInside" id="TF5-fY-smO"/>
-                                </connections>
-                            </button>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -162,22 +178,20 @@
                             <constraint firstItem="hho-Zm-s5K" firstAttribute="leading" secondItem="Tr8-q3-m9e" secondAttribute="leading" constant="40" id="14X-85-MUs"/>
                             <constraint firstItem="tql-Jh-8QW" firstAttribute="top" secondItem="ztk-ta-dSl" secondAttribute="bottom" constant="20" id="2MM-uT-LFS"/>
                             <constraint firstItem="KXT-5J-Ehk" firstAttribute="top" secondItem="tql-Jh-8QW" secondAttribute="bottom" constant="8" id="2gV-wh-6aw"/>
-                            <constraint firstItem="Tr8-q3-m9e" firstAttribute="trailing" secondItem="4mM-2A-b2e" secondAttribute="trailing" constant="11" id="2pL-io-niU"/>
                             <constraint firstItem="ztk-ta-dSl" firstAttribute="leading" secondItem="Tr8-q3-m9e" secondAttribute="leading" constant="40" id="3nG-H2-d7m"/>
+                            <constraint firstItem="Tr8-q3-m9e" firstAttribute="trailing" secondItem="cCe-B6-Q4T" secondAttribute="trailing" constant="7" id="5yH-qb-NFp"/>
+                            <constraint firstItem="cCe-B6-Q4T" firstAttribute="top" secondItem="Tr8-q3-m9e" secondAttribute="top" constant="6" id="6Nr-vY-hwr"/>
                             <constraint firstItem="vvh-vD-Tun" firstAttribute="top" secondItem="oxm-MA-geD" secondAttribute="bottom" constant="20" id="Abu-oV-nqc"/>
                             <constraint firstItem="ede-um-6Gq" firstAttribute="leading" secondItem="Tr8-q3-m9e" secondAttribute="leading" constant="80" id="BKP-UU-605"/>
                             <constraint firstItem="ztk-ta-dSl" firstAttribute="top" secondItem="c2Y-1o-ovZ" secondAttribute="bottom" constant="8" id="BUR-8T-iah"/>
                             <constraint firstItem="c2Y-1o-ovZ" firstAttribute="top" secondItem="hH7-dG-peY" secondAttribute="bottom" constant="20" id="CFJ-Zx-QXA"/>
-                            <constraint firstItem="Tr8-q3-m9e" firstAttribute="trailing" secondItem="hYH-Ha-i3I" secondAttribute="trailing" constant="7" id="IKn-4V-ioC"/>
                             <constraint firstItem="AaE-7z-18y" firstAttribute="top" secondItem="vvh-vD-Tun" secondAttribute="bottom" constant="8" id="KWV-52-h1r"/>
                             <constraint firstItem="aXQ-iP-tcL" firstAttribute="top" secondItem="Tr8-q3-m9e" secondAttribute="top" constant="50" id="Lxa-95-Ygy"/>
-                            <constraint firstItem="4mM-2A-b2e" firstAttribute="top" secondItem="hYH-Ha-i3I" secondAttribute="bottom" constant="2" id="OTv-XT-EoU"/>
                             <constraint firstItem="oxm-MA-geD" firstAttribute="top" secondItem="2ig-5R-ilu" secondAttribute="bottom" constant="8" id="TQ1-Ib-Je1"/>
                             <constraint firstItem="tql-Jh-8QW" firstAttribute="leading" secondItem="Tr8-q3-m9e" secondAttribute="leading" constant="40" id="VWG-CG-onS"/>
                             <constraint firstItem="AaE-7z-18y" firstAttribute="leading" secondItem="Tr8-q3-m9e" secondAttribute="leading" constant="40" id="X6s-Gb-RXJ"/>
                             <constraint firstItem="hho-Zm-s5K" firstAttribute="top" secondItem="tql-Jh-8QW" secondAttribute="bottom" constant="8" id="YKA-JJ-POk"/>
                             <constraint firstItem="KXT-5J-Ehk" firstAttribute="leading" secondItem="Tr8-q3-m9e" secondAttribute="leading" constant="40" id="Yey-pb-Rnz"/>
-                            <constraint firstItem="hYH-Ha-i3I" firstAttribute="top" secondItem="Tr8-q3-m9e" secondAttribute="top" constant="6" id="aGS-cf-WFW"/>
                             <constraint firstItem="aXQ-iP-tcL" firstAttribute="leading" secondItem="Tr8-q3-m9e" secondAttribute="leading" constant="40" id="cda-cC-Ffc"/>
                             <constraint firstItem="c2Y-1o-ovZ" firstAttribute="leading" secondItem="Tr8-q3-m9e" secondAttribute="leading" constant="40" id="e5w-h5-nP5"/>
                             <constraint firstItem="2ig-5R-ilu" firstAttribute="top" secondItem="hho-Zm-s5K" secondAttribute="bottom" constant="20" id="k0w-Lr-IFr"/>
@@ -228,7 +242,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MEk-tW-kct">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar_default" translatesAutoresizingMaskIntoConstraints="NO" id="MEk-tW-kct">
                                             <rect key="frame" x="10" y="4.5" width="50" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="50" id="GfT-EX-PSO"/>
@@ -273,7 +287,13 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Item" id="rcG-u6-GYR"/>
-                    <navigationItem key="navigationItem" title="Дети" id="eJl-6U-Ven"/>
+                    <navigationItem key="navigationItem" title="Дети" id="eJl-6U-Ven">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="cJp-RM-k6z">
+                            <connections>
+                                <segue destination="lqH-Qi-GRv" kind="show" id="FyQ-gb-QDc"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i4X-bc-brx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -769,7 +789,7 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VB1-w4-Bpl">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar_default" translatesAutoresizingMaskIntoConstraints="NO" id="VB1-w4-Bpl">
                                 <rect key="frame" x="16" y="120" width="80" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="KQ4-01-jIM"/>
@@ -923,7 +943,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <segue destination="lqH-Qi-GRv" kind="show" id="A41-WS-IVh"/>
+                                    <segue destination="lqH-Qi-GRv" kind="show" identifier="" id="A41-WS-IVh"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rDb-3B-GSD">
@@ -1000,10 +1020,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="avatar_default" width="80" height="80"/>
+        <image name="icPhotoCamera24Px" width="34" height="34"/>
         <image name="plus" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="TB1-gC-6No"/>
-        <segue reference="A41-WS-IVh"/>
+        <segue reference="4ah-Uw-DPg"/>
+        <segue reference="FyQ-gb-QDc"/>
     </inferredMetricsTieBreakers>
 </document>
