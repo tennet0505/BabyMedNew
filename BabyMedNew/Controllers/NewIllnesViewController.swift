@@ -9,6 +9,10 @@
 import UIKit
 import RealmSwift
 
+protocol IllnessProtocol {
+    func dataToNewIllness(illData: IllModel)
+}
+
 class NewIllnesViewController: UIViewController {
     
     @IBOutlet weak var buttonEdit: UIButton!
@@ -22,6 +26,7 @@ class NewIllnesViewController: UIViewController {
     @IBOutlet weak var treatmentTextView: UITextView!
     let picker = UIDatePicker()
     
+    var delegate: IllnessProtocol?
     var name = ""
     var birthdate = ""
     var ill = ""
@@ -31,6 +36,7 @@ class NewIllnesViewController: UIViewController {
     var editValue = 0
     var idIll = NSUUID().uuidString
     
+    let newIll = IllModel()
     let realm = try! Realm()
     var illArray : Results<IllModel>?
     
@@ -56,6 +62,8 @@ class NewIllnesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
 
         nameIllTextField.text = ill
         dateTextField.text = date
@@ -68,7 +76,6 @@ class NewIllnesViewController: UIViewController {
     }
 
     @IBAction func saveButton(_ sender: UIButton) {
-        let newIll = IllModel()
         
         do{
             try self.realm.write {
@@ -82,7 +89,7 @@ class NewIllnesViewController: UIViewController {
                 nameIllTextField.text = ""
                 simptomsTextView.text = ""
                 treatmentTextView.text = ""
-                
+
                 navigationController?.popViewController(animated: true)
             }
             
@@ -90,6 +97,7 @@ class NewIllnesViewController: UIViewController {
             print("Error new Category")
             
         }
+     
     }
     
     @IBAction func buttonEdit(_ sender: UIButton) {
@@ -102,15 +110,21 @@ class NewIllnesViewController: UIViewController {
         newIll.id = idIll
         updatePerdonalData(ill: newIll)
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc1 = storyboard.instantiateViewController(withIdentifier: "DescriptionIllViewController") as! DescriptionIllViewController
-        vc1.nameIll = nameIllTextField.text!
-        vc1.date = dateTextField.text!
-        vc1.simptoms = simptomsTextView.text!
-        vc1.treatment = treatmentTextView.text!
-        navigationController?.pushViewController(vc1, animated: false)
-        vc1.name = name
-        vc1.bd = birthdate
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let vc1 = storyboard.instantiateViewController(withIdentifier: "DescriptionIllViewController") as! DescriptionIllViewController
+//
+//        vc1.nameIll = nameIllTextField.text!
+//        vc1.date = dateTextField.text!
+//        vc1.simptoms = simptomsTextView.text!
+//        vc1.treatment = treatmentTextView.text!
+//       // navigationController?.popViewController(animated: true)
+//     //   navigationController?.pushViewController(vc1, animated: false)
+//        vc1.name = name
+//        vc1.bd = birthdate
+        
+        let illEdit = newIll
+        delegate?.dataToNewIllness(illData: illEdit)
+        navigationController?.popViewController(animated: true)
     }
     
     

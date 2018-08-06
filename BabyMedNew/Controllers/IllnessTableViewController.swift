@@ -10,7 +10,8 @@ import UIKit
 import RealmSwift
 
 class IllnessTableViewController: UITableViewController {
-
+   
+   
     
     let realm = try! Realm()
     var illArray : Results<IllModel>!
@@ -27,6 +28,13 @@ class IllnessTableViewController: UITableViewController {
     //    loadIllness()
         
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    
+    }
+   
+    
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -61,6 +69,7 @@ class IllnessTableViewController: UITableViewController {
         
         if segue.identifier == "toDescriptionIll",
             let vc = segue.destination as? DescriptionIllViewController{
+            
             
         let child = selectedChild
         

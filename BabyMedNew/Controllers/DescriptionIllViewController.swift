@@ -9,7 +9,8 @@
 import UIKit
 import RealmSwift
 
-class DescriptionIllViewController: UIViewController {
+class DescriptionIllViewController: UIViewController, IllnessProtocol  {
+   
     let realm = try! Realm()
     var childsArray : Results<ChildModel>!
 
@@ -59,6 +60,8 @@ class DescriptionIllViewController: UIViewController {
             vc.idIll = ill.id
             vc.name = name
             vc.birthdate = date
+           
+            vc.delegate = self
             
         }
        
@@ -68,6 +71,16 @@ class DescriptionIllViewController: UIViewController {
         performSegue(withIdentifier: "toIllForEdit", sender: self)
 
     }
+   
+    func dataToNewIllness(illData: IllModel) {
+      
+        ill = illData
+        nameIllLabel.text = ill.illName
+        dateLabel.text = ill.DateIll
+        simptomsTextView.text = ill.simptoms
+        treatmentTextView.text = ill.treatment
+    }
+    
     
     
 

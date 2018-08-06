@@ -9,7 +9,9 @@
 import UIKit
 import RealmSwift
 
-class PersonalViewController: UIViewController {
+class PersonalViewController: UIViewController, NewChildDataProtocol {
+   
+    
 
     let realm = try! Realm()
     var childsArray : Results<ChildModel>!
@@ -19,6 +21,7 @@ class PersonalViewController: UIViewController {
     var gen = ""
     var weight = ""
     var blood = ""
+    var child = ChildModel()
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var birthDayLabel: UILabel!
     @IBOutlet weak var genderLabel: UILabel!
@@ -39,7 +42,7 @@ class PersonalViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        loadChildsData()
         getImage(imageName: "\(name)+\(bd)")
         tableView.reloadData()
     }
@@ -57,6 +60,7 @@ class PersonalViewController: UIViewController {
         print(indexPath)
         
     }
+
    
  
     func loadChildsData() {
@@ -106,20 +110,30 @@ class PersonalViewController: UIViewController {
         if segue.identifier == "toPersonalForEdit",
             let vc = segue.destination as? NewChildViewController{
             
-           
-
-           // if let indexPath = tableView.indexPathForSelectedRow{
-             let child = childsArray[indexPath.row]
-                
-                vc.name = child.name
-                vc.bd =  child.birthDate
-                vc.gen = child.gender
-                vc.weight = child.weight
-                vc.blood = child.blood
-                vc.idChild = child.id
-                vc.editValue = 1
-            }
-       // }
+            
+            
+            let child = childsArray[indexPath.row]
+            
+            vc.name = child.name
+            vc.bd =  child.birthDate
+            vc.gen = child.gender
+            vc.weight = child.weight
+            vc.blood = child.blood
+            vc.idChild = child.id
+            vc.editValue = 1
+            vc.delegate = self
+        }
+    }
+    
+    func newDataChild(childEdit: ChildModel) {
+        child = childEdit
+        nameLabel.text = child.name
+        birthDayLabel.text = child.birthDate
+        genderLabel.text = child.gender
+        weightLabel.text = child.weight
+        bloodLabel.text = child.blood
+        
+        
     }
     func loadIllness() {
         

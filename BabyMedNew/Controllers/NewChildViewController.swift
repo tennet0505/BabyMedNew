@@ -10,6 +10,9 @@ import UIKit
 import RealmSwift
 import AVKit
 
+protocol NewChildDataProtocol {
+    func newDataChild(childEdit: ChildModel)
+}
 class NewChildViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     let realm = try! Realm()
@@ -31,12 +34,13 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     var gen = ""
     var weight = ""
     var blood = ""
+    var delegate: NewChildDataProtocol?
     
     @IBOutlet weak var buttonSave: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
 
-      //  getImage(imageName: "fotoProfile")
+        getImage(imageName: "\(name)+\(bd)")
         nameTextField.text = name
         BirthDayTextField.text = bd
         genderTextField.text = gen
@@ -69,7 +73,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
             child.blood = bloodTextField.text!
             child.id = idChild
             
-            updatePerdonalData(child: child)
+            updatePersonalData(child: child)
         }
         nameTextField.text = ""
         BirthDayTextField.text = ""
@@ -79,6 +83,11 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         buttonSave.isEnabled = false
         
         saveImage(imageName: "\(child.name)+\(child.birthDate)")
+        
+
+        let newChild = child
+        delegate?.newDataChild(childEdit: newChild)
+        navigationController?.popViewController(animated: true)
        
     }
     
@@ -94,7 +103,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         }
 //        self.tableView.reloadData()
     }
-    func updatePerdonalData(child: ChildModel){
+    func updatePersonalData(child: ChildModel){
         
             try! realm.write {
                 realm.add(child, update: true)
