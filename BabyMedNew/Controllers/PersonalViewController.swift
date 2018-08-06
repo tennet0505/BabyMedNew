@@ -24,6 +24,8 @@ class PersonalViewController: UIViewController {
     @IBOutlet weak var genderLabel: UILabel!
     @IBOutlet weak var weightLabel: UILabel!
     @IBOutlet weak var bloodLabel: UILabel!
+    
+    @IBOutlet weak var fotoImage: UIImageView!
     var indexPath = IndexPath()
     
     @IBOutlet weak var tableView: UITableView!
@@ -37,6 +39,8 @@ class PersonalViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        getImage(imageName: "\(name)+\(bd)")
         tableView.reloadData()
     }
     
@@ -53,6 +57,7 @@ class PersonalViewController: UIViewController {
         print(indexPath)
         
     }
+   
  
     func loadChildsData() {
         
@@ -133,6 +138,16 @@ class PersonalViewController: UIViewController {
     @IBAction func buttonEdit(_ sender: Any) {
         performSegue(withIdentifier: "toPersonalForEdit", sender: self)
         
+    }
+   
+    func getImage(imageName: String){
+        let fileManager = FileManager.default
+        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
+        if fileManager.fileExists(atPath: imagePath){
+            fotoImage.image = UIImage(contentsOfFile: imagePath)
+        }else{
+            print("Panic! No Image!")
+        }
     }
     
 

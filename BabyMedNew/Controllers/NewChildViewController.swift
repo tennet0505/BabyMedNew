@@ -36,6 +36,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
 
+      //  getImage(imageName: "fotoProfile")
         nameTextField.text = name
         BirthDayTextField.text = bd
         genderTextField.text = gen
@@ -76,6 +77,8 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         weightTextField.text = ""
         bloodTextField.text = ""
         buttonSave.isEnabled = false
+        
+        saveImage(imageName: "\(child.name)+\(child.birthDate)")
        
     }
     
@@ -260,6 +263,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         }
         
         picker.dismiss(animated: true,completion: nil)
+        
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -269,5 +273,35 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
+    
+    func saveImage(imageName: String){
+        let fileManager = FileManager.default
+        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
+        
+        
+        let image = imageTakeFoto.image
+        let data = UIImageJPEGRepresentation(image!, 0.1)
+        fileManager.createFile(atPath: imagePath as String, contents: data, attributes: nil)
+    }
+    func getImage(imageName: String){
+        
+        
+        let fileManager = FileManager.default
+        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
+        if fileManager.fileExists(atPath: imagePath){
+            imageTakeFoto.image = UIImage(contentsOfFile: imagePath)
+        }else{
+            print("Panic! No Image!")
+        }
+    }
+    
+    func getDocumentsDirectory() -> NSString {
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let documentsDirectory = paths[0]
+        //print("Path: \(documentsDirectory)")
+        return documentsDirectory as NSString
+    }
 
 }
+
+

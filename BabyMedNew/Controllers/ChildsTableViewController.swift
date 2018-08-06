@@ -22,6 +22,7 @@ class ChildsTableViewController: UITableViewController {
         loadChildsData()
      
     }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return childsArray?.count ?? 1
     }
@@ -29,10 +30,14 @@ class ChildsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? ChildTableViewCell
-        
-        cell?.labelName.text = childsArray?[indexPath.row].name ?? "No Child added"
-        cell?.labelAge.text = childsArray?[indexPath.row].birthDate
-        
+        if let imageName = childsArray?[indexPath.row].name, let imageBd = childsArray?[indexPath.row].birthDate{
+            let imageAvatar =  getImage(imageName:"\(imageName)+\(imageBd)")
+            print(imageAvatar)
+            cell?.labelName.text = childsArray?[indexPath.row].name ?? "No Child added"
+            cell?.labelAge.text = childsArray?[indexPath.row].birthDate
+            cell?.imageFoto.image = imageAvatar
+            
+        }
         
         
         return cell!
@@ -41,9 +46,22 @@ class ChildsTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let child = childsArray[indexPath.row]
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "PersonalViewController") as! PersonalViewController
+        
+        vc.name = child.name
+        vc.bd = child.birthDate
+        vc.blood = child.blood
+        vc.weight = child.weight
+        vc.gen = child.gender
+        vc.indexPath = indexPath
+     //   present(vc, animated: true, completion: nil)
+        navigationController?.pushViewController(vc, animated: true)
 
         
-        performSegue(withIdentifier: "ToPersonal", sender: self)
+     //   performSegue(withIdentifier: "ToPersonal", sender: self)
 
     }
 
@@ -97,10 +115,17 @@ class ChildsTableViewController: UITableViewController {
         tableView.reloadData()
         
     }
+    func getImage(imageName: String) -> UIImage{
+        var fotoImage = UIImage()
+        let fileManager = FileManager.default
+        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
+        if fileManager.fileExists(atPath: imagePath){
+            fotoImage = UIImage(contentsOfFile: imagePath)!
+        }else{
+            print("Panic! No Image!")
+        }
+        return fotoImage
+    }
     
-    
-  
-
-   
 
 }

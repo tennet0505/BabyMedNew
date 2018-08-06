@@ -12,6 +12,9 @@ class ChildTableViewCell: UITableViewCell {
     @IBOutlet weak var labelName: UILabel!
     
     @IBOutlet weak var labelAge: UILabel!
+    
+    @IBOutlet weak var imageFoto: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
