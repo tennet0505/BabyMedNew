@@ -288,10 +288,13 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
         
         
-        let image = imageTakeFoto.image
-        let data = UIImageJPEGRepresentation(image!, 0.1)
-        fileManager.createFile(atPath: imagePath as String, contents: data, attributes: nil)
+        if let image = imageTakeFoto.image{
+          let data = UIImageJPEGRepresentation(image, 0.1)
+            fileManager.createFile(atPath: imagePath as String, contents: data, attributes: nil)
+            
+        }
     }
+    
     func getImage(imageName: String){
         
         

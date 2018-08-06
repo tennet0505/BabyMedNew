@@ -907,28 +907,41 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LM2-6h-9ye">
-                                <rect key="frame" x="36" y="429" width="120" height="30"/>
+                                <rect key="frame" x="70" y="316" width="180" height="60"/>
                                 <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="8cT-hM-RG8"/>
-                                    <constraint firstAttribute="width" constant="120" id="EhG-yh-uAf"/>
+                                    <constraint firstAttribute="height" constant="60" id="e3S-ic-3LH"/>
+                                    <constraint firstAttribute="width" constant="180" id="qN4-BL-9Zt"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Новый ребенок">
                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="lqH-Qi-GRv" kind="show" id="A41-WS-IVh"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rDb-3B-GSD">
-                                <rect key="frame" x="173" y="429" width="118" height="30"/>
+                                <rect key="frame" x="70" y="416" width="180" height="60"/>
                                 <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="118" id="wAS-rC-Z1y"/>
+                                    <constraint firstAttribute="width" constant="180" id="J6j-O6-UuL"/>
+                                    <constraint firstAttribute="height" constant="60" id="iB2-xr-3Ak"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Все дети">
                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="HW1-z4-cWa" kind="show" id="7dy-Wa-1B4"/>
                                 </connections>
@@ -936,10 +949,10 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="1Pp-Vg-Z3m" firstAttribute="trailing" secondItem="rDb-3B-GSD" secondAttribute="trailing" constant="29" id="2QU-MB-TOJ"/>
-                            <constraint firstItem="rDb-3B-GSD" firstAttribute="top" secondItem="1Pp-Vg-Z3m" secondAttribute="top" constant="365" id="5wC-cX-8sD"/>
-                            <constraint firstItem="LM2-6h-9ye" firstAttribute="top" secondItem="1Pp-Vg-Z3m" secondAttribute="top" constant="365" id="Qaf-h2-JBw"/>
-                            <constraint firstItem="LM2-6h-9ye" firstAttribute="leading" secondItem="1Pp-Vg-Z3m" secondAttribute="leading" constant="36" id="cAb-NO-qFs"/>
+                            <constraint firstItem="rDb-3B-GSD" firstAttribute="centerX" secondItem="Ptn-RL-1do" secondAttribute="centerX" id="14e-c0-mcv"/>
+                            <constraint firstItem="1Pp-Vg-Z3m" firstAttribute="bottom" secondItem="rDb-3B-GSD" secondAttribute="bottom" constant="92" id="7cS-QW-gCR"/>
+                            <constraint firstItem="LM2-6h-9ye" firstAttribute="centerX" secondItem="Ptn-RL-1do" secondAttribute="centerX" id="TwB-Gd-AOb"/>
+                            <constraint firstItem="rDb-3B-GSD" firstAttribute="top" secondItem="LM2-6h-9ye" secondAttribute="bottom" constant="40" id="boO-t0-Okh"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="1Pp-Vg-Z3m"/>
                     </view>
@@ -991,6 +1004,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="TB1-gC-6No"/>
-        <segue reference="r7J-Z4-fTT"/>
+        <segue reference="A41-WS-IVh"/>
     </inferredMetricsTieBreakers>
 </document>
