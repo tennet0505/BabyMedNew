@@ -8,16 +8,17 @@
 
 import UIKit
 import RealmSwift
+import AVKit
+
 
 protocol IllnessProtocol {
     func dataToNewIllness(illData: IllModel)
 }
 
-class NewIllnesViewController: UIViewController {
+class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    @IBOutlet weak var imageRecept: UIImageView!
     @IBOutlet weak var buttonEdit: UIButton!
-    
-    @IBOutlet weak var buttonAllIllness: UIButton!
     
     @IBOutlet weak var buttonSave: UIButton!
     @IBOutlet weak var nameIllTextField: UITextField!
@@ -51,11 +52,9 @@ class NewIllnesViewController: UIViewController {
         if editValue == 0{
             buttonEdit.isHidden = true
             buttonSave.isHidden = false
-            buttonAllIllness.isHidden = false
         }else{
             buttonEdit.isHidden = false
             buttonSave.isHidden = true
-            buttonAllIllness.isHidden = true
             
         }
     }
@@ -86,6 +85,7 @@ class NewIllnesViewController: UIViewController {
                 newIll.treatment = treatmentTextView.text!
                 selectedChild?.ills.append(newIll)
                 
+                
                 nameIllTextField.text = ""
                 simptomsTextView.text = ""
                 treatmentTextView.text = ""
@@ -97,6 +97,8 @@ class NewIllnesViewController: UIViewController {
             print("Error new Category")
             
         }
+        saveImage(imageName: "\(newIll.illName)+\(newIll.DateIll)")
+
      
     }
     
@@ -121,7 +123,8 @@ class NewIllnesViewController: UIViewController {
 //     //   navigationController?.pushViewController(vc1, animated: false)
 //        vc1.name = name
 //        vc1.bd = birthdate
-        
+        saveImage(imageName: "\(newIll.illName)+\(newIll.DateIll)")
+
         let illEdit = newIll
         delegate?.dataToNewIllness(illData: illEdit)
         navigationController?.popViewController(animated: true)
@@ -189,5 +192,124 @@ class NewIllnesViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
+    @IBAction func buttonFoto(_ sender: UIButton) {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.allowsEditing = true
+        
+        let actionTap = UIAlertController(title: "Фото", message: "Выберите источник:", preferredStyle: .actionSheet)
+        
+        actionTap.addAction(UIAlertAction(title: "Камера", style: .default, handler: {(action:UIAlertAction) in
+            
+            
+            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (granted :Bool) -> Void in
+                DispatchQueue.main.async {
+                    
+                    if granted == true
+                    {
+                        if UIImagePickerController.isSourceTypeAvailable(.camera){
+                            
+                            imagePickerController.sourceType = .camera
+                            self.present(imagePickerController, animated: true, completion: nil)
+                        }else{
+                            print("Camera not work")
+                        }
+                    }else{
+                        let alert = UIAlertController(title: "Attention!", message: "AccessToCamera", preferredStyle: .alert)
+                        
+                        alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { (_) in
+                            if let settingsURL = URL(string: UIApplicationOpenSettingsURLString) {
+                                UIApplication.shared.openURL(settingsURL)
+                            }
+                        }))
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        
+                        return
+                    }
+                    
+                }})
+            
+        }))
+        
+        actionTap.addAction(UIAlertAction(title: "FotoGallery", style: .default, handler: {(action:UIAlertAction) in
+            imagePickerController.sourceType = .photoLibrary
+            self.present(imagePickerController, animated: true, completion: nil)
+            
+        }))
+        
+        actionTap.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(actionTap, animated: true, completion: nil)
+        
+    }
+    func loadImageFromPath(path: String) -> UIImage? {
+        
+        let image = UIImage(contentsOfFile: path as String)
+        
+        if image == nil {
+            return UIImage()
+        } else{
+            return image
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        
+        if let img = info[UIImagePickerControllerEditedImage] as? String
+            
+        {
+            imageRecept.image = loadImageFromPath(path: img)
+            
+            
+        }
+        else if let img = info[UIImagePickerControllerOriginalImage] as? UIImage
+        {
+            imageRecept.image = img
+        }
+        
+        picker.dismiss(animated: true,completion: nil)
+        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
    
+    
+    func saveImage(imageName: String){
+        let fileManager = FileManager.default
+        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
+        
+        
+        if let image = imageRecept.image{
+            let data = UIImageJPEGRepresentation(image, 0.1)
+            fileManager.createFile(atPath: imagePath as String, contents: data, attributes: nil)
+            
+        }
+    }
+    
+    func getImage(imageName: String){
+        
+        
+        let fileManager = FileManager.default
+        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
+        if fileManager.fileExists(atPath: imagePath){
+            imageRecept.image = UIImage(contentsOfFile: imagePath)
+        }else{
+            print("Panic! No Image!")
+        }
+    }
+    
+    func getDocumentsDirectory() -> NSString {
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let documentsDirectory = paths[0]
+        //print("Path: \(documentsDirectory)")
+        return documentsDirectory as NSString
+    }
+    
 }
+
+

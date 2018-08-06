@@ -14,6 +14,7 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
     let realm = try! Realm()
     var childsArray : Results<ChildModel>!
 
+    @IBOutlet weak var imageRecept: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var birthDayLabel: UILabel!
     @IBOutlet weak var nameIllLabel: UILabel!
@@ -46,6 +47,7 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
         dateLabel.text = date
         simptomsTextView.text = simptoms
         treatmentTextView.text = treatment
+        getImage(imageName: "\(nameIll)+\(date)")
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -70,6 +72,16 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
     @IBAction func buttonEdit(_ sender: Any) {
         performSegue(withIdentifier: "toIllForEdit", sender: self)
 
+    }
+  
+    func getImage(imageName: String){
+        let fileManager = FileManager.default
+        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
+        if fileManager.fileExists(atPath: imagePath){
+            imageRecept.image = UIImage(contentsOfFile: imagePath)
+        }else{
+            print("Panic! No Image!")
+        }
     }
    
     func dataToNewIllness(illData: IllModel) {
