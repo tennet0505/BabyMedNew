@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 
 class MainViewController: UIViewController {
@@ -18,6 +19,15 @@ class MainViewController: UIViewController {
      
     }
 
+    @IBAction func ButtonLogOut(_ sender: UIBarButtonItem) {
+        do{
+            try Auth.auth().signOut()
+            navigationController?.popToRootViewController(animated: true)
+        }
+        catch{
+            print("error problem with sign out")
+        }
+    }
     
     
 
