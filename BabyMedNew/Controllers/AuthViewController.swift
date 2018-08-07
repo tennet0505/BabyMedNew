@@ -8,6 +8,8 @@
 
 import UIKit
 import Firebase
+import SVProgressHUD
+
 
 class AuthViewController: UIViewController {
 
@@ -22,12 +24,13 @@ class AuthViewController: UIViewController {
        
     }
     @IBAction func buttonSignIn(_ sender: UIButton) {
-        
+      
+        SVProgressHUD.show()
         Auth.auth().signIn(withEmail: mailTextField.text!, password: passwordTextField.text!) { (user, error) in
             if error != nil{
                 print("error log in")
             }else{
-        //        SVProgressHUD.dismiss()
+                SVProgressHUD.dismiss()
                 print("logIn successful")
                 
                 self.performSegue(withIdentifier: "goToBabyMed", sender: self)

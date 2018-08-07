@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import AVKit
+import FirebaseDatabase
 
 protocol NewChildDataProtocol {
     func newDataChild(childEdit: ChildModel)
@@ -17,6 +18,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     
     let realm = try! Realm()
     var childsArray : Results<ChildModel>!
+    var ref: DatabaseReference!
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var BirthDayTextField: UITextField!
@@ -40,6 +42,8 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        ref = Database.database().reference()
+        
         getImage(imageName: "\(name)+\(bd)")
         nameTextField.text = name
         BirthDayTextField.text = bd
@@ -51,9 +55,33 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         birthDatePicker()
         
         
+        
     }
-
+    
+    func children() {
+        
+         if let name = nameTextField.text,
+            let birthDay = BirthDayTextField.text,
+            let gender = genderTextField.text,
+            let weight = weightTextField.text,
+            let blood = bloodTextField.text{
+            
+            let childNew : [String : String] = ["childName": name,
+                                             "birthDay": birthDay,
+                                             "gender": gender,
+                                             "weight": weight,
+                                             "blood": blood]
+            
+            ref.child("Childs").childByAutoId().setValue(childNew)
+            
+        }
+    }
+    
+    
     @IBAction func SaveData(_ sender: UIButton) {
+        
+        children()
+        
         let child = ChildModel()
         if editValue == 0{
        

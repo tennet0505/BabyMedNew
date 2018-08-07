@@ -8,23 +8,56 @@
 
 import UIKit
 import RealmSwift
+import FirebaseDatabase
+
+struct childStruct {
+    let name: String!
+    let birthDay: String!
+    let blood: String!
+    let weight: String!
+    let gender: String!
+}
 
 class ChildsTableViewController: UITableViewController {
 
     let realm = try! Realm()
     var childsArray : Results<ChildModel>!
+    //var ref: DatabaseReference?
+
+    var ArrayChild =  [DataSnapshot]()
+    var children = [childStruct]()
     
-   
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+       
         loadChildsData()
-     
+
+        //MARK FireBase
+        
+        let ref = Database.database().reference()
+        ref.child("Childs").queryOrderedByKey().observe(.childAdded, with: { snapshot in
+            
+            let snapVal = snapshot.value as? [String : AnyObject] ?? [:]
+            if  let name = snapVal["childName"],
+                let birthDay = snapVal["birthDay"],
+                let blood = snapVal["blood"],
+                let weight = snapVal["weight"],
+                let gender = snapVal["gender"]{
+                
+                self.children.insert(childStruct(name: name as! String, birthDay: birthDay as! String, blood: blood as! String, weight: weight as! String, gender: gender as! String), at: 0)
+                print(self.children.count)
+            }
+            self.tableView.reloadData()
+
+        })
+        
     }
+   
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return childsArray?.count ?? 1
+        return children.count//childsArray?.count ?? 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -33,10 +66,13 @@ class ChildsTableViewController: UITableViewController {
         if let imageName = childsArray?[indexPath.row].name, let imageBd = childsArray?[indexPath.row].birthDate{
             let imageAvatar =  getImage(imageName:"\(imageName)+\(imageBd)")
             print(imageAvatar)
-            cell?.labelName.text = childsArray?[indexPath.row].name ?? "No Child added"
-            cell?.labelAge.text = childsArray?[indexPath.row].birthDate
-            cell?.imageFoto.image = imageAvatar
             
+            cell?.labelName.text = children[indexPath.row].name
+            cell?.labelAge.text = children[indexPath.row].birthDay
+//            cell?.labelName.text = childsArray?[indexPath.row].name ?? "No Child added"
+//            cell?.labelAge.text = childsArray?[indexPath.row].birthDate
+            cell?.imageFoto.image = imageAvatar
+        
         }
         
         
