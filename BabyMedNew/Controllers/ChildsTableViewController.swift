@@ -9,23 +9,39 @@
 import UIKit
 import RealmSwift
 import FirebaseDatabase
+import Firebase
 
-struct childStruct {
-    let name: String!
-    let birthDay: String!
-    let blood: String!
-    let weight: String!
-    let gender: String!
+struct ChildModel{
+    
+    var userId = ""
+    var name = ""
+    var birthDate = ""
+    var gender = ""
+    var blood = ""
+    var weight = ""
+    var image = String()
+    
+//    var ill : [IllModel]
+    
+    init(userId: String?, name: String?, birthDate: String?,  gender: String?, blood: String?, weight: String?) {
+        self.name = name!
+        self.birthDate = birthDate!
+        self.gender = gender!
+        self.blood = blood!
+        self.weight = weight!
+    }
+    
 }
+
 
 class ChildsTableViewController: UITableViewController {
 
-    let realm = try! Realm()
-    var childsArray : Results<ChildModel>!
-    //var ref: DatabaseReference?
+//    let realm = try! Realm()
+//    var childsArray : Results<ChildModel>!
+    var ref: DatabaseReference?
 
     var ArrayChild =  [DataSnapshot]()
-    var children = [childStruct]()
+    var childArray = [ChildModel]()
     
 
     
@@ -36,45 +52,27 @@ class ChildsTableViewController: UITableViewController {
 
         //MARK FireBase
         
-        let ref = Database.database().reference()
-        ref.child("Childs").queryOrderedByKey().observe(.childAdded, with: { snapshot in
-            
-            let snapVal = snapshot.value as? [String : AnyObject] ?? [:]
-            if  let name = snapVal["childName"],
-                let birthDay = snapVal["birthDay"],
-                let blood = snapVal["blood"],
-                let weight = snapVal["weight"],
-                let gender = snapVal["gender"]{
-                
-                self.children.insert(childStruct(name: name as! String, birthDay: birthDay as! String, blood: blood as! String, weight: weight as! String, gender: gender as! String), at: 0)
-                print(self.children.count)
-            }
-            self.tableView.reloadData()
-
-        })
+      
         
     }
    
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return children.count//childsArray?.count ?? 1
+        return childArray.count//childsArray?.count ?? 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? ChildTableViewCell
-        if let imageName = childsArray?[indexPath.row].name, let imageBd = childsArray?[indexPath.row].birthDate{
-            let imageAvatar =  getImage(imageName:"\(imageName)+\(imageBd)")
-            print(imageAvatar)
-            
-            cell?.labelName.text = children[indexPath.row].name
-            cell?.labelAge.text = children[indexPath.row].birthDay
+//        if let imageName = childsArray?[indexPath.row].name, let imageBd = childsArray?[indexPath.row].birthDate{
+//            let imageAvatar =  getImage(imageName:"\(imageName)+\(imageBd)")
+//            cell?.imageFoto.image = imageAvatar
+//            print(imageAvatar)
+//        }
+            cell?.labelName.text = childArray[indexPath.row].name
+            cell?.labelAge.text = childArray[indexPath.row].birthDate
 //            cell?.labelName.text = childsArray?[indexPath.row].name ?? "No Child added"
 //            cell?.labelAge.text = childsArray?[indexPath.row].birthDate
-            cell?.imageFoto.image = imageAvatar
-        
-        }
-        
         
         return cell!
     }
@@ -83,7 +81,7 @@ class ChildsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let child = childsArray[indexPath.row]
+        let child = childArray[indexPath.row]
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "PersonalViewController") as! PersonalViewController
         
@@ -128,18 +126,18 @@ class ChildsTableViewController: UITableViewController {
         if editingStyle == .delete {
             print("Deleted")
            
-            if let item = childsArray?[indexPath.row]{
-                
-                do{
-                    try realm.write {
-                        realm.delete(item)
-                    }
-                    
-                }catch{
-                    print("Error")
-                }
-            }
-             
+//            if let item = childsArray?[indexPath.row]{
+//
+//                do{
+//                    try realm.write {
+//                        realm.delete(item)
+//                    }
+//
+//                }catch{
+//                    print("Error")
+//                }
+//            }
+            
         }
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }
@@ -147,11 +145,45 @@ class ChildsTableViewController: UITableViewController {
     
     func loadChildsData() {
         
-        childsArray = realm.objects(ChildModel.self)
+        ref = Database.database().reference()
+
+        ref?.child("Childs").observe(.childAdded, with: { snapshot  in
+            
+            let snapVal = snapshot.value as! Dictionary<String, Any>
+            print(snapVal)
+          
+            for item in snapshot.children{
+                let data = item as! DataSnapshot
+               
+                let child = data.value as! [String : Any]
+                
+                print(child["childName"])
+                
+             if let id = child["userId"],
+                let name = child["childName"],
+                let birthDay = child["birthDay"],
+                let blood = child["blood"],
+                let weight = child["weight"],
+                let gender = child["gender"]{
+
+                print(name, birthDay,blood,weight,gender)
+                self.childArray.insert(ChildModel(userId: id as? String,
+                                                  name: name as? String,
+                                                  birthDate: birthDay as? String,
+                                                  gender: gender as? String,
+                                                  blood: blood as? String,
+                                                  weight: weight as? String) , at: 0)
+
+            self.tableView.reloadData()
+                }
+                
+            }
+        })
+        //        childsArray = realm.objects(ChildModel.self)
         tableView.reloadData()
         
     }
-    func getImage(imageName: String) -> UIImage{
+func getImage(imageName: String) -> UIImage{
         var fotoImage = UIImage()
         let fileManager = FileManager.default
         let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)

@@ -11,8 +11,8 @@ import RealmSwift
 
 class DescriptionIllViewController: UIViewController, IllnessProtocol  {
    
-    let realm = try! Realm()
-    var childsArray : Results<ChildModel>!
+//    let realm = try! Realm()
+//    var childsArray : Results<ChildModel>!
 
     @IBOutlet weak var imageRecept: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!

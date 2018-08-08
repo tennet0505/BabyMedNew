@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import AVKit
+import FirebaseDatabase
 
 
 protocol IllnessProtocol {
@@ -16,6 +17,8 @@ protocol IllnessProtocol {
 }
 
 class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    var ref: DatabaseReference!
     
     @IBOutlet weak var imageRecept: UIImageView!
     @IBOutlet weak var buttonEdit: UIButton!
@@ -38,8 +41,8 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     var idIll = NSUUID().uuidString
     
     let newIll = IllModel()
-    let realm = try! Realm()
-    var illArray : Results<IllModel>?
+//    let realm = try! Realm()
+//    var illArray : Results<IllModel>?
     
     var selectedChild : ChildModel?
     {
@@ -69,7 +72,8 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
+        ref = Database.database().reference()
         
 
         nameIllTextField.text = ill
@@ -83,42 +87,59 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     }
 
     @IBAction func saveButton(_ sender: UIButton) {
-        
-        do{
-            try self.realm.write {
-                
-                newIll.illName = nameIllTextField.text!
-                newIll.DateIll = dateTextField.text!
-                newIll.simptoms = simptomsTextView.text!
-                newIll.treatment = treatmentTextView.text!
-                selectedChild?.ills.append(newIll)
-                
-                
-                nameIllTextField.text = ""
-                simptomsTextView.text = ""
-                treatmentTextView.text = ""
-
-                navigationController?.popViewController(animated: true)
-            }
-            
-        }catch{
-            print("Error new Category")
-            
-        }
+       
+        addNewIll()
+//        do{
+//            try self.realm.write {
+//                
+//                newIll.illName = nameIllTextField.text!
+//                newIll.DateIll = dateTextField.text!
+//                newIll.simptoms = simptomsTextView.text!
+//                newIll.treatment = treatmentTextView.text!
+//                selectedChild?.ills.append(newIll)
+//                
+//                
+//                nameIllTextField.text = ""
+//                simptomsTextView.text = ""
+//                treatmentTextView.text = ""
+//
+//                navigationController?.popViewController(animated: true)
+//            }
+//            
+//        }catch{
+//            print("Error new Category")
+//            
+//        }
         saveImage(imageName: "\(newIll.illName)+\(newIll.DateIll)")
 
      
     }
     
+    func addNewIll() {
+        
+        if let nameIll = nameIllTextField.text,
+            let dayIll = dateTextField.text,
+            let simptoms = simptomsTextView.text,
+            let treatment = treatmentTextView.text{
+            
+            let illNew : [String : String] = ["illName": nameIll,
+                                              "dayIll": dayIll,
+                                              "simptoms": simptoms,
+                                              "treatment": treatment]
+            
+            ref.child("Childs").childByAutoId().child("Ills").setValue(illNew)
+        }
+    }
+    
     @IBAction func buttonEdit(_ sender: UIButton) {
         let newIll = IllModel()
         
-        newIll.illName = nameIllTextField.text!
-        newIll.DateIll = dateTextField.text!
-        newIll.simptoms = simptomsTextView.text!
-        newIll.treatment = treatmentTextView.text!
-        newIll.id = idIll
-        updatePerdonalData(ill: newIll)
+//        newIll.illName = nameIllTextField.text!
+//        newIll.DateIll = dateTextField.text!
+//        newIll.simptoms = simptomsTextView.text!
+//        newIll.treatment = treatmentTextView.text!
+//        newIll.id = idIll
+//        updatePerdonalData(ill: newIll)
         
 //        let storyboard = UIStoryboard(name: "Main", bundle: nil)
 //        let vc1 = storyboard.instantiateViewController(withIdentifier: "DescriptionIllViewController") as! DescriptionIllViewController
@@ -141,9 +162,9 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     
     func updatePerdonalData(ill: IllModel){
         
-        try! realm.write {
-            realm.add(ill, update: true)
-        }
+//        try! realm.write {
+//            realm.add(ill, update: true)
+//        }
         
         
     }
@@ -152,7 +173,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     
     func loadIllness() {
 
-        illArray = selectedChild?.ills.sorted(byKeyPath: "illName", ascending: true)
+//        illArray = selectedChild?.ills.sorted(byKeyPath: "illName", ascending: true)
 
     }
     func DatePicker()  {

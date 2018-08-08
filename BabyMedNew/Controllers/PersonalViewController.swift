@@ -13,15 +13,15 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
    
     
 
-    let realm = try! Realm()
-    var childsArray : Results<ChildModel>!
-
+//    let realm = try! Realm()
+//    var childsArray : Results<ChildModel>!
+    var children = [ChildModel]()
     var name = ""
     var bd = ""
     var gen = ""
     var weight = ""
     var blood = ""
-    var child = ChildModel()
+//    var child = ChildModel()
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var birthDayLabel: UILabel!
     @IBOutlet weak var genderLabel: UILabel!
@@ -33,7 +33,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var illArray : Results<IllModel>!
+//    var illArray : Results<IllModel>!
     
     var selectedChild : ChildModel? {
         didSet{
@@ -42,7 +42,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadChildsData()
+//        loadChildsData()
         getImage(imageName: "\(name)+\(bd)")
         tableView.reloadData()
     }
@@ -56,7 +56,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         genderLabel.text = gen
         weightLabel.text = weight
         bloodLabel.text = blood
-        selectedChild = childsArray[indexPath.row]
+//        selectedChild = children[indexPath.row]
         print(indexPath)
         
     }
@@ -65,7 +65,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
  
     func loadChildsData() {
         
-        childsArray = realm.objects(ChildModel.self)
+//        childsArray = realm.objects(ChildModel.self)
         
     }
    
@@ -79,7 +79,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
 
             let index = indexPath
 
-            vc.selectedChild = childsArray?[index.row]
+     //       vc.selectedChild = children?[index.row]
         }
         if segue.identifier == "ToNewIllness",
             
@@ -87,7 +87,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
             
             let index = indexPath
             
-            vc.selectedChild = childsArray?[index.row]
+     //       vc.selectedChild = children?[index.row]
         }
         
         if segue.identifier == "toDescriptionIll",
@@ -97,14 +97,14 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
             
             if let indexPath = tableView.indexPathForSelectedRow{
                 
-                let ill = illArray[indexPath.row]
-                vc.simptoms = ill.simptoms
-                vc.treatment = ill.treatment
-                vc.nameIll = ill.illName
-                vc.date = ill.DateIll
-                vc.name = (child?.name)!
-                vc.bd = (child?.birthDate)!
-                vc.ill = ill
+//                let ill = illArray[indexPath.row]
+//                vc.simptoms = ill.simptoms
+//                vc.treatment = ill.treatment
+//                vc.nameIll = ill.illName
+//                vc.date = ill.DateIll
+//                vc.name = (child?.name)!
+//                vc.bd = (child?.birthDate)!
+//                vc.ill = ill
             }
         }
         if segue.identifier == "toPersonalForEdit",
@@ -112,32 +112,32 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
             
             
             
-            let child = childsArray[indexPath.row]
+            let child = children[indexPath.row]
             
             vc.name = child.name
             vc.bd =  child.birthDate
             vc.gen = child.gender
             vc.weight = child.weight
             vc.blood = child.blood
-            vc.idChild = child.id
+//            vc.idChild = child.id
             vc.editValue = 1
             vc.delegate = self
         }
     }
     
     func newDataChild(childEdit: ChildModel) {
-        child = childEdit
-        nameLabel.text = child.name
-        birthDayLabel.text = child.birthDate
-        genderLabel.text = child.gender
-        weightLabel.text = child.weight
-        bloodLabel.text = child.blood
+//        child = childEdit
+//        nameLabel.text = child.name
+//        birthDayLabel.text = child.birthDate
+//        genderLabel.text = child.gender
+//        weightLabel.text = child.weight
+//        bloodLabel.text = child.blood
         
         
     }
     func loadIllness() {
         
-        illArray = selectedChild?.ills.sorted(byKeyPath: "illName", ascending: true)
+//        illArray = selectedChild?.ills.sorted(byKeyPath: "illName", ascending: true)
         tableView.reloadData()
     }
     @IBAction func allIllnessButton(_ sender: UIButton) {
@@ -170,7 +170,7 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return illArray?.count ?? 1
+        return 1//illArray?.count ?? 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -179,13 +179,13 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
-        if let ill = illArray?[indexPath.row]{
-            cell.textLabel?.text = ill.illName
-            cell.detailTextLabel?.text = ill.DateIll
-            
-        }else{
-            cell.textLabel?.text = "No ills Added"
-        }
+//        if let ill = illArray?[indexPath.row]{
+//            cell.textLabel?.text = ill.illName
+//            cell.detailTextLabel?.text = ill.DateIll
+//
+//        }else{
+//            cell.textLabel?.text = "No ills Added"
+//        }
         return cell
     }
     
@@ -206,17 +206,17 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
         if editingStyle == .delete {
             print("Deleted")
             
-            if let item = illArray?[indexPath.row]{
-                
-                do{
-                    try realm.write {
-                        realm.delete(item)
-                    }
-                    
-                }catch{
-                    print("Error")
-                }
-            }
+//            if let item = illArray?[indexPath.row]{
+//
+//                do{
+//                    try realm.write {
+//                        realm.delete(item)
+//                    }
+//
+//                }catch{
+//                    print("Error")
+//                }
+//            }
             
         }
         self.tableView.deleteRows(at: [indexPath], with: .automatic)

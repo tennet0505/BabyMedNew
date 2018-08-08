@@ -10,14 +10,16 @@ import UIKit
 import RealmSwift
 import AVKit
 import FirebaseDatabase
+import Firebase
 
 protocol NewChildDataProtocol {
     func newDataChild(childEdit: ChildModel)
 }
 class NewChildViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    let realm = try! Realm()
-    var childsArray : Results<ChildModel>!
+ //   let realm = try! Realm()
+ 
+//    var childsArray : Results<ChildModel>!
     var ref: DatabaseReference!
     
     @IBOutlet weak var nameTextField: UITextField!
@@ -25,6 +27,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     @IBOutlet weak var genderTextField: UITextField!
     @IBOutlet weak var weightTextField: UITextField!
     @IBOutlet weak var bloodTextField: UITextField!
+  
     let picker = UIDatePicker()
     var birthDayString = ""
     var idChild = NSUUID().uuidString
@@ -59,8 +62,9 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     func children() {
-        
-         if let name = nameTextField.text,
+
+        if let name = nameTextField.text,
+            let id = Auth.auth().currentUser?.email,
             let birthDay = BirthDayTextField.text,
             let gender = genderTextField.text,
             let weight = weightTextField.text,
@@ -70,9 +74,14 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
                                              "birthDay": birthDay,
                                              "gender": gender,
                                              "weight": weight,
-                                             "blood": blood]
+                                             "blood": blood,
+                                             "userId": id]
             
-            ref.child("Childs").childByAutoId().setValue(childNew)
+          //  let childsDB = Database.database().reference().child("Childs")
+            let childsDictionary = ["Child": childNew] as [String : Any]
+            
+            ref.child("Childs").childByAutoId().setValue(childsDictionary)
+           // ref.child("Childs").childByAutoId().setValue(childNew)
             
         }
     }
@@ -82,26 +91,26 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         
         children()
         
-        let child = ChildModel()
+//        let child = ChildModel()
         if editValue == 0{
        
-        child.name = nameTextField.text!
-        child.birthDate = BirthDayTextField.text!
-        child.gender = genderTextField.text!
-        child.weight = weightTextField.text!
-        child.blood = bloodTextField.text!
+//        child.name = nameTextField.text!
+//        child.birthDate = BirthDayTextField.text!
+//        child.gender = genderTextField.text!
+//        child.weight = weightTextField.text!
+//        child.blood = bloodTextField.text!
         
-        saveCategory(child: child)
+//        saveCategory(child: child)
        
         }else{
-            child.name = nameTextField.text!
-            child.birthDate = BirthDayTextField.text!
-            child.gender = genderTextField.text!
-            child.weight = weightTextField.text!
-            child.blood = bloodTextField.text!
-            child.id = idChild
+//            child.name = nameTextField.text!
+//            child.birthDate = BirthDayTextField.text!
+//            child.gender = genderTextField.text!
+//            child.weight = weightTextField.text!
+//            child.blood = bloodTextField.text!
+//            child.id = idChild
             
-            updatePersonalData(child: child)
+//            updatePersonalData(child: child)
         }
         nameTextField.text = ""
         BirthDayTextField.text = ""
@@ -110,35 +119,35 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         bloodTextField.text = ""
         buttonSave.isEnabled = false
         
-        saveImage(imageName: "\(child.name)+\(child.birthDate)")
+//        saveImage(imageName: "\(child.name)+\(child.birthDate)")
         
 
-        let newChild = child
-        delegate?.newDataChild(childEdit: newChild)
+//        let newChild = child
+//        delegate?.newDataChild(childEdit: newChild)
         navigationController?.popViewController(animated: true)
        
     }
     
-    func saveCategory(child: ChildModel) {
-        
-        do{
-            try realm.write {
-                realm.add(child)
-            }
-            
-        }catch{
-            print("error saving \(error)")
-        }
-//        self.tableView.reloadData()
-    }
-    func updatePersonalData(child: ChildModel){
-        
-            try! realm.write {
-                realm.add(child, update: true)
-            }
-       
-        
-    }
+//    func saveCategory(child: ChildModel) {
+//
+//        do{
+//            try realm.write {
+//                realm.add(child)
+//            }
+//
+//        }catch{
+//            print("error saving \(error)")
+//        }
+////        self.tableView.reloadData()
+//    }
+//    func updatePersonalData(child: ChildModel){
+//
+//            try! realm.write {
+//                realm.add(child, update: true)
+//            }
+//
+//
+//    }
     
     
     func birthDatePicker()  {

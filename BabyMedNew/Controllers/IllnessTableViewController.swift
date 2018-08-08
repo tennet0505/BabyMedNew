@@ -9,12 +9,21 @@
 import UIKit
 import RealmSwift
 
+struct IllModel {
+    
+    var id = NSUUID().uuidString
+    var simptoms = ""
+    var treatment = ""
+    var illName = ""
+    var DateIll = ""
+}
+
 class IllnessTableViewController: UITableViewController {
    
    
     
-    let realm = try! Realm()
-    var illArray : Results<IllModel>!
+//    let realm = try! Realm()
+//    var illArray : Results<IllModel>!
     
     var selectedChild : ChildModel? {
         didSet{
@@ -38,7 +47,7 @@ class IllnessTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return illArray?.count ?? 1
+        return  1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -47,13 +56,13 @@ class IllnessTableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
-        if let ill = illArray?[indexPath.row]{
-        cell.textLabel?.text = ill.illName
-        cell.detailTextLabel?.text = ill.DateIll
+//        if let ill = illArray?[indexPath.row]{
+//        cell.textLabel?.text = ill.illName
+//        cell.detailTextLabel?.text = ill.DateIll
         
-        }else{
-            cell.textLabel?.text = "No ills Added"
-        }
+//        }else{
+//            cell.textLabel?.text = "No ills Added"
+//        }
         return cell
     }
     
@@ -75,16 +84,16 @@ class IllnessTableViewController: UITableViewController {
         
         if let indexPath = tableView.indexPathForSelectedRow{
             
-            let ill = illArray[indexPath.row]
+//            let ill = illArray[indexPath.row]
            
             
-            vc.simptoms = ill.simptoms
-            vc.treatment = ill.treatment
-            vc.nameIll = ill.illName
-            vc.date = ill.DateIll
-            vc.name = (child?.name)!
-            vc.bd = (child?.birthDate)!
-            
+//            vc.simptoms = ill.simptoms
+//            vc.treatment = ill.treatment
+//            vc.nameIll = ill.illName
+//            vc.date = ill.DateIll
+//            vc.name = (child?.name)!
+//            vc.bd = (child?.birthDate)!
+//
             }
      
            
@@ -96,7 +105,7 @@ class IllnessTableViewController: UITableViewController {
     
     func loadIllness() {
         
-        illArray = selectedChild?.ills.sorted(byKeyPath: "illName", ascending: true)
+//        illArray = selectedChild?.ills.sorted(byKeyPath: "illName", ascending: true)
         
         tableView.reloadData()
     }
@@ -105,17 +114,17 @@ class IllnessTableViewController: UITableViewController {
         if editingStyle == .delete {
             print("Deleted")
             
-            if let item = illArray?[indexPath.row]{
-                
-                do{
-                    try realm.write {
-                        realm.delete(item)
-                    }
-                    
-                }catch{
-                    print("Error")
-                }
-            }
+//            if let item = illArray?[indexPath.row]{
+//
+//                do{
+//                    try realm.write {
+//                        realm.delete(item)
+//                    }
+//
+//                }catch{
+//                    print("Error")
+//                }
+//            }
             
         }
         self.tableView.deleteRows(at: [indexPath], with: .automatic)
