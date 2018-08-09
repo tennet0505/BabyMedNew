@@ -13,22 +13,30 @@ import Firebase
 
 struct ChildModel{
     
-    var userId = ""
+    var Id = ""
     var name = ""
     var birthDate = ""
     var gender = ""
     var blood = ""
     var weight = ""
     var image = String()
+    var ill = [IllModel]()
     
-//    var ill : [IllModel]
-    
-    init(userId: String?, name: String?, birthDate: String?,  gender: String?, blood: String?, weight: String?) {
+    init(Id: String?, name: String?, birthDate: String?,  gender: String?, blood: String?, weight: String?, ill: [IllModel]?) {
+        self.Id = Id!
         self.name = name!
         self.birthDate = birthDate!
         self.gender = gender!
         self.blood = blood!
         self.weight = weight!
+    //    self.ill = ill!
+    }
+    init(Id: String?) {
+        self.Id = Id!
+    }
+   
+    init(ill: [IllModel]?) {
+        self.ill = ill!
     }
     
 }
@@ -50,6 +58,8 @@ class ChildsTableViewController: UITableViewController {
        
         loadChildsData()
 
+        
+        
         //MARK FireBase
         
       
@@ -85,12 +95,13 @@ class ChildsTableViewController: UITableViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "PersonalViewController") as! PersonalViewController
         
-        vc.name = child.name
+        vc.name = child.name 
         vc.bd = child.birthDate
         vc.blood = child.blood
         vc.weight = child.weight
         vc.gen = child.gender
         vc.indexPath = indexPath
+        vc.uidUser = child.Id
      //   present(vc, animated: true, completion: nil)
         navigationController?.pushViewController(vc, animated: true)
 
@@ -157,26 +168,30 @@ class ChildsTableViewController: UITableViewController {
                
                 let child = data.value as! [String : Any]
                 
-                print(child["childName"])
+                print(child["userID"]) ////////////////////////////
                 
-             if let id = child["userId"],
+             if let id = child["userID"],
                 let name = child["childName"],
                 let birthDay = child["birthDay"],
                 let blood = child["blood"],
                 let weight = child["weight"],
-                let gender = child["gender"]{
-
-                print(name, birthDay,blood,weight,gender)
-                self.childArray.insert(ChildModel(userId: id as? String,
+                let gender = child["gender"]
+                {
+                let ill = child["ills"]
+                    let idString = id
+                print(idString)
+                self.childArray.insert(ChildModel(Id: idString as? String,
                                                   name: name as? String,
                                                   birthDate: birthDay as? String,
                                                   gender: gender as? String,
                                                   blood: blood as? String,
-                                                  weight: weight as? String) , at: 0)
+                                                  weight: weight as? String,
+                                                  ill: ill as? [IllModel]), at: 0)
 
+              
             self.tableView.reloadData()
                 }
-                
+                print(self.childArray)
             }
         })
         //        childsArray = realm.objects(ChildModel.self)

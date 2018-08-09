@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 import AVKit
 import FirebaseDatabase
+import FirebaseAuth
 
 
 protocol IllnessProtocol {
@@ -39,7 +40,8 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     var treatment = ""
     var editValue = 0
     var idIll = NSUUID().uuidString
-    
+  //  var illUserID = ""
+    var uidUser = ""
     let newIll = IllModel()
 //    let realm = try! Realm()
 //    var illArray : Results<IllModel>?
@@ -75,6 +77,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
        
         ref = Database.database().reference()
         
+        print(uidUser)
 
         nameIllTextField.text = ill
         dateTextField.text = date
@@ -103,7 +106,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
 //                simptomsTextView.text = ""
 //                treatmentTextView.text = ""
 //
-//                navigationController?.popViewController(animated: true)
+                navigationController?.popViewController(animated: true)
 //            }
 //            
 //        }catch{
@@ -116,6 +119,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     func addNewIll() {
+          print(uidUser)
         
         if let nameIll = nameIllTextField.text,
             let dayIll = dateTextField.text,
@@ -127,8 +131,10 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
                                               "simptoms": simptoms,
                                               "treatment": treatment]
             
-            ref.child("Childs").childByAutoId().child("Ills").setValue(illNew)
+      //      ref.child("Childs").child("ill").setValue(illNew)  //.childByAutoId().child("Ills").setValue(illNew)
+            ref.child("Childs").child(uidUser).child("Ills").childByAutoId().setValue(illNew) //updateChildValues(illNew)
         }
+       
     }
     
     @IBAction func buttonEdit(_ sender: UIButton) {

@@ -11,6 +11,7 @@ import RealmSwift
 
 struct IllModel {
     
+    var illUserID = ChildModel(Id: "")
     var id = NSUUID().uuidString
     var simptoms = ""
     var treatment = ""

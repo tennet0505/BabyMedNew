@@ -40,6 +40,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     var weight = ""
     var blood = ""
     var delegate: NewChildDataProtocol?
+    var illarray = [IllModel]()
     
     @IBOutlet weak var buttonSave: UIButton!
     override func viewDidLoad() {
@@ -47,13 +48,13 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
 
         ref = Database.database().reference()
         
-        getImage(imageName: "\(name)+\(bd)")
-        nameTextField.text = name
-        BirthDayTextField.text = bd
-        genderTextField.text = gen
-        weightTextField.text = weight
-        bloodTextField.text = blood
-        
+//        getImage(imageName: "\(name)+\(bd)")
+//        nameTextField.text = name
+//        BirthDayTextField.text = bd
+//        genderTextField.text = gen
+//        weightTextField.text = weight
+//        bloodTextField.text = blood
+//
         buttonSave.isEnabled = true
         birthDatePicker()
         
@@ -61,35 +62,41 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         
     }
     
-    func children() {
+    func addChild() {
 
         if let name = nameTextField.text,
-            let id = Auth.auth().currentUser?.email,
+           
             let birthDay = BirthDayTextField.text,
             let gender = genderTextField.text,
             let weight = weightTextField.text,
-            let blood = bloodTextField.text{
-            
-            let childNew : [String : String] = ["childName": name,
+            let blood = bloodTextField.text
+            {
+            let illDemo = [illarray]
+            let id = ref.child("Childs").childByAutoId().key
+          
+            print(id)
+            let childNew : [String : Any] = ["userID": id,
+                                            "childName": name,
                                              "birthDay": birthDay,
                                              "gender": gender,
                                              "weight": weight,
                                              "blood": blood,
-                                             "userId": id]
+                                             "userId": id,
+                                             "ills": illDemo]
             
-          //  let childsDB = Database.database().reference().child("Childs")
-            let childsDictionary = ["Child": childNew] as [String : Any]
-            
-            ref.child("Childs").childByAutoId().setValue(childsDictionary)
-           // ref.child("Childs").childByAutoId().setValue(childNew)
-            
+
+                let childsDictionary = ["Child": childNew] as [String : Any]
+            print(childsDictionary)
+            ref.child("Childs").child("\(id)").setValue(childsDictionary)
+
+                
         }
     }
     
     
     @IBAction func SaveData(_ sender: UIButton) {
         
-        children()
+        addChild()
         
 //        let child = ChildModel()
         if editValue == 0{

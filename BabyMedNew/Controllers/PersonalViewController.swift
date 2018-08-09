@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import FirebaseAuth
 
 class PersonalViewController: UIViewController, NewChildDataProtocol {
    
@@ -21,6 +22,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     var gen = ""
     var weight = ""
     var blood = ""
+    var uidUser = ""
 //    var child = ChildModel()
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var birthDayLabel: UILabel!
@@ -84,7 +86,8 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         if segue.identifier == "ToNewIllness",
             
             let vc = segue.destination as? NewIllnesViewController{
-            
+            vc.uidUser = uidUser
+            print(uidUser)
             let index = indexPath
             
      //       vc.selectedChild = children?[index.row]
