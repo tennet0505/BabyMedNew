@@ -42,7 +42,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     var idIll = NSUUID().uuidString
   //  var illUserID = ""
     var uidUser = ""
-    let newIll = IllModel()
+  //  let newIll = IllModel()
 //    let realm = try! Realm()
 //    var illArray : Results<IllModel>?
     
@@ -113,7 +113,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
 //            print("Error new Category")
 //            
 //        }
-        saveImage(imageName: "\(newIll.illName)+\(newIll.DateIll)")
+//        saveImage(imageName: "\(newIll.illName)+\(newIll.DateIll)")
 
      
     }
@@ -127,7 +127,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
             let treatment = treatmentTextView.text{
             
             let illNew : [String : String] = ["illName": nameIll,
-                                              "dayIll": dayIll,
+                                              "DateIll": dayIll,
                                               "simptoms": simptoms,
                                               "treatment": treatment]
             
@@ -136,9 +136,9 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         }
        
     }
-    
+ 
     @IBAction func buttonEdit(_ sender: UIButton) {
-        let newIll = IllModel()
+//        let newIll = IllModel()
         
 //        newIll.illName = nameIllTextField.text!
 //        newIll.DateIll = dateTextField.text!
@@ -158,10 +158,10 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
 //     //   navigationController?.pushViewController(vc1, animated: false)
 //        vc1.name = name
 //        vc1.bd = birthdate
-        saveImage(imageName: "\(newIll.illName)+\(newIll.DateIll)")
-
-        let illEdit = newIll
-        delegate?.dataToNewIllness(illData: illEdit)
+//        saveImage(imageName: "\(newIll.illName)+\(newIll.DateIll)")
+//
+//        let illEdit = newIll
+//        delegate?.dataToNewIllness(illData: illEdit)
         navigationController?.popViewController(animated: true)
     }
     

@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import FirebaseAuth
+import Firebase
 
 class PersonalViewController: UIViewController, NewChildDataProtocol {
    
@@ -16,6 +17,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
 
 //    let realm = try! Realm()
 //    var childsArray : Results<ChildModel>!
+    var ref: DatabaseReference?
     var children = [ChildModel]()
     var name = ""
     var bd = ""
@@ -23,7 +25,9 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     var weight = ""
     var blood = ""
     var uidUser = ""
-//    var child = ChildModel()
+    var userEmail = ""
+    var illsArray = [ChildModel]()
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var birthDayLabel: UILabel!
     @IBOutlet weak var genderLabel: UILabel!
@@ -45,6 +49,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 //        loadChildsData()
+        loadIllness()
         getImage(imageName: "\(name)+\(bd)")
         tableView.reloadData()
     }
@@ -87,7 +92,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
             
             let vc = segue.destination as? NewIllnesViewController{
             vc.uidUser = uidUser
-            print(uidUser)
+//            print(uidUser)
             let index = indexPath
             
      //       vc.selectedChild = children?[index.row]
@@ -139,10 +144,54 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         
     }
     func loadIllness() {
-        
-//        illArray = selectedChild?.ills.sorted(byKeyPath: "illName", ascending: true)
+            
+            ref = Database.database().reference()
+            print(uidUser)
+        ref?.child("Childs").child(uidUser).observe(.childAdded, with: { snapshot  in
+            
+            print(snapshot)
+            if let value = snapshot.value as? ChildModel{
+            print(value)
+            self.illsArray.append(value)
+                print(self.illsArray)}
+            //                for item in snapshot.children{
+            //                    let data = item as! DataSnapshot
+            //
+            //                    let child = data.value as! ChildModel
+            
+            
+//                    if let id = child["userID"],
+//                        let name = child["childName"],
+//                        let birthDay = child["birthDay"],
+//                        let blood = child["blood"],
+//                        let weight = child["weight"],
+//                        let userEmail = child["userEmail"],
+//                        let gender = child["gender"]
+//                    {
+//                        let ill = child["ills"]
+//                        let idString = id
+//                        //                print(idString)
+////                        self.illsArray.insert(ChildModel(Id: idString as? String,
+////                                                          name: name as? String,
+////                                                          birthDate: birthDay as? String,
+////                                                          gender: gender as? String,
+////                                                          blood: blood as? String,
+////                                                          weight: weight as? String,
+////                                                          userEmail: userEmail as? String,
+////                                                          ill: ill as? [IllModel]), at: 0)
+////
+//
+//                        self.tableView.reloadData()
+                    
+                    print(self.illsArray)
+//                }
+            
+            })
+        //        childsArray = realm.objects(ChildModel.self)
         tableView.reloadData()
+        
     }
+    
     @IBAction func allIllnessButton(_ sender: UIButton) {
         
         performSegue(withIdentifier: "ToIllness", sender: self)

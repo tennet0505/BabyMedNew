@@ -73,22 +73,24 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
             {
             let illDemo = [illarray]
             let id = ref.child("Childs").childByAutoId().key
+            let userEmail = Auth.auth().currentUser?.email
+
           
-            print(id)
-            let childNew : [String : Any] = ["userID": id,
-                                            "childName": name,
-                                             "birthDay": birthDay,
+//            print(id)
+            let childNew : [String : Any] = ["Id": id,
+                                            "name": name,
+                                             "birthDate": birthDay,
                                              "gender": gender,
                                              "weight": weight,
                                              "blood": blood,
-                                             "userId": id,
+                                             "userEmail": userEmail,
                                              "ills": illDemo]
             
 
                 let childsDictionary = ["Child": childNew] as [String : Any]
             print(childsDictionary)
             ref.child("Childs").child("\(id)").setValue(childsDictionary)
-
+               
                 
         }
     }

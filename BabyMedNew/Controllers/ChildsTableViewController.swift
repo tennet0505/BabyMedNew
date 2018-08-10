@@ -20,23 +20,25 @@ struct ChildModel{
     var blood = ""
     var weight = ""
     var image = String()
-    var ill = [IllModel]()
+    var userEmail = ""
+    var ills = [IllModel]()
     
-    init(Id: String?, name: String?, birthDate: String?,  gender: String?, blood: String?, weight: String?, ill: [IllModel]?) {
+    init(Id: String?, name: String?, birthDate: String?,  gender: String?, blood: String?, weight: String?, userEmail: String?, ills: [IllModel]?) {
         self.Id = Id!
         self.name = name!
         self.birthDate = birthDate!
         self.gender = gender!
         self.blood = blood!
         self.weight = weight!
-    //    self.ill = ill!
+        self.userEmail = userEmail!
+       // self.ills = ills!
     }
     init(Id: String?) {
         self.Id = Id!
     }
    
     init(ill: [IllModel]?) {
-        self.ill = ill!
+        self.ills = ill!
     }
     
 }
@@ -95,13 +97,15 @@ class ChildsTableViewController: UITableViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "PersonalViewController") as! PersonalViewController
         
-        vc.name = child.name 
+        vc.name = child.name
         vc.bd = child.birthDate
         vc.blood = child.blood
         vc.weight = child.weight
         vc.gen = child.gender
         vc.indexPath = indexPath
         vc.uidUser = child.Id
+        vc.userEmail = child.userEmail
+    
      //   present(vc, animated: true, completion: nil)
         navigationController?.pushViewController(vc, animated: true)
 
@@ -161,24 +165,26 @@ class ChildsTableViewController: UITableViewController {
         ref?.child("Childs").observe(.childAdded, with: { snapshot  in
             
             let snapVal = snapshot.value as! Dictionary<String, Any>
-            print(snapVal)
+//            print(snapVal)
           
             for item in snapshot.children{
                 let data = item as! DataSnapshot
                
                 let child = data.value as! [String : Any]
+                print(child)
+                print(child["Id"]) ////////////////////////////
                 
-                print(child["userID"]) ////////////////////////////
-                
-             if let id = child["userID"],
-                let name = child["childName"],
-                let birthDay = child["birthDay"],
+             if
+                let name = child["name"],
+                let birthDay = child["birthDate"],
                 let blood = child["blood"],
                 let weight = child["weight"],
+                let userEmail = child["userEmail"],
                 let gender = child["gender"]
                 {
                 let ill = child["ills"]
-                    let idString = id
+                let idString =  child["Id"]
+                 
                 print(idString)
                 self.childArray.insert(ChildModel(Id: idString as? String,
                                                   name: name as? String,
@@ -186,7 +192,8 @@ class ChildsTableViewController: UITableViewController {
                                                   gender: gender as? String,
                                                   blood: blood as? String,
                                                   weight: weight as? String,
-                                                  ill: ill as? [IllModel]), at: 0)
+                                                  userEmail: userEmail as? String,
+                                                  ills: ill as? [IllModel]), at: 0)
 
               
             self.tableView.reloadData()

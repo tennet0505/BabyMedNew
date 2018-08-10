@@ -8,6 +8,8 @@
 
 import UIKit
 import RealmSwift
+import FirebaseAuth
+import Firebase
 
 struct IllModel {
     
@@ -17,25 +19,33 @@ struct IllModel {
     var treatment = ""
     var illName = ""
     var DateIll = ""
+    
+    init(simptoms: String?, treatment: String?, illName: String?,  DateIll: String?) {
+        self.simptoms = simptoms!
+        self.treatment = treatment!
+        self.illName = illName!
+        self.DateIll = DateIll!
+       
+    }
 }
 
 class IllnessTableViewController: UITableViewController {
    
-   
+    var ref: DatabaseReference?
     
 //    let realm = try! Realm()
 //    var illArray : Results<IllModel>!
     
     var selectedChild : ChildModel? {
         didSet{
-            loadIllness()
+           
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
+        loadIllness()
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -102,14 +112,51 @@ class IllnessTableViewController: UITableViewController {
         
         
     }
-    
-    
     func loadIllness() {
         
-//        illArray = selectedChild?.ills.sorted(byKeyPath: "illName", ascending: true)
+        ref = Database.database().reference()
         
+        ref?.child("Childs").child("ills").observe(.childAdded, with: { snapshot  in
+            
+            let snapVal = snapshot.value as! Dictionary<String, Any>
+            print(snapVal)
+            
+            for item in snapshot.children{
+                let data = item as! DataSnapshot
+                
+                let child = data.value as! [String : Any]
+                
+                print(child)
+//                if let id = child["userID"],
+//                    let name = child["childName"],
+//                    let birthDay = child["birthDay"],
+//                    let blood = child["blood"],
+//                    let weight = child["weight"],
+//                    let gender = child["gender"]
+//                {
+//                    let ill = child["ills"]
+//                    let idString = id
+//                    print(idString)
+//                    self.childArray.insert(ChildModel(Id: idString as? String,
+//                                                      name: name as? String,
+//                                                      birthDate: birthDay as? String,
+//                                                      gender: gender as? String,
+//                                                      blood: blood as? String,
+//                                                      weight: weight as? String,
+//                                                      ill: ill as? [IllModel]), at: 0)
+//
+//
+//                    self.tableView.reloadData()
+//                }
+//                print(self.childArray)
+            }
+        })
+        //        childsArray = realm.objects(ChildModel.self)
         tableView.reloadData()
+        
     }
+    
+  
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
