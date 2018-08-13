@@ -23,7 +23,7 @@ struct ChildModel{
     var userEmail = ""
     var ills = [IllModel]()
     
-    init(Id: String?, name: String?, birthDate: String?,  gender: String?, blood: String?, weight: String?, userEmail: String?, ills: [IllModel]?) {
+    init(Id: String?, name: String?, birthDate: String?,  gender: String?, blood: String?, weight: String?, userEmail: String?) {
         self.Id = Id!
         self.name = name!
         self.birthDate = birthDate!
@@ -182,7 +182,6 @@ class ChildsTableViewController: UITableViewController {
                 let userEmail = child["userEmail"],
                 let gender = child["gender"]
                 {
-                let ill = child["ills"]
                 let idString =  child["Id"]
                  
                 print(idString)
@@ -192,8 +191,7 @@ class ChildsTableViewController: UITableViewController {
                                                   gender: gender as? String,
                                                   blood: blood as? String,
                                                   weight: weight as? String,
-                                                  userEmail: userEmail as? String,
-                                                  ills: ill as? [IllModel]), at: 0)
+                                                  userEmail: userEmail as? String), at: 0)
 
               
             self.tableView.reloadData()

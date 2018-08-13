@@ -26,7 +26,8 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     var blood = ""
     var uidUser = ""
     var userEmail = ""
-    var illsArray = [ChildModel]()
+    var illsArray = [IllModel]()
+    var childArray = [ChildModel]()
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var birthDayLabel: UILabel!
@@ -144,49 +145,37 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         
     }
     func loadIllness() {
+        
+        ref = Database.database().reference()
+        ref?.child("Childs").child(uidUser).child("Ills").observe(.childAdded, with: { snapshot  in
             
-            ref = Database.database().reference()
-            print(uidUser)
-        ref?.child("Childs").child(uidUser).observe(.childAdded, with: { snapshot  in
+            let snapVal = snapshot.value as! Dictionary<String, Any>
+        //    print(snapVal)
             
-            print(snapshot)
-            if let value = snapshot.value as? ChildModel{
-            print(value)
-            self.illsArray.append(value)
-                print(self.illsArray)}
-            //                for item in snapshot.children{
-            //                    let data = item as! DataSnapshot
-            //
-            //                    let child = data.value as! ChildModel
-            
-            
-//                    if let id = child["userID"],
-//                        let name = child["childName"],
-//                        let birthDay = child["birthDay"],
-//                        let blood = child["blood"],
-//                        let weight = child["weight"],
-//                        let userEmail = child["userEmail"],
-//                        let gender = child["gender"]
-//                    {
-//                        let ill = child["ills"]
-//                        let idString = id
-//                        //                print(idString)
-////                        self.illsArray.insert(ChildModel(Id: idString as? String,
-////                                                          name: name as? String,
-////                                                          birthDate: birthDay as? String,
-////                                                          gender: gender as? String,
-////                                                          blood: blood as? String,
-////                                                          weight: weight as? String,
-////                                                          userEmail: userEmail as? String,
-////                                                          ill: ill as? [IllModel]), at: 0)
-////
-//
-//                        self.tableView.reloadData()
-                    
-                    print(self.illsArray)
-//                }
-            
-            })
+            for list in snapshot.children{
+                let illness = list as! DataSnapshot
+                let ill = illness.value as! [String : Any]
+          //      print("ill: \(ill)")
+                
+                if
+                    let illName = ill["illName"],
+                    let DateIll = ill["DateIll"],
+                    let simptoms = ill["simptoms"],
+                    let treatment = ill["treatment"]
+                {
+                    let illmodel = IllModel(simptoms: simptoms as? String,
+                                           treatment: treatment as? String,
+                                           illName: illName as? String,
+                                           DateIll: DateIll as? String)
+
+                    self.illsArray.insert(illmodel, at: 0)
+
+
+                    self.tableView.reloadData()
+                }
+                print("illsArray: \(self.illsArray)")
+            }
+        })
         //        childsArray = realm.objects(ChildModel.self)
         tableView.reloadData()
         
@@ -222,7 +211,7 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 1//illArray?.count ?? 1
+        return illsArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -231,13 +220,10 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
-//        if let ill = illArray?[indexPath.row]{
-//            cell.textLabel?.text = ill.illName
-//            cell.detailTextLabel?.text = ill.DateIll
-//
-//        }else{
-//            cell.textLabel?.text = "No ills Added"
-//        }
+        let ill = illsArray[indexPath.row]
+        cell.textLabel?.text = ill.illName
+        cell.detailTextLabel?.text = ill.DateIll
+        
         return cell
     }
     

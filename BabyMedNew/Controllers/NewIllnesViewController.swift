@@ -126,13 +126,14 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
             let simptoms = simptomsTextView.text,
             let treatment = treatmentTextView.text{
             
-            let illNew : [String : String] = ["illName": nameIll,
+            let illNew : [String : Any] = ["illName": nameIll,
                                               "DateIll": dayIll,
                                               "simptoms": simptoms,
                                               "treatment": treatment]
             
+              let illnessDictionary = ["ill": illNew] as [String : Any]
       //      ref.child("Childs").child("ill").setValue(illNew)  //.childByAutoId().child("Ills").setValue(illNew)
-            ref.child("Childs").child(uidUser).child("Ills").childByAutoId().setValue(illNew) //updateChildValues(illNew)
+            ref.child("Childs").child(uidUser).child("Ills").childByAutoId().setValue(illnessDictionary) //updateChildValues(illNew)
         }
        
     }

@@ -71,7 +71,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
             let weight = weightTextField.text,
             let blood = bloodTextField.text
             {
-            let illDemo = [illarray]
+           
             let id = ref.child("Childs").childByAutoId().key
             let userEmail = Auth.auth().currentUser?.email
 
@@ -83,8 +83,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
                                              "gender": gender,
                                              "weight": weight,
                                              "blood": blood,
-                                             "userEmail": userEmail,
-                                             "ills": illDemo]
+                                             "userEmail": userEmail]
             
 
                 let childsDictionary = ["Child": childNew] as [String : Any]

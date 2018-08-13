@@ -8,20 +8,22 @@
 
 import Foundation
 import RealmSwift
+import Firebase
 
-//class IllModel: Object {
-//    
-//    @objc dynamic var id = NSUUID().uuidString
-//    @objc dynamic var simptoms = ""
-//    @objc dynamic var treatment = ""
-//    @objc dynamic var illName = ""
-//    @objc dynamic var DateIll = ""
-//    
-//    override static func primaryKey() -> String? {
-//        return "id"
-//    }
-//    
-////    var parentChild = LinkingObjects(fromType: ChildModel.self, property: "ills")
-//    
-//   
-//}
+class IllChild {
+    var illUserID = ChildModel(Id: "")
+    var id = NSUUID().uuidString
+    var simptoms : String!
+    var treatment : String!
+    var illName : String!
+    var DateIll : String!
+    var ref: FirebaseApp?
+    
+    init(snapshot: DataSnapshot){
+//        self.simptoms = snapshot.value["simptoms"] as! String
+//        self.treatment = snapshot.value["treatment"] as! String
+//        self.illName = snapshot.value["illName"] as! String
+//        self.DateIll = snapshot.value["DateIll"] as! String
+        
+    }
+}

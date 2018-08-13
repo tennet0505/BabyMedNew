@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BabyMedNew/Controllers/IllnessTableViewController.swift"
-            timestampString = "555583185.7644041"
+            timestampString = "555828139.481391"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "53"
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BabyMedNew/Controllers/NewIllnesViewController.swift"
-            timestampString = "555583185.765245"
+            timestampString = "555828139.481994"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
             landmarkName = "buttonEdit(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BabyMedNew/Controllers/NewIllnesViewController.swift"
-            timestampString = "555583185.7654769"
+            timestampString = "555828139.482511"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
             landmarkName = "addNewIll()"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BabyMedNew/Controllers/NewIllnesViewController.swift"
-            timestampString = "555583185.7656831"
+            timestampString = "555828139.483001"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "80"
@@ -74,7 +74,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BabyMedNew/Controllers/NewIllnesViewController.swift"
-            timestampString = "555583185.765877"
+            timestampString = "555828139.4834059"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "122"
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BabyMedNew/Controllers/PersonalViewController.swift"
-            timestampString = "555583185.766067"
+            timestampString = "555828139.4838001"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "newIllButton(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BabyMedNew/Controllers/IllnessTableViewController.swift"
-            timestampString = "555583185.767174"
+            timestampString = "555828139.48444"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "122"
@@ -122,7 +122,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BabyMedNew/Controllers/IllnessTableViewController.swift"
-            timestampString = "555583185.767845"
+            timestampString = "555828139.484812"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "48"
@@ -138,45 +138,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BabyMedNew/Controllers/PersonalViewController.swift"
-            timestampString = "555583185.768464"
+            timestampString = "555828139.485172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
             landmarkName = "loadIllness()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BabyMedNew.PersonalViewController.loadIllness() -&gt; ()"
-                  moduleName = "BabyMedNew"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/olegten/Library/Mobile%20Documents/com~apple~CloudDocs/Desktop/BabyMedNew/BabyMedNew/Controllers/PersonalViewController.swift"
-                  timestampString = "555583136.621621"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "150"
-                  endingLineNumber = "150"
-                  offsetFromSymbolStart = "348">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__ObjC.DataSnapshot) -&gt; () in BabyMedNew.PersonalViewController.loadIllness() -&gt; ()"
-                  moduleName = "BabyMedNew"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/olegten/Library/Mobile%20Documents/com~apple~CloudDocs/Desktop/BabyMedNew/BabyMedNew/Controllers/PersonalViewController.swift"
-                  timestampString = "555583136.627287"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "152"
-                  endingLineNumber = "152"
-                  offsetFromSymbolStart = "40">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -185,61 +153,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BabyMedNew/Controllers/ChildsTableViewController.swift"
-            timestampString = "555583185.769057"
+            filePath = "BabyMedNew/Controllers/PersonalViewController.swift"
+            timestampString = "555828139.485482"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
-            landmarkName = "loadChildsData()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BabyMedNew/Controllers/ChildsTableViewController.swift"
-            timestampString = "555583185.7700011"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "174"
-            endingLineNumber = "174"
-            landmarkName = "loadChildsData()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BabyMedNew/Controllers/ChildsTableViewController.swift"
-            timestampString = "555583185.770759"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
-            landmarkName = "loadChildsData()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BabyMedNew/Controllers/ChildsTableViewController.swift"
-            timestampString = "555583185.771561"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
-            landmarkName = "loadChildsData()"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
+            landmarkName = "loadIllness()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
