@@ -47,8 +47,6 @@ struct ChildModel{
 
 class ChildsTableViewController: UITableViewController {
 
-//    let realm = try! Realm()
-//    var childsArray : Results<ChildModel>!
     var ref: DatabaseReference?
 
     var ArrayChild =  [DataSnapshot]()
@@ -148,7 +146,6 @@ class ChildsTableViewController: UITableViewController {
                 let data = item as! DataSnapshot
                
                 let child = data.value as! [String : Any]
-                print(child)
                 
              if
                 let name = child["name"],
@@ -173,10 +170,8 @@ class ChildsTableViewController: UITableViewController {
               
             self.tableView.reloadData()
                 }
-                print(self.childArray)
             }
         })
-        //        childsArray = realm.objects(ChildModel.self)
         tableView.reloadData()
         
     }

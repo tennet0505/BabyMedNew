@@ -28,6 +28,7 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
     var date = ""
     var simptoms = ""
     var treatment = ""
+    var image = ""
     
 //    var ill = IllModel()
     @IBOutlet weak var buttonEdit: UIBarButtonItem!
@@ -36,6 +37,7 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
         super.viewWillAppear(animated)
         nameLabel.text = name
         birthDayLabel.text = bd
+        getImage(imageName: image)
     }
     
     override func viewDidLoad() {
@@ -47,7 +49,7 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
         dateLabel.text = date
         simptomsTextView.text = simptoms
         treatmentTextView.text = treatment
-        getImage(imageName: "\(nameIll)+\(date)")
+        getImage(imageName: image)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -74,13 +76,16 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
 
     }
   
+    
     func getImage(imageName: String){
-        let fileManager = FileManager.default
-        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
-        if fileManager.fileExists(atPath: imagePath){
-            imageRecept.image = UIImage(contentsOfFile: imagePath)
+       
+        var decodeImage = UIImage()
+        if let decode  = NSData(base64Encoded: imageName, options: .ignoreUnknownCharacters){
+        
+            decodeImage = UIImage(data: decode as Data)!
+            imageRecept.image = decodeImage
         }else{
-            print("Panic! No Image!")
+            imageRecept.image = UIImage(named: "BabyMedLogo")
         }
     }
    

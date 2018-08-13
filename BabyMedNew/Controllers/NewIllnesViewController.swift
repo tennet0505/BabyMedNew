@@ -43,12 +43,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     var uidUser = ""
   
     
-    var selectedChild : ChildModel?
-    {
-        didSet{
-            loadIllness()
-        }
-    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if editValue == 0{
@@ -106,6 +101,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
             let illNew : [String : Any] = ["illName": nameIll,
                                               "DateIll": dayIll,
                                               "simptoms": simptoms,
+                                              "fotoRecept": imageProfile(),
                                               "treatment": treatment]
             
               let illnessDictionary = ["ill": illNew] as [String : Any]
@@ -256,15 +252,16 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         self.present(actionTap, animated: true, completion: nil)
         
     }
-    func loadImageFromPath(path: String) -> UIImage? {
+   
+    func imageProfile() -> String{
         
-        let image = UIImage(contentsOfFile: path as String)
-        
-        if image == nil {
-            return UIImage()
-        } else{
-            return image
+        var data :NSData = NSData()
+        if let image = imageRecept.image{
+            data = UIImageJPEGRepresentation(image, 0.1)! as NSData
         }
+        let base64String = data.base64EncodedString(options: .lineLength64Characters)
+        
+        return base64String ?? "BabyMedLogo"
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -290,19 +287,18 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         picker.dismiss(animated: true, completion: nil)
     }
     
-   
-    
-    func saveImage(imageName: String){
-        let fileManager = FileManager.default
-        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
+    func loadImageFromPath(path: String) -> UIImage? {
         
+        let image = UIImage(contentsOfFile: path as String)
         
-        if let image = imageRecept.image{
-            let data = UIImageJPEGRepresentation(image, 0.1)
-            fileManager.createFile(atPath: imagePath as String, contents: data, attributes: nil)
-            
+        if image == nil {
+            return UIImage()
+        } else{
+            return image
         }
     }
+    
+   
     
     func getImage(imageName: String){
         

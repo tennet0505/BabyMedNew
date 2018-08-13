@@ -19,12 +19,14 @@ struct IllModel {
     var treatment = ""
     var illName = ""
     var DateIll = ""
+    var fotoRecept = ""
     
-    init(simptoms: String?, treatment: String?, illName: String?,  DateIll: String?) {
+    init(simptoms: String?, treatment: String?, illName: String?,  DateIll: String?, fotoRecept: String?) {
         self.simptoms = simptoms!
         self.treatment = treatment!
         self.illName = illName!
         self.DateIll = DateIll!
+        self.fotoRecept = fotoRecept!
         
     }
 }
@@ -55,8 +57,6 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     
     @IBOutlet weak var tableView: UITableView!
     
-//    var illArray : Results<IllModel>!
-    
    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -75,7 +75,6 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         bloodLabel.text = blood
         getImage(imageName: imageFoto)
  
-        print(indexPath)
         
     }
 
@@ -93,7 +92,6 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
             let vc = segue.destination as? NewIllnesViewController{
             vc.uidUser = uidUser
             let index = indexPath
-            
         }
         
         if segue.identifier == "toDescriptionIll",
@@ -108,6 +106,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
                 vc.nameIll = ill.illName
                 vc.date = ill.DateIll
                 vc.name = name
+                vc.image = ill.fotoRecept
                 vc.bd = bd
             }
         }
@@ -123,7 +122,6 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
             vc.gen = child.gender
             vc.weight = child.weight
             vc.blood = child.blood
-//            vc.idChild = child.id
             vc.editValue = 1
             vc.delegate = self
         }
@@ -153,19 +151,20 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
                     let illName = ill["illName"],
                     let DateIll = ill["DateIll"],
                     let simptoms = ill["simptoms"],
-                    let treatment = ill["treatment"]
+                    let treatment = ill["treatment"],
+                    let fotoRecept = ill["fotoRecept"]
                 {
                     let illmodel = IllModel(simptoms: simptoms as? String,
                                            treatment: treatment as? String,
                                            illName: illName as? String,
-                                           DateIll: DateIll as? String)
+                                           DateIll: DateIll as? String,
+                                           fotoRecept: fotoRecept as? String
+                                           )
 
                     self.illsArray.insert(illmodel, at: 0)
 
-
                     self.tableView.reloadData()
                 }
-                print("illsArray: \(self.illsArray)")
             }
         })
         tableView.reloadData()
