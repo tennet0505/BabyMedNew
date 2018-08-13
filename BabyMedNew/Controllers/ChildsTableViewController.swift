@@ -60,12 +60,6 @@ class ChildsTableViewController: UITableViewController {
        
         loadChildsData()
 
-        
-        
-        //MARK FireBase
-        
-      
-        
     }
    
     
@@ -138,24 +132,13 @@ class ChildsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
+        ref = Database.database().reference()
         if editingStyle == .delete {
             print("Deleted")
-           
-//            if let item = childsArray?[indexPath.row]{
-//
-//                do{
-//                    try realm.write {
-//                        realm.delete(item)
-//                    }
-//
-//                }catch{
-//                    print("Error")
-//                }
-//            }
-            
+      
         }
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
-        }
+        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+    }
     
     
     func loadChildsData() {

@@ -42,11 +42,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     
 //    var illArray : Results<IllModel>!
     
-    var selectedChild : ChildModel? {
-        didSet{
-            loadIllness()
-        }
-    }
+   
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 //        loadChildsData()
@@ -102,18 +98,16 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         if segue.identifier == "toDescriptionIll",
             let vc = segue.destination as? DescriptionIllViewController{
             
-            let child = selectedChild
             
             if let indexPath = tableView.indexPathForSelectedRow{
                 
-//                let ill = illArray[indexPath.row]
-//                vc.simptoms = ill.simptoms
-//                vc.treatment = ill.treatment
-//                vc.nameIll = ill.illName
-//                vc.date = ill.DateIll
-//                vc.name = (child?.name)!
-//                vc.bd = (child?.birthDate)!
-//                vc.ill = ill
+                let ill = illsArray[indexPath.row]
+                vc.simptoms = ill.simptoms
+                vc.treatment = ill.treatment
+                vc.nameIll = ill.illName
+                vc.date = ill.DateIll
+                vc.name = name
+                vc.bd = bd
             }
         }
         if segue.identifier == "toPersonalForEdit",
@@ -180,6 +174,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         tableView.reloadData()
         
     }
+    
     
     @IBAction func allIllnessButton(_ sender: UIButton) {
         
