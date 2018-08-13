@@ -76,6 +76,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         simptomsTextView.text = simptom
         treatmentTextView.text = treatment
         
+        
         DatePicker()
         
         

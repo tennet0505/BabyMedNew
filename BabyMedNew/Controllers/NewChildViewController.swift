@@ -54,13 +54,12 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
 
         ref = Database.database().reference()
         
-  //      getImage(imageName: "\(name)+\(bd)")
         nameTextField.text = childPerson.name
         BirthDayTextField.text = childPerson.birthDate
         genderTextField.text = childPerson.gender
         weightTextField.text = childPerson.weight
         bloodTextField.text = childPerson.blood
-
+        imageTakeFoto.image =  getImage(imageName: childPerson.image)
         buttonSave.isEnabled = true
         birthDatePicker()
         
@@ -120,7 +119,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
                                                 "gender": genderTextField.text!,
                                                 "weight": weightTextField.text!,
                                                 "blood": bloodTextField.text!,
-                                                "image": childPerson.image,
+                                                "image": imageProfile(),
                                                 "userEmail": userEmail]
             
             
@@ -328,17 +327,15 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         return base64String ?? "avatar_default"
     }
     
-    func getImage(imageName: String){
+    func getImage(imageName: String) -> UIImage{
         
-        
-        let fileManager = FileManager.default
-        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
-        if fileManager.fileExists(atPath: imagePath){
-            imageTakeFoto.image = UIImage(contentsOfFile: imagePath)
-        }else{
-            print("Panic! No Image!")
+        var decodeImage = UIImage()
+        if  let decode  = NSData(base64Encoded: imageName, options: .ignoreUnknownCharacters){
+            decodeImage = UIImage(data: decode as Data) ?? UIImage(named: "avatar_default")!
         }
+        return decodeImage
     }
+
     
     func getDocumentsDirectory() -> NSString {
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
