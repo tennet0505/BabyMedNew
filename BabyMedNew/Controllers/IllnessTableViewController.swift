@@ -11,23 +11,23 @@ import RealmSwift
 import FirebaseAuth
 import Firebase
 
-struct IllModel {
-    
-    var illUserID = ChildModel(Id: "")
-    var id = NSUUID().uuidString
-    var simptoms = ""
-    var treatment = ""
-    var illName = ""
-    var DateIll = ""
-    
-    init(simptoms: String?, treatment: String?, illName: String?,  DateIll: String?) {
-        self.simptoms = simptoms!
-        self.treatment = treatment!
-        self.illName = illName!
-        self.DateIll = DateIll!
-       
-    }
-}
+//struct IllModel {
+//    
+//    var illUserID = ChildModel(Id: "")
+//    var id = NSUUID().uuidString
+//    var simptoms = ""
+//    var treatment = ""
+//    var illName = ""
+//    var DateIll = ""
+//    
+//    init(simptoms: String?, treatment: String?, illName: String?,  DateIll: String?) {
+//        self.simptoms = simptoms!
+//        self.treatment = treatment!
+//        self.illName = illName!
+//        self.DateIll = DateIll!
+//       
+//    }
+//}
 
 class IllnessTableViewController: UITableViewController {
    

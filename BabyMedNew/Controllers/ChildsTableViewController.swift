@@ -23,12 +23,13 @@ struct ChildModel{
     var userEmail = ""
     var ills = [IllModel]()
     
-    init(Id: String?, name: String?, birthDate: String?,  gender: String?, blood: String?, weight: String?, userEmail: String?) {
+    init(Id: String?, name: String?, birthDate: String?,  gender: String?, blood: String?, image: String?, weight: String?, userEmail: String?) {
         self.Id = Id!
         self.name = name!
         self.birthDate = birthDate!
         self.gender = gender!
         self.blood = blood!
+        self.image = image!
         self.weight = weight!
         self.userEmail = userEmail!
        // self.ills = ills!
@@ -70,15 +71,10 @@ class ChildsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? ChildTableViewCell
-//        if let imageName = childsArray?[indexPath.row].name, let imageBd = childsArray?[indexPath.row].birthDate{
-//            let imageAvatar =  getImage(imageName:"\(imageName)+\(imageBd)")
-//            cell?.imageFoto.image = imageAvatar
-//            print(imageAvatar)
-//        }
-            cell?.labelName.text = childArray[indexPath.row].name
-            cell?.labelAge.text = childArray[indexPath.row].birthDate
-//            cell?.labelName.text = childsArray?[indexPath.row].name ?? "No Child added"
-//            cell?.labelAge.text = childsArray?[indexPath.row].birthDate
+        
+        cell?.labelName.text = childArray[indexPath.row].name
+        cell?.labelAge.text = childArray[indexPath.row].birthDate
+        cell?.imageFoto.image = getImage(imageName: childArray[indexPath.row].image)
         
         return cell!
     }
@@ -97,6 +93,7 @@ class ChildsTableViewController: UITableViewController {
         vc.weight = child.weight
         vc.gen = child.gender
         vc.indexPath = indexPath
+        vc.imageFoto = child.image
         vc.uidUser = child.Id
         vc.userEmail = child.userEmail
     
@@ -147,15 +144,11 @@ class ChildsTableViewController: UITableViewController {
 
         ref?.child("Childs").observe(.childAdded, with: { snapshot  in
             
-            let snapVal = snapshot.value as! Dictionary<String, Any>
-//            print(snapVal)
-          
             for item in snapshot.children{
                 let data = item as! DataSnapshot
                
                 let child = data.value as! [String : Any]
                 print(child)
-                print(child["Id"]) ////////////////////////////
                 
              if
                 let name = child["name"],
@@ -163,16 +156,17 @@ class ChildsTableViewController: UITableViewController {
                 let blood = child["blood"],
                 let weight = child["weight"],
                 let userEmail = child["userEmail"],
+                let image = child["image"],
                 let gender = child["gender"]
                 {
                 let idString =  child["Id"]
                  
-                print(idString)
                 self.childArray.insert(ChildModel(Id: idString as? String,
                                                   name: name as? String,
                                                   birthDate: birthDay as? String,
                                                   gender: gender as? String,
                                                   blood: blood as? String,
+                                                  image: image as? String,
                                                   weight: weight as? String,
                                                   userEmail: userEmail as? String), at: 0)
 
@@ -186,17 +180,14 @@ class ChildsTableViewController: UITableViewController {
         tableView.reloadData()
         
     }
-func getImage(imageName: String) -> UIImage{
-        var fotoImage = UIImage()
-        let fileManager = FileManager.default
-        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
-        if fileManager.fileExists(atPath: imagePath){
-            fotoImage = UIImage(contentsOfFile: imagePath)!
-        }else{
-            print("Panic! No Image!")
+
+    func getImage(imageName: String) -> UIImage{
+        
+        var decodeImage = UIImage()
+        if  let decode  = NSData(base64Encoded: imageName, options: .ignoreUnknownCharacters){
+            decodeImage = UIImage(data: decode as Data) ?? UIImage(named: "avatar_default")!
         }
-        return fotoImage
+        return decodeImage
     }
-    
 
 }

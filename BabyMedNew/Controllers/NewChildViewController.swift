@@ -16,10 +16,7 @@ protocol NewChildDataProtocol {
     func newDataChild(childEdit: ChildModel)
 }
 class NewChildViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
- //   let realm = try! Realm()
- 
-//    var childsArray : Results<ChildModel>!
+
     var ref: DatabaseReference!
     
     @IBOutlet weak var nameTextField: UITextField!
@@ -76,13 +73,13 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
             let userEmail = Auth.auth().currentUser?.email
 
           
-//            print(id)
             let childNew : [String : Any] = ["Id": id,
                                             "name": name,
                                              "birthDate": birthDay,
                                              "gender": gender,
                                              "weight": weight,
                                              "blood": blood,
+                                             "image": imageProfile(),
                                              "userEmail": userEmail]
             
 
@@ -99,7 +96,8 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         
         addChild()
         
-//        let child = ChildModel()
+        
+
         if editValue == 0{
        
 //        child.name = nameTextField.text!
@@ -135,27 +133,6 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         navigationController?.popViewController(animated: true)
        
     }
-    
-//    func saveCategory(child: ChildModel) {
-//
-//        do{
-//            try realm.write {
-//                realm.add(child)
-//            }
-//
-//        }catch{
-//            print("error saving \(error)")
-//        }
-////        self.tableView.reloadData()
-//    }
-//    func updatePersonalData(child: ChildModel){
-//
-//            try! realm.write {
-//                realm.add(child, update: true)
-//            }
-//
-//
-//    }
     
     
     func birthDatePicker()  {
@@ -328,16 +305,15 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         view.endEditing(true)
     }
     
-    func saveImage(imageName: String){
-        let fileManager = FileManager.default
-        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
-        
-        
+    func imageProfile() -> String{
+
+        var data :NSData = NSData()
         if let image = imageTakeFoto.image{
-          let data = UIImageJPEGRepresentation(image, 0.1)
-            fileManager.createFile(atPath: imagePath as String, contents: data, attributes: nil)
-            
+            data = UIImageJPEGRepresentation(image, 0.1)! as NSData
         }
+        let base64String = data.base64EncodedString(options: .lineLength64Characters)
+        
+        return base64String ?? "avatar_default"
     }
     
     func getImage(imageName: String){

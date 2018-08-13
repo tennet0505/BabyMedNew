@@ -11,12 +11,26 @@ import RealmSwift
 import FirebaseAuth
 import Firebase
 
-class PersonalViewController: UIViewController, NewChildDataProtocol {
-   
+struct IllModel {
     
+    var illUserID = ChildModel(Id: "")
+    var id = NSUUID().uuidString
+    var simptoms = ""
+    var treatment = ""
+    var illName = ""
+    var DateIll = ""
+    
+    init(simptoms: String?, treatment: String?, illName: String?,  DateIll: String?) {
+        self.simptoms = simptoms!
+        self.treatment = treatment!
+        self.illName = illName!
+        self.DateIll = DateIll!
+        
+    }
+}
 
-//    let realm = try! Realm()
-//    var childsArray : Results<ChildModel>!
+class PersonalViewController: UIViewController, NewChildDataProtocol {
+
     var ref: DatabaseReference?
     var children = [ChildModel]()
     var name = ""
@@ -26,6 +40,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     var blood = ""
     var uidUser = ""
     var userEmail = ""
+    var imageFoto = ""
     var illsArray = [IllModel]()
     var childArray = [ChildModel]()
     
@@ -45,36 +60,25 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        loadChildsData()
         loadIllness()
-        getImage(imageName: "\(name)+\(bd)")
+        getImage(imageName: imageFoto)
         tableView.reloadData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadChildsData()
         nameLabel.text = name
         birthDayLabel.text = bd
         genderLabel.text = gen
         weightLabel.text = weight
         bloodLabel.text = blood
-//        selectedChild = children[indexPath.row]
+        getImage(imageName: imageFoto)
+ 
         print(indexPath)
         
     }
 
-   
- 
-    func loadChildsData() {
-        
-//        childsArray = realm.objects(ChildModel.self)
-        
-    }
-   
-    
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
        
         if segue.identifier == "ToIllness",
@@ -83,16 +87,13 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
 
             let index = indexPath
 
-     //       vc.selectedChild = children?[index.row]
         }
         if segue.identifier == "ToNewIllness",
             
             let vc = segue.destination as? NewIllnesViewController{
             vc.uidUser = uidUser
-//            print(uidUser)
             let index = indexPath
             
-     //       vc.selectedChild = children?[index.row]
         }
         
         if segue.identifier == "toDescriptionIll",
@@ -143,9 +144,6 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         ref = Database.database().reference()
         ref?.child("Childs").child(uidUser).child("Ills").observe(.childAdded, with: { snapshot  in
             
-            let snapVal = snapshot.value as! Dictionary<String, Any>
-        //    print(snapVal)
-            
             for list in snapshot.children{
                 let illness = list as! DataSnapshot
                 let ill = illness.value as! [String : Any]
@@ -170,7 +168,6 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
                 print("illsArray: \(self.illsArray)")
             }
         })
-        //        childsArray = realm.objects(ChildModel.self)
         tableView.reloadData()
         
     }
@@ -191,13 +188,9 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     }
    
     func getImage(imageName: String){
-        let fileManager = FileManager.default
-        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
-        if fileManager.fileExists(atPath: imagePath){
-            fotoImage.image = UIImage(contentsOfFile: imagePath)
-        }else{
-            print("Panic! No Image!")
-        }
+        let decode  = NSData(base64Encoded: imageName, options: .ignoreUnknownCharacters)
+        let decodeImage = UIImage(data: decode! as Data)
+        fotoImage.image = decodeImage
     }
     
    
@@ -219,6 +212,7 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
         cell.textLabel?.text = ill.illName
         cell.detailTextLabel?.text = ill.DateIll
         
+        
         return cell
     }
     
@@ -239,17 +233,7 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
         if editingStyle == .delete {
             print("Deleted")
             
-//            if let item = illArray?[indexPath.row]{
-//
-//                do{
-//                    try realm.write {
-//                        realm.delete(item)
-//                    }
-//
-//                }catch{
-//                    print("Error")
-//                }
-//            }
+
             
         }
         self.tableView.deleteRows(at: [indexPath], with: .automatic)

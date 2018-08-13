@@ -18,8 +18,6 @@
 		0640339020EB3146003776CD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0640338E20EB3146003776CD /* LaunchScreen.storyboard */; };
 		0640339920EB31DF003776CD /* ChildsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0640339820EB31DF003776CD /* ChildsTableViewController.swift */; };
 		0640339B20EB31F2003776CD /* IllnessTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0640339A20EB31F2003776CD /* IllnessTableViewController.swift */; };
-		0640339F20EB3384003776CD /* ChildModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0640339E20EB3384003776CD /* ChildModel.swift */; };
-		064033A120EB3393003776CD /* IllModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064033A020EB3393003776CD /* IllModel.swift */; };
 		064033A520EB3757003776CD /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064033A420EB3757003776CD /* MainViewController.swift */; };
 		064033A720EB3801003776CD /* NewChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064033A620EB3801003776CD /* NewChildViewController.swift */; };
 		064033A920EB66A9003776CD /* PersonalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064033A820EB66A9003776CD /* PersonalViewController.swift */; };
@@ -43,8 +41,6 @@
 		0640339120EB3146003776CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0640339820EB31DF003776CD /* ChildsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildsTableViewController.swift; sourceTree = "<group>"; };
 		0640339A20EB31F2003776CD /* IllnessTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllnessTableViewController.swift; sourceTree = "<group>"; };
-		0640339E20EB3384003776CD /* ChildModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildModel.swift; sourceTree = "<group>"; };
-		064033A020EB3393003776CD /* IllModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllModel.swift; sourceTree = "<group>"; };
 		064033A420EB3757003776CD /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		064033A620EB3801003776CD /* NewChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChildViewController.swift; sourceTree = "<group>"; };
 		064033A820EB66A9003776CD /* PersonalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalViewController.swift; sourceTree = "<group>"; };
@@ -99,7 +95,6 @@
 				0640338220EB3145003776CD /* AppDelegate.swift */,
 				0621ECDB2117FE29002686CF /* Cells */,
 				0640339720EB31AD003776CD /* Controllers */,
-				0640339D20EB3369003776CD /* DataModel */,
 				0640339C20EB31FD003776CD /* View */,
 				0640339120EB3146003776CD /* Info.plist */,
 				0640338920EB3145003776CD /* BabyMedNew.xcdatamodeld */,
@@ -131,15 +126,6 @@
 				0640338E20EB3146003776CD /* LaunchScreen.storyboard */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		0640339D20EB3369003776CD /* DataModel */ = {
-			isa = PBXGroup;
-			children = (
-				0640339E20EB3384003776CD /* ChildModel.swift */,
-				064033A020EB3393003776CD /* IllModel.swift */,
-			);
-			path = DataModel;
 			sourceTree = "<group>";
 		};
 		9B999BF02E744DBCA2B4F869 /* Pods */ = {
@@ -296,8 +282,6 @@
 				064033AB20EB6F9D003776CD /* NewIllnesViewController.swift in Sources */,
 				064033A920EB66A9003776CD /* PersonalViewController.swift in Sources */,
 				064033A720EB3801003776CD /* NewChildViewController.swift in Sources */,
-				064033A120EB3393003776CD /* IllModel.swift in Sources */,
-				0640339F20EB3384003776CD /* ChildModel.swift in Sources */,
 				0621ECE321196952002686CF /* AuthViewController.swift in Sources */,
 				0621ECE121196944002686CF /* RegisterViewController.swift in Sources */,
 				0621ECDA2113292B002686CF /* ChildTableViewCell.swift in Sources */,

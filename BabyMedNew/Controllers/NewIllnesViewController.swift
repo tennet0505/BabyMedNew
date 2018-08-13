@@ -40,11 +40,8 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     var treatment = ""
     var editValue = 0
     var idIll = NSUUID().uuidString
-  //  var illUserID = ""
     var uidUser = ""
-  //  let newIll = IllModel()
-//    let realm = try! Realm()
-//    var illArray : Results<IllModel>?
+  
     
     var selectedChild : ChildModel?
     {
@@ -92,28 +89,8 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     @IBAction func saveButton(_ sender: UIButton) {
        
         addNewIll()
-//        do{
-//            try self.realm.write {
-//                
-//                newIll.illName = nameIllTextField.text!
-//                newIll.DateIll = dateTextField.text!
-//                newIll.simptoms = simptomsTextView.text!
-//                newIll.treatment = treatmentTextView.text!
-//                selectedChild?.ills.append(newIll)
-//                
-//                
-//                nameIllTextField.text = ""
-//                simptomsTextView.text = ""
-//                treatmentTextView.text = ""
-//
+
                 navigationController?.popViewController(animated: true)
-//            }
-//            
-//        }catch{
-//            print("Error new Category")
-//            
-//        }
-//        saveImage(imageName: "\(newIll.illName)+\(newIll.DateIll)")
 
      
     }
