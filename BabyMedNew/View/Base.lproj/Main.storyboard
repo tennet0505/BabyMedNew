@@ -990,7 +990,7 @@
                         <viewLayoutGuide key="safeArea" id="npH-gN-hgT"/>
                     </view>
                     <navigationItem key="navigationItem" title="Ребенок" id="iLu-k5-X0Q">
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Редактировать" id="GmM-N6-YNr">
+                        <barButtonItem key="rightBarButtonItem" title="Редактировать" id="GmM-N6-YNr">
                             <connections>
                                 <action selector="buttonEdit:" destination="93M-uJ-FFF" id="4bA-ZZ-jMJ"/>
                                 <segue destination="lqH-Qi-GRv" kind="show" identifier="toPersonalForEdit" id="r7J-Z4-fTT"/>

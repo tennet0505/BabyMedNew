@@ -31,13 +31,22 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     var editValue = 0
     @IBOutlet weak var imageTakeFoto: UIImageView!
     
-    var name = ""
-    var bd = ""
-    var gen = ""
-    var weight = ""
-    var blood = ""
+//    var image = ""
+//    var name = ""
+//    var bd = ""
+//    var gen = ""
+//    var weight = ""
+//    var blood = ""
     var delegate: NewChildDataProtocol?
     var illarray = [IllModel]()
+    var childPerson: ChildModel = ChildModel(Id: "",
+                                             name: "",
+                                             birthDate: "",
+                                             gender: "",
+                                             blood: "",
+                                             image: "",
+                                             weight: "",
+                                             userEmail: "")
     
     @IBOutlet weak var buttonSave: UIButton!
     override func viewDidLoad() {
@@ -45,13 +54,13 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
 
         ref = Database.database().reference()
         
-//        getImage(imageName: "\(name)+\(bd)")
-//        nameTextField.text = name
-//        BirthDayTextField.text = bd
-//        genderTextField.text = gen
-//        weightTextField.text = weight
-//        bloodTextField.text = blood
-//
+  //      getImage(imageName: "\(name)+\(bd)")
+        nameTextField.text = childPerson.name
+        BirthDayTextField.text = childPerson.birthDate
+        genderTextField.text = childPerson.gender
+        weightTextField.text = childPerson.weight
+        bloodTextField.text = childPerson.blood
+
         buttonSave.isEnabled = true
         birthDatePicker()
         
@@ -61,8 +70,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     
     func addChild() {
 
-        if let name = nameTextField.text,
-           
+         if let name = nameTextField.text,
             let birthDay = BirthDayTextField.text,
             let gender = genderTextField.text,
             let weight = weightTextField.text,
@@ -94,29 +102,33 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     
     @IBAction func SaveData(_ sender: UIButton) {
         
-        addChild()
         
-        
-
         if editValue == 0{
-       
-//        child.name = nameTextField.text!
-//        child.birthDate = BirthDayTextField.text!
-//        child.gender = genderTextField.text!
-//        child.weight = weightTextField.text!
-//        child.blood = bloodTextField.text!
-        
-//        saveCategory(child: child)
-       
-        }else{
-//            child.name = nameTextField.text!
-//            child.birthDate = BirthDayTextField.text!
-//            child.gender = genderTextField.text!
-//            child.weight = weightTextField.text!
-//            child.blood = bloodTextField.text!
-//            child.id = idChild
+            addChild()
             
-//            updatePersonalData(child: child)
+        }else{
+//            childPerson.name = nameTextField.text!
+//            childPerson.birthDate = BirthDayTextField.text!
+//            childPerson.gender = genderTextField.text!
+//            childPerson.weight = weightTextField.text!
+//            childPerson.blood = bloodTextField.text!
+//
+            let userEmail = Auth.auth().currentUser?.email
+            let childUpdate : [String : Any] = ["Id": idChild,
+                                                "name": nameTextField.text!,
+                                                "birthDate": BirthDayTextField.text!,
+                                                "gender": genderTextField.text!,
+                                                "weight": weightTextField.text!,
+                                                "blood": bloodTextField.text!,
+                                                "image": childPerson.image,
+                                                "userEmail": userEmail]
+            
+            
+            let childsDictionary = ["Child": childUpdate] as [AnyHashable : Any]
+            ref.child("Childs").child("\(idChild)").updateChildValues(childsDictionary)
+            
+            
+           
         }
         nameTextField.text = ""
         BirthDayTextField.text = ""

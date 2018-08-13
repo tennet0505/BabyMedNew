@@ -28,7 +28,7 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
     var date = ""
     var simptoms = ""
     var treatment = ""
-    var image = ""
+    var image = "BabyMedLogo"
     
 //    var ill = IllModel()
     @IBOutlet weak var buttonEdit: UIBarButtonItem!
@@ -78,19 +78,19 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
   
     
     func getImage(imageName: String){
-       
-        var decodeImage = UIImage()
-        if let decode  = NSData(base64Encoded: imageName, options: .ignoreUnknownCharacters){
         
-            decodeImage = UIImage(data: decode as Data)!
+        var decodeImage = UIImage()
+        if imageName != ""{
+            let decode = NSData(base64Encoded: imageName, options: .ignoreUnknownCharacters)
+            decodeImage = UIImage(data: decode as! Data)!
             imageRecept.image = decodeImage
         }else{
             imageRecept.image = UIImage(named: "BabyMedLogo")
         }
     }
-   
+    
     func dataToNewIllness(illData: IllModel) {
-      
+        
 //        ill = illData
 //        nameIllLabel.text = ill.illName
 //        dateLabel.text = ill.DateIll

@@ -34,7 +34,6 @@ struct IllModel {
 class PersonalViewController: UIViewController, NewChildDataProtocol {
 
     var ref: DatabaseReference?
-    var children = [ChildModel]()
     var name = ""
     var bd = ""
     var gen = ""
@@ -44,7 +43,15 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     var userEmail = ""
     var imageFoto = ""
     var illsArray = [IllModel]()
-    var childArray = [ChildModel]()
+    var child = [ChildModel]()
+    var childPerson: ChildModel = ChildModel(Id: "",
+                                             name: "",
+                                             birthDate: "",
+                                             gender: "",
+                                             blood: "",
+                                             image: "",
+                                             weight: "",
+                                             userEmail: "")
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var birthDayLabel: UILabel!
@@ -60,7 +67,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadIllness()
+        
         getImage(imageName: imageFoto)
         tableView.reloadData()
     }
@@ -68,6 +75,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadIllness()
         nameLabel.text = name
         birthDayLabel.text = bd
         genderLabel.text = gen
@@ -111,17 +119,17 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
             }
         }
         if segue.identifier == "toPersonalForEdit",
+          
             let vc = segue.destination as? NewChildViewController{
-            
-            
-            
-            let child = children[indexPath.row]
-            
-            vc.name = child.name
-            vc.bd =  child.birthDate
-            vc.gen = child.gender
-            vc.weight = child.weight
-            vc.blood = child.blood
+            let child = self.childPerson
+//            vc.name = child.name
+//            vc.bd =  child.birthDate
+//            vc.gen = child.gender
+//            vc.weight = child.weight
+//            vc.image = child.image
+//            vc.blood = child.blood
+            vc.childPerson = child
+            vc.idChild = childPerson.Id
             vc.editValue = 1
             vc.delegate = self
         }

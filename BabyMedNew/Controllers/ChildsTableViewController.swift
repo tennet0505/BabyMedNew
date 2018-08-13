@@ -94,6 +94,7 @@ class ChildsTableViewController: UITableViewController {
         vc.imageFoto = child.image
         vc.uidUser = child.Id
         vc.userEmail = child.userEmail
+        vc.childPerson = child
     
      //   present(vc, animated: true, completion: nil)
         navigationController?.pushViewController(vc, animated: true)
@@ -139,7 +140,6 @@ class ChildsTableViewController: UITableViewController {
     func loadChildsData() {
         
         ref = Database.database().reference()
-
         ref?.child("Childs").observe(.childAdded, with: { snapshot  in
             
             for item in snapshot.children{
@@ -154,9 +154,10 @@ class ChildsTableViewController: UITableViewController {
                 let weight = child["weight"],
                 let userEmail = child["userEmail"],
                 let image = child["image"],
-                let gender = child["gender"]
-                {
+                let gender = child["gender"],
                 let idString =  child["Id"]
+                {
+                
                  
                 self.childArray.insert(ChildModel(Id: idString as? String,
                                                   name: name as? String,
@@ -172,6 +173,7 @@ class ChildsTableViewController: UITableViewController {
                 }
             }
         })
+        
         tableView.reloadData()
         
     }
