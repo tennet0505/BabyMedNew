@@ -106,12 +106,6 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
             addChild()
             
         }else{
-//            childPerson.name = nameTextField.text!
-//            childPerson.birthDate = BirthDayTextField.text!
-//            childPerson.gender = genderTextField.text!
-//            childPerson.weight = weightTextField.text!
-//            childPerson.blood = bloodTextField.text!
-//
             let userEmail = Auth.auth().currentUser?.email
             let childUpdate : [String : Any] = ["Id": idChild,
                                                 "name": nameTextField.text!,
@@ -119,16 +113,25 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
                                                 "gender": genderTextField.text!,
                                                 "weight": weightTextField.text!,
                                                 "blood": bloodTextField.text!,
-                                                "image": imageProfile(),
+                                                "image": imageProfileUpdate(foto: imageTakeFoto.image!),
                                                 "userEmail": userEmail]
-            
             
             let childsDictionary = ["Child": childUpdate] as [AnyHashable : Any]
             ref.child("Childs").child("\(idChild)").updateChildValues(childsDictionary)
             
-            
-           
+            childPerson = ChildModel(Id: idChild,
+                                     name: nameTextField.text!,
+                                     birthDate: BirthDayTextField.text!,
+                                     gender: genderTextField.text!,
+                                     blood: bloodTextField.text!,
+                                     image:  imageProfileUpdate(foto: imageTakeFoto.image!),
+                                     weight: weightTextField.text!,
+                                     userEmail:  userEmail)
         }
+        
+        let newChild = childPerson
+        delegate?.newDataChild(childEdit: newChild)
+        
         nameTextField.text = ""
         BirthDayTextField.text = ""
         genderTextField.text = ""
@@ -139,8 +142,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
 //        saveImage(imageName: "\(child.name)+\(child.birthDate)")
         
 
-//        let newChild = child
-//        delegate?.newDataChild(childEdit: newChild)
+       
         navigationController?.popViewController(animated: true)
        
     }
@@ -322,6 +324,14 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         if let image = imageTakeFoto.image{
             data = UIImageJPEGRepresentation(image, 0.1)! as NSData
         }
+        let base64String = data.base64EncodedString(options: .lineLength64Characters)
+        
+        return base64String ?? "avatar_default"
+    }
+    func imageProfileUpdate(foto: UIImage) -> String{
+        
+        var data :NSData = NSData()
+            data = UIImageJPEGRepresentation(foto, 0.1)! as NSData
         let base64String = data.base64EncodedString(options: .lineLength64Characters)
         
         return base64String ?? "avatar_default"

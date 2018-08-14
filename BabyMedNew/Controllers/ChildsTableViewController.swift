@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 import FirebaseDatabase
 import Firebase
+import SVProgressHUD
 
 struct ChildModel{
     
@@ -53,6 +54,10 @@ class ChildsTableViewController: UITableViewController {
     var childArray = [ChildModel]()
     
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -138,7 +143,7 @@ class ChildsTableViewController: UITableViewController {
     
     
     func loadChildsData() {
-        
+        SVProgressHUD.show()
         ref = Database.database().reference()
         ref?.child("Childs").observe(.childAdded, with: { snapshot  in
             
@@ -172,6 +177,7 @@ class ChildsTableViewController: UITableViewController {
             self.tableView.reloadData()
                 }
             }
+            SVProgressHUD.dismiss()
         })
         
         tableView.reloadData()

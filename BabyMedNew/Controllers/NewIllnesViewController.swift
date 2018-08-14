@@ -34,13 +34,19 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     var delegate: IllnessProtocol?
     var name = ""
     var birthdate = ""
-    var ill = ""
+    var illname = ""
     var date = ""
     var simptom = ""
     var treatment = ""
     var editValue = 0
-    var idIll = NSUUID().uuidString
+    var idIll = ""
     var uidUser = ""
+    var newIll = IllModel(idIll: "",
+                          simptoms: "",
+                          treatment: "",
+                          illName: "",
+                          DateIll: "",
+                          fotoRecept: "")
   
     
     
@@ -71,7 +77,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         
         print(uidUser)
 
-        nameIllTextField.text = ill
+        nameIllTextField.text = illname
         dateTextField.text = date
         simptomsTextView.text = simptom
         treatmentTextView.text = treatment
@@ -97,56 +103,68 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         if let nameIll = nameIllTextField.text,
             let dayIll = dateTextField.text,
             let simptoms = simptomsTextView.text,
-            let treatment = treatmentTextView.text{
-            
-            let illNew : [String : Any] = ["illName": nameIll,
-                                              "DateIll": dayIll,
-                                              "simptoms": simptoms,
-                                              "fotoRecept": imageProfile(),
-                                              "treatment": treatment]
+            let treatment = treatmentTextView.text
+        {
+            let idIll = ref.child("Childs").child(uidUser).child("Ills").childByAutoId().key
+            let illNew : [String : Any] = ["idIll": idIll,
+                                           "illName": nameIll,
+                                           "DateIll": dayIll,
+                                           "simptoms": simptoms,
+                                           "fotoRecept": imageProfile(),
+                                           "treatment": treatment]
             
               let illnessDictionary = ["ill": illNew] as [String : Any]
       //      ref.child("Childs").child("ill").setValue(illNew)  //.childByAutoId().child("Ills").setValue(illNew)
-            ref.child("Childs").child(uidUser).child("Ills").childByAutoId().setValue(illnessDictionary) //updateChildValues(illNew)
+            ref.child("Childs").child(uidUser).child("Ills").child("\(idIll)").setValue(illnessDictionary) //updateChildValues(illNew)
         }
        
     }
  
     @IBAction func buttonEdit(_ sender: UIButton) {
-//        let newIll = IllModel()
         
-//        newIll.illName = nameIllTextField.text!
-//        newIll.DateIll = dateTextField.text!
-//        newIll.simptoms = simptomsTextView.text!
-//        newIll.treatment = treatmentTextView.text!
-//        newIll.id = idIll
-//        updatePerdonalData(ill: newIll)
+        let idIll = ref.child("Childs").child(uidUser).child("Ills").childByAutoId().key
+        newIll.illName = nameIllTextField.text!
+        newIll.DateIll = dateTextField.text!
+        newIll.simptoms = simptomsTextView.text!
+        newIll.treatment = treatmentTextView.text!
+        newIll.idIll = idIll
+        updatePersonalData(ill: newIll)
         
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let vc1 = storyboard.instantiateViewController(withIdentifier: "DescriptionIllViewController") as! DescriptionIllViewController
-//
-//        vc1.nameIll = nameIllTextField.text!
-//        vc1.date = dateTextField.text!
-//        vc1.simptoms = simptomsTextView.text!
-//        vc1.treatment = treatmentTextView.text!
-//       // navigationController?.popViewController(animated: true)
-//     //   navigationController?.pushViewController(vc1, animated: false)
-//        vc1.name = name
-//        vc1.bd = birthdate
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc1 = storyboard.instantiateViewController(withIdentifier: "DescriptionIllViewController") as! DescriptionIllViewController
+
+        vc1.nameIll = nameIllTextField.text!
+        vc1.date = dateTextField.text!
+        vc1.simptoms = simptomsTextView.text!
+        vc1.treatment = treatmentTextView.text!
+       // navigationController?.popViewController(animated: true)
+     //   navigationController?.pushViewController(vc1, animated: false)
+        vc1.name = name
+        vc1.bd = birthdate
 //        saveImage(imageName: "\(newIll.illName)+\(newIll.DateIll)")
-//
-//        let illEdit = newIll
-//        delegate?.dataToNewIllness(illData: illEdit)
+
+        let illEdit = newIll
+        delegate?.dataToNewIllness(illData: illEdit)
         navigationController?.popViewController(animated: true)
     }
     
     
-    func updatePerdonalData(ill: IllModel){
+    func updatePersonalData(ill: IllModel){
         
-//        try! realm.write {
-//            realm.add(ill, update: true)
-//        }
+        let IllUpdate : [String : Any] = ["idIll": idIll,
+                                          "simptoms": simptomsTextView.text,
+                                          "treatment": treatmentTextView.text!,
+                                          "illName": illname,
+                                          "DateIll": dateTextField.text!,
+                                          "fotoRecept": imageProfile()
+        ]
         
+       
+        let IllDictionary = ["ill": IllUpdate] as [AnyHashable : Any]
+        print("idIll: \(idIll)")
+      //  ref.child("Childs").child("\(idChild)").updateChildValues(childsDictionary)
+       ref.child("Childs").child(uidUser).child("Ills").child("\(idIll)").updateChildValues(IllDictionary)
+
         
     }
     

@@ -13,15 +13,16 @@ import Firebase
 
 struct IllModel {
     
-    var illUserID = ChildModel(Id: "")
-    var id = NSUUID().uuidString
+   // var illUserID = ChildModel(Id: "")
+    var idIll = ""
     var simptoms = ""
     var treatment = ""
     var illName = ""
     var DateIll = ""
     var fotoRecept = ""
     
-    init(simptoms: String?, treatment: String?, illName: String?,  DateIll: String?, fotoRecept: String?) {
+    init(idIll: String?, simptoms: String?, treatment: String?, illName: String?,  DateIll: String?, fotoRecept: String?) {
+        self.idIll = idIll!
         self.simptoms = simptoms!
         self.treatment = treatment!
         self.illName = illName!
@@ -68,7 +69,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        getImage(imageName: imageFoto)
+        getImage(imageName: childPerson.image)
         tableView.reloadData()
     }
     
@@ -116,18 +117,15 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
                 vc.name = name
                 vc.image = ill.fotoRecept
                 vc.bd = bd
+                vc.uidUser = uidUser
+                vc.idIll = ill.idIll
+
             }
         }
         if segue.identifier == "toPersonalForEdit",
           
             let vc = segue.destination as? NewChildViewController{
             let child = self.childPerson
-//            vc.name = child.name
-//            vc.bd =  child.birthDate
-//            vc.gen = child.gender
-//            vc.weight = child.weight
-//            vc.image = child.image
-//            vc.blood = child.blood
             vc.childPerson = child
             vc.idChild = childPerson.Id
             vc.editValue = 1
@@ -136,13 +134,13 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     }
     
     func newDataChild(childEdit: ChildModel) {
-//        child = childEdit
-//        nameLabel.text = child.name
-//        birthDayLabel.text = child.birthDate
-//        genderLabel.text = child.gender
-//        weightLabel.text = child.weight
-//        bloodLabel.text = child.blood
-        
+        childPerson = childEdit
+        nameLabel.text = childPerson.name
+        birthDayLabel.text = childPerson.birthDate
+        genderLabel.text = childPerson.gender
+        weightLabel.text = childPerson.weight
+        bloodLabel.text = childPerson.blood
+        getImage(imageName: childPerson.image)
         
     }
     func loadIllness() {
@@ -156,18 +154,20 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
           //      print("ill: \(ill)")
                 
                 if
+                    let idIll = ill["idIll"],
                     let illName = ill["illName"],
                     let DateIll = ill["DateIll"],
                     let simptoms = ill["simptoms"],
                     let treatment = ill["treatment"],
                     let fotoRecept = ill["fotoRecept"]
                 {
-                    let illmodel = IllModel(simptoms: simptoms as? String,
-                                           treatment: treatment as? String,
-                                           illName: illName as? String,
-                                           DateIll: DateIll as? String,
-                                           fotoRecept: fotoRecept as? String
-                                           )
+                    let illmodel = IllModel(idIll: idIll as? String,
+                                            simptoms: simptoms as? String,
+                                            treatment: treatment as? String,
+                                            illName: illName as? String,
+                                            DateIll: DateIll as? String,
+                                            fotoRecept: fotoRecept as? String
+                    )
 
                     self.illsArray.insert(illmodel, at: 0)
 

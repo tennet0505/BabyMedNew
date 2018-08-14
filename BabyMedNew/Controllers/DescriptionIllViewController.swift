@@ -29,8 +29,15 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
     var simptoms = ""
     var treatment = ""
     var image = "BabyMedLogo"
+    var uidUser = ""
+    var idIll = ""
     
-//    var ill = IllModel()
+    var ill = IllModel(idIll: "",
+                       simptoms: "",
+                       treatment: "",
+                       illName: "",
+                       DateIll: "",
+                       fotoRecept: "")
     @IBOutlet weak var buttonEdit: UIBarButtonItem!
   
     override func viewWillAppear(_ animated: Bool) {
@@ -56,16 +63,16 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
         if segue.identifier == "toIllForEdit",
             let vc = segue.destination as? NewIllnesViewController{
             
-//            vc.simptom = ill.simptoms
-//            vc.treatment = ill.treatment
-//            vc.ill = ill.illName
-//            vc.date = ill.DateIll
-//            vc.editValue = 1
-//            vc.idIll = ill.id
-//            vc.name = name
-//            vc.birthdate = date
-//
-//            vc.delegate = self
+            vc.simptom = simptoms
+            vc.treatment = treatment
+            vc.illname = nameIll
+            vc.date = date
+            vc.editValue = 1
+            vc.uidUser = uidUser
+            vc.name = name
+            vc.birthdate = bd
+            vc.idIll = idIll
+            vc.delegate = self
             
         }
        
@@ -91,11 +98,11 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
     
     func dataToNewIllness(illData: IllModel) {
         
-//        ill = illData
-//        nameIllLabel.text = ill.illName
-//        dateLabel.text = ill.DateIll
-//        simptomsTextView.text = ill.simptoms
-//        treatmentTextView.text = ill.treatment
+        ill = illData
+        nameIllLabel.text = ill.illName
+        dateLabel.text = ill.DateIll
+        simptomsTextView.text = ill.simptoms
+        treatmentTextView.text = ill.treatment
     }
     
     
