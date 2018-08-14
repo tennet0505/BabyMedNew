@@ -17,8 +17,9 @@ class ChildTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        imageFoto.layer.cornerRadius  = imageFoto.frame.size.width/2
+        imageFoto.layer.masksToBounds = true
     }
-
 
 }

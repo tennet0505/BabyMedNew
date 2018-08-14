@@ -84,7 +84,6 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         treatmentTextView.text = treatment
       //  getImage(imageName: image)
         
-        
         DatePicker()
         
         

@@ -126,8 +126,13 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cCe-B6-Q4T">
                                 <rect key="frame" x="243" y="70" width="70" height="70"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar_default" translatesAutoresizingMaskIntoConstraints="NO" id="hYH-Ha-i3I">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar_default" translatesAutoresizingMaskIntoConstraints="NO" id="hYH-Ha-i3I">
                                         <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <integer key="value" value="35"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4mM-2A-b2e">
                                         <rect key="frame" x="36" y="36" width="34" height="34"/>
@@ -241,12 +246,17 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar_default" translatesAutoresizingMaskIntoConstraints="NO" id="MEk-tW-kct">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar_default" translatesAutoresizingMaskIntoConstraints="NO" id="MEk-tW-kct">
                                             <rect key="frame" x="10" y="4.5" width="50" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="50" id="GfT-EX-PSO"/>
                                                 <constraint firstAttribute="height" constant="50" id="Rkr-kR-kpT"/>
                                             </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <integer key="value" value="25"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V9l-Y8-JFB">
                                             <rect key="frame" x="75" y="11" width="45" height="21"/>
@@ -334,7 +344,7 @@
                                                 </constraints>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Дата:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PMF-gu-nG0">
                                                 <rect key="frame" x="182.5" y="45" width="129.5" height="30"/>
@@ -879,7 +889,7 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar_default" translatesAutoresizingMaskIntoConstraints="NO" id="VB1-w4-Bpl">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar_default" translatesAutoresizingMaskIntoConstraints="NO" id="VB1-w4-Bpl">
                                 <rect key="frame" x="16" y="120" width="80" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="KQ4-01-jIM"/>
@@ -1046,6 +1056,11 @@
                                     <constraint firstAttribute="width" constant="100" id="ypc-Aj-YKv"/>
                                 </constraints>
                                 <state key="normal" title="Register"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="buttonRegister:" destination="RFm-01-Dxl" eventType="touchUpInside" id="die-8L-fau"/>
                                 </connections>
@@ -1148,6 +1163,11 @@
                                     <constraint firstAttribute="width" constant="100" id="2ed-ZQ-Kop"/>
                                 </constraints>
                                 <state key="normal" title="Sign In"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="buttonSignIn:" destination="G7j-wF-gXY" eventType="touchUpInside" id="tEh-D4-3sv"/>
                                 </connections>
@@ -1306,8 +1326,8 @@
         <image name="plus" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="kO7-Br-sSi"/>
-        <segue reference="TB1-gC-6No"/>
-        <segue reference="r7J-Z4-fTT"/>
+        <segue reference="Kts-0q-Eti"/>
+        <segue reference="4ah-Uw-DPg"/>
+        <segue reference="FyQ-gb-QDc"/>
     </inferredMetricsTieBreakers>
 </document>

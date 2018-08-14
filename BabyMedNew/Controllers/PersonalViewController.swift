@@ -199,10 +199,14 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         let decodeImage = UIImage(data: decode! as Data)
         fotoImage.image = decodeImage
     }
-  
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        fotoImage.layer.cornerRadius  = fotoImage.frame.size.width/2
+        fotoImage.layer.masksToBounds = true
+    }
     
-   
 }
 extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
     

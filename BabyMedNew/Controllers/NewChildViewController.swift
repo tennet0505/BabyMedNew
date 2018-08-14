@@ -341,7 +341,12 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         }
         return decodeImage
     }
-    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        imageTakeFoto.layer.cornerRadius  = imageTakeFoto.frame.size.width/2
+        imageTakeFoto.layer.masksToBounds = true
+    }
     
 
     
