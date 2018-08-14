@@ -182,6 +182,7 @@ class ChildsTableViewController: UITableViewController {
         tableView.reloadData()
         
     }
+    
 
     func getImage(imageName: String) -> UIImage{
         

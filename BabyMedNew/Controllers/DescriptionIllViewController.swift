@@ -7,6 +7,10 @@
 //
 
 import UIKit
+import FirebaseDatabase
+import Firebase
+import FirebaseAuth
+import FirebaseStorage
 
 class DescriptionIllViewController: UIViewController, IllnessProtocol  {
    
@@ -43,7 +47,8 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
         super.viewWillAppear(animated)
         nameLabel.text = name
         birthDayLabel.text = bd
-        getImage(imageName: image)
+      //  getImage(imageName: image)
+        refreshProfileImage()
     }
     
     override func viewDidLoad() {
@@ -55,7 +60,7 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
         dateLabel.text = date
         simptomsTextView.text = simptoms
         treatmentTextView.text = treatment
-        getImage(imageName: image)
+       // getImage(imageName: image)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -104,7 +109,18 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
         treatmentTextView.text = ill.treatment
     }
     
-    
-    
-
+    func refreshProfileImage(){
+       
+        let store = Storage.storage()
+        let storeRef = store.reference().child("Childs").child(uidUser).child("Ills").child("\(idIll)/images/profile_photo.jpg")
+        print(storeRef)
+        storeRef.getData(maxSize: 15 * 1024 * 1024) { data, error in
+            if let error = error {
+                print("error: \(error.localizedDescription)")
+            } else {
+                let image = UIImage(data: data!)
+                self.imageRecept.image = image
+            }
+        }
+    }
 }

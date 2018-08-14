@@ -10,6 +10,7 @@ import UIKit
 import AVKit
 import FirebaseDatabase
 import FirebaseAuth
+import FirebaseStorage
 
 
 protocol IllnessProtocol {
@@ -81,7 +82,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         dateTextField.text = date
         simptomsTextView.text = simptom
         treatmentTextView.text = treatment
-        getImage(imageName: image)
+      //  getImage(imageName: image)
         
         
         DatePicker()
@@ -111,14 +112,14 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
                                            "illName": nameIll,
                                            "DateIll": dayIll,
                                            "simptoms": simptoms,
-                                           "fotoRecept": imageProfile(),
+                                           "fotoRecept": "foto test",//imageProfile(),
                                            "treatment": treatment]
             
-              let illnessDictionary = ["ill": illNew] as [String : Any]
-      //      ref.child("Childs").child("ill").setValue(illNew)  //.childByAutoId().child("Ills").setValue(illNew)
-            ref.child("Childs").child(uidUser).child("Ills").child("\(idIll)").setValue(illnessDictionary) //updateChildValues(illNew)
+            let illnessDictionary = ["ill": illNew] as [String : Any]
+            
+            ref.child("Childs").child(uidUser).child("Ills").child("\(idIll)").setValue(illnessDictionary)
         }
-       
+        
     }
  
     @IBAction func buttonEdit(_ sender: UIButton) {
@@ -138,11 +139,10 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         vc1.date = dateTextField.text!
         vc1.simptoms = simptomsTextView.text!
         vc1.treatment = treatmentTextView.text!
-       // navigationController?.popViewController(animated: true)
-     //   navigationController?.pushViewController(vc1, animated: false)
+       
         vc1.name = name
         vc1.bd = birthdate
-//        saveImage(imageName: "\(newIll.illName)+\(newIll.DateIll)")
+
 
         let illEdit = newIll
         delegate?.dataToNewIllness(illData: illEdit)
@@ -157,7 +157,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
                                           "treatment": treatmentTextView.text!,
                                           "illName": illname,
                                           "DateIll": dateTextField.text!,
-                                          "fotoRecept":  imageProfileUpdate(foto: imageRecept.image!)
+                                          "fotoRecept": "foto test"//imageProfileUpdate(foto: imageRecept.image!)
         ]
         
        
@@ -304,7 +304,26 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         }
         else if let img = info[UIImagePickerControllerOriginalImage] as? UIImage
         {
-            imageRecept.image = img
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+            
+            let imageData: Data = UIImageJPEGRepresentation(img, 0.1)!
+  
+            let store = Storage.storage()
+            let user = Auth.auth().currentUser
+            if let user = user{
+                print(idIll)
+                let storeRef = store.reference().child("Childs").child(uidUser).child("Ills").child("\(idIll)").child("images/profile_photo.jpg")
+                let _ = storeRef.putData(imageData, metadata: metadata) { (metadata, error) in
+                    guard let _ = metadata else {
+                        print("error occurred: \(error.debugDescription)")
+                        return
+                    }
+                    self.imageRecept.image = img
+                }
+                
+            }
+
         }
         
         picker.dismiss(animated: true,completion: nil)

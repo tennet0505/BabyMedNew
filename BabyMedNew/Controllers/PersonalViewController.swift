@@ -199,6 +199,8 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         let decodeImage = UIImage(data: decode! as Data)
         fotoImage.image = decodeImage
     }
+  
+    
     
    
 }

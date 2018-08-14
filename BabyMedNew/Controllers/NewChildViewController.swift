@@ -31,13 +31,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     var idChild = NSUUID().uuidString
     var editValue = 0
     @IBOutlet weak var imageTakeFoto: UIImageView!
-    
-//    var image = ""
-//    var name = ""
-//    var bd = ""
-//    var gen = ""
-//    var weight = ""
-//    var blood = ""
+
     var delegate: NewChildDataProtocol?
     var illarray = [IllModel]()
     var childPerson: ChildModel = ChildModel(Id: "",
@@ -304,7 +298,8 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         }
         else if let img = info[UIImagePickerControllerOriginalImage] as? UIImage
         {
-            imageTakeFoto.image = img
+            imageTakeFoto.image = img////////////////
+            
         }
         
         picker.dismiss(animated: true,completion: nil)
@@ -346,6 +341,8 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         }
         return decodeImage
     }
+    
+    
 
     
     func getDocumentsDirectory() -> NSString {
