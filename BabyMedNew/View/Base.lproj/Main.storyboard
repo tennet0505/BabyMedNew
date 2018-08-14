@@ -424,7 +424,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XKK-ZW-JoX">
                                                 <rect key="frame" x="15" y="496" width="289" height="204"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qd3-uN-zYT">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qd3-uN-zYT">
                                                         <rect key="frame" x="0.0" y="0.0" width="289" height="204"/>
                                                         <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </imageView>
@@ -1090,6 +1090,11 @@
                                 <state key="normal" title="Log in">
                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="G7j-wF-gXY" kind="show" identifier="toAuthSegue" id="nBW-lb-ecC"/>
                                 </connections>
@@ -1103,6 +1108,11 @@
                                 <state key="normal" title="Register">
                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="RFm-01-Dxl" kind="show" identifier="toRegSegue" id="xrC-XV-f2Q"/>
                                 </connections>
@@ -1297,7 +1307,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="kO7-Br-sSi"/>
-        <segue reference="4ah-Uw-DPg"/>
+        <segue reference="TB1-gC-6No"/>
         <segue reference="r7J-Z4-fTT"/>
     </inferredMetricsTieBreakers>
 </document>

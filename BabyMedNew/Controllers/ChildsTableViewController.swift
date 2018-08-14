@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RealmSwift
 import FirebaseDatabase
 import Firebase
 import SVProgressHUD

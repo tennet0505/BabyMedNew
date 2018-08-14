@@ -7,9 +7,9 @@
 //
 
 import UIKit
-import RealmSwift
 import FirebaseAuth
 import Firebase
+import FirebaseStorage
 
 struct IllModel {
     

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RealmSwift
 import AVKit
 import FirebaseDatabase
 import FirebaseAuth
@@ -41,6 +40,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     var editValue = 0
     var idIll = ""
     var uidUser = ""
+    var image = ""
     var newIll = IllModel(idIll: "",
                           simptoms: "",
                           treatment: "",
@@ -81,6 +81,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         dateTextField.text = date
         simptomsTextView.text = simptom
         treatmentTextView.text = treatment
+        getImage(imageName: image)
         
         
         DatePicker()
@@ -156,7 +157,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
                                           "treatment": treatmentTextView.text!,
                                           "illName": illname,
                                           "DateIll": dateTextField.text!,
-                                          "fotoRecept": imageProfile()
+                                          "fotoRecept":  imageProfileUpdate(foto: imageRecept.image!)
         ]
         
        
@@ -282,6 +283,14 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         
         return base64String ?? "BabyMedLogo"
     }
+    func imageProfileUpdate(foto: UIImage) -> String{
+        
+        var data :NSData = NSData()
+        data = UIImageJPEGRepresentation(foto, 0.1)! as NSData
+        let base64String = data.base64EncodedString(options: .lineLength64Characters)
+        
+        return base64String ?? "avatar_default"
+    }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
@@ -321,13 +330,13 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     
     func getImage(imageName: String){
         
-        
-        let fileManager = FileManager.default
-        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
-        if fileManager.fileExists(atPath: imagePath){
-            imageRecept.image = UIImage(contentsOfFile: imagePath)
+        var decodeImage = UIImage()
+        if imageName != ""{
+            let decode = NSData(base64Encoded: imageName, options: .ignoreUnknownCharacters)
+            decodeImage = UIImage(data: decode as! Data)!
+            imageRecept.image = decodeImage
         }else{
-            print("Panic! No Image!")
+            imageRecept.image = UIImage(named: "BabyMedLogo")
         }
     }
     

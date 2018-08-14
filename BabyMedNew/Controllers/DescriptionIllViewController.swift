@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RealmSwift
 
 class DescriptionIllViewController: UIViewController, IllnessProtocol  {
    
@@ -62,7 +61,7 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
         
         if segue.identifier == "toIllForEdit",
             let vc = segue.destination as? NewIllnesViewController{
-            
+            vc.image = image
             vc.simptom = simptoms
             vc.treatment = treatment
             vc.illname = nameIll

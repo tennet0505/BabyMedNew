@@ -7,10 +7,11 @@
 //
 
 import UIKit
-import RealmSwift
 import AVKit
 import FirebaseDatabase
 import Firebase
+import FirebaseAuth
+import FirebaseStorage
 
 protocol NewChildDataProtocol {
     func newDataChild(childEdit: ChildModel)

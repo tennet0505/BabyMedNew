@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreData
-import RealmSwift
 import IQKeyboardManagerSwift
 import Firebase
 
@@ -25,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                let myDatabase = Database.database().reference()
 //                myDatabase.setValue("We've got data!")
         IQKeyboardManager.shared.enable = true
-        print(Realm.Configuration.defaultConfiguration.fileURL)
 
         return true
     }
