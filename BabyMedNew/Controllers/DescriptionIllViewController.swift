@@ -12,7 +12,7 @@ import Firebase
 import FirebaseAuth
 import FirebaseStorage
 
-class DescriptionIllViewController: UIViewController, IllnessProtocol  {
+class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollViewDelegate  {
    
 //    let realm = try! Realm()
 //    var childsArray : Results<ChildModel>!
@@ -24,7 +24,7 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var simptomsTextView: UITextView!
     @IBOutlet weak var treatmentTextView: UITextView!
-    
+    @IBOutlet weak var scrollView: UIScrollView!
     var name = ""
     var bd = ""
     var nameIll = ""
@@ -54,6 +54,8 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.scrollView.minimumZoomScale = 1.0
+        self.scrollView.maximumZoomScale = 5.0
         nameLabel.text = name
         birthDayLabel.text = bd
         nameIllLabel.text = nameIll
@@ -93,7 +95,7 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
         var decodeImage = UIImage()
         if imageName != ""{
             let decode = NSData(base64Encoded: imageName, options: .ignoreUnknownCharacters)
-            decodeImage = UIImage(data: decode as! Data)!
+            decodeImage = UIImage(data: decode! as Data)!
             imageRecept.image = decodeImage
         }else{
             imageRecept.image = UIImage(named: "BabyMedLogo")
@@ -122,5 +124,8 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol  {
                 self.imageRecept.image = image
             }
         }
+    }
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return imageRecept
     }
 }
