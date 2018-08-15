@@ -32,6 +32,8 @@ class AuthViewController: UIViewController {
             }else{
                 SVProgressHUD.dismiss()
                 print("logIn successful")
+                let emailString = self.mailTextField.text!
+                UserDefaults.standard.set(emailString, forKey: "email")
                 
                 self.performSegue(withIdentifier: "goToBabyMed", sender: self)
             }

@@ -23,6 +23,7 @@ struct ChildModel{
     var userEmail = ""
     var ills = [IllModel]()
     
+    
     init(Id: String?, name: String?, birthDate: String?,  gender: String?, blood: String?, image: String?, weight: String?, userEmail: String?) {
         self.Id = Id!
         self.name = name!
@@ -51,7 +52,7 @@ class ChildsTableViewController: UITableViewController {
 
     var ArrayChild =  [DataSnapshot]()
     var childArray = [ChildModel]()
-    
+    var emailUD = ""
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -62,6 +63,10 @@ class ChildsTableViewController: UITableViewController {
         super.viewDidLoad()
        
         loadChildsData()
+        if let mail = UserDefaults.standard.value(forKeyPath: "email") as? String {
+        emailUD = mail
+            
+        }
 
     }
    
@@ -166,8 +171,7 @@ class ChildsTableViewController: UITableViewController {
                 let gender = child["gender"],
                 let idString =  child["Id"]
                 {
-                
-                 
+                    if self.emailUD == userEmail as! String{
                 self.childArray.insert(ChildModel(Id: idString as? String,
                                                   name: name as? String,
                                                   birthDate: birthDay as? String,
@@ -179,6 +183,8 @@ class ChildsTableViewController: UITableViewController {
 
               
             self.tableView.reloadData()
+                    }
+                    
                 }
             }
             SVProgressHUD.dismiss()
