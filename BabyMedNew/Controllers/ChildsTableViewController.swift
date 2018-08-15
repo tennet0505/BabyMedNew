@@ -65,8 +65,9 @@ class ChildsTableViewController: UITableViewController {
         loadChildsData()
         if let mail = UserDefaults.standard.value(forKeyPath: "email") as? String {
         emailUD = mail
-            
         }
+        navigationController?.navigationBar.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        
 
     }
    

@@ -25,6 +25,9 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
     @IBOutlet weak var simptomsTextView: UITextView!
     @IBOutlet weak var treatmentTextView: UITextView!
     @IBOutlet weak var scrollView: UIScrollView!
+    
+    @IBOutlet weak var hightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var ImageView: UIView!
     var name = ""
     var bd = ""
     var nameIll = ""
@@ -47,7 +50,7 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
         super.viewWillAppear(animated)
         nameLabel.text = name
         birthDayLabel.text = bd
-      //  getImage(imageName: image)
+        hightConstraint.constant = 0
         refreshProfileImage()
     }
     
@@ -62,6 +65,7 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
         dateLabel.text = date
         simptomsTextView.text = simptoms
         treatmentTextView.text = treatment
+        
        // getImage(imageName: image)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -127,7 +131,9 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
         storeRef.getData(maxSize: 15 * 1024 * 1024) { data, error in
             if let error = error {
                 print("error: \(error.localizedDescription)")
+               self.hightConstraint.constant = 0
             } else {
+                self.hightConstraint.constant = 204
                 let image = UIImage(data: data!)
                 self.imageRecept.image = image
             }
