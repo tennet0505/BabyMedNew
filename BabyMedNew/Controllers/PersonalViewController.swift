@@ -245,11 +245,13 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
         
         if editingStyle == .delete {
             print("Deleted")
+            ref = Database.database().reference()
+            let id = illsArray[indexPath.row].idIll
             
-
-            
+            ref?.child("Childs").child(uidUser).child("Ills").child("\(id)").removeValue()
+            illsArray.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }
-        self.tableView.deleteRows(at: [indexPath], with: .automatic)
     }
     
 }

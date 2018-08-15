@@ -131,13 +131,18 @@ class ChildsTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        
-        ref = Database.database().reference()
+      
+       
         if editingStyle == .delete {
             print("Deleted")
-      
+            ref = Database.database().reference()
+            let id = childArray[indexPath.row].Id
+            
+            ref?.child("Childs").child("\(id)").removeValue()
+            childArray.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }
-        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+       
     }
     
     
