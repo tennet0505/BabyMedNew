@@ -24,9 +24,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                let myDatabase = Database.database().reference()
 //                myDatabase.setValue("We've got data!")
         IQKeyboardManager.shared.enable = true
-
+        setRootViewController()
         return true
     }
+    func setRootViewController() {
+        if Auth.auth().currentUser != nil {
+            let storyboard =  UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "NavigationRootViewController") as! NavigationRootViewController
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.window?.rootViewController = vc
+            
+        } else {
+            let storyboard =  UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "LoginNavigationViewController") as! LoginNavigationViewController
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.window?.rootViewController = vc
+            
+        }
+    }
+
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

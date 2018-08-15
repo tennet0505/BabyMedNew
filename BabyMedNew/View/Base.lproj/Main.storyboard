@@ -159,9 +159,10 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ede-um-6Gq">
-                                <rect key="frame" x="47.5" y="504" width="225" height="30"/>
+                                <rect key="frame" x="47.5" y="504" width="225" height="50"/>
                                 <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="59w-2f-mp9"/>
                                     <constraint firstAttribute="width" constant="225" id="Edi-RW-RQI"/>
                                 </constraints>
                                 <state key="normal" title="Сохранить">
@@ -221,7 +222,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j2b-ZM-TF9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3403.125" y="-448.94366197183098"/>
+            <point key="canvasLocation" x="4400.625" y="-448.94366197183098"/>
         </scene>
         <!--Дети-->
         <scene sceneID="xdc-MJ-7Z4">
@@ -306,7 +307,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i4X-bc-brx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3403.125" y="479.57746478873241"/>
+            <point key="canvasLocation" x="4400.625" y="479.57746478873241"/>
         </scene>
         <!--New Illnes View Controller-->
         <scene sceneID="voc-r9-ENI">
@@ -526,7 +527,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iog-UI-4PV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6873.75" y="-450"/>
+            <point key="canvasLocation" x="7871.25" y="-450"/>
         </scene>
         <!--Title-->
         <scene sceneID="LRo-nu-TBm">
@@ -816,7 +817,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZMG-IY-Tlr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6874" y="510"/>
+            <point key="canvasLocation" x="7871.25" y="509.15492957746477"/>
         </scene>
         <!--Image Zoom View Controller-->
         <scene sceneID="jbn-Se-8zv">
@@ -846,10 +847,10 @@
                                 </connections>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W7u-p5-drc">
-                                <rect key="frame" x="255" y="99" width="30" height="30"/>
+                                <rect key="frame" x="255" y="79" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="AQ7-l1-BTA"/>
-                                    <constraint firstAttribute="width" constant="30" id="xmf-l0-QdC"/>
+                                    <constraint firstAttribute="height" constant="50" id="AQ7-l1-BTA"/>
+                                    <constraint firstAttribute="width" constant="50" id="xmf-l0-QdC"/>
                                 </constraints>
                                 <state key="normal" image="close"/>
                                 <connections>
@@ -860,9 +861,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="o25-oJ-tgz" firstAttribute="bottom" secondItem="00D-hD-N5T" secondAttribute="bottom" id="BGv-lB-8Js"/>
-                            <constraint firstItem="00D-hD-N5T" firstAttribute="trailing" secondItem="W7u-p5-drc" secondAttribute="trailing" constant="35" id="Chh-32-aNd"/>
+                            <constraint firstItem="00D-hD-N5T" firstAttribute="trailing" secondItem="W7u-p5-drc" secondAttribute="trailing" constant="15" id="Chh-32-aNd"/>
                             <constraint firstItem="o25-oJ-tgz" firstAttribute="leading" secondItem="00D-hD-N5T" secondAttribute="leading" id="YFv-eC-HkP"/>
-                            <constraint firstItem="W7u-p5-drc" firstAttribute="top" secondItem="00D-hD-N5T" secondAttribute="top" constant="35" id="abp-2w-2N5"/>
+                            <constraint firstItem="W7u-p5-drc" firstAttribute="top" secondItem="00D-hD-N5T" secondAttribute="top" constant="15" id="abp-2w-2N5"/>
                             <constraint firstItem="o25-oJ-tgz" firstAttribute="top" secondItem="Ncs-0j-FQd" secondAttribute="top" id="s3t-HM-s4Y"/>
                             <constraint firstItem="o25-oJ-tgz" firstAttribute="trailing" secondItem="00D-hD-N5T" secondAttribute="trailing" id="sI0-OW-8IR"/>
                         </constraints>
@@ -875,7 +876,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BaD-5V-JbL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7879" y="533"/>
+            <point key="canvasLocation" x="8876.25" y="532.3943661971831"/>
         </scene>
         <!--Ребенок-->
         <scene sceneID="NdH-rK-8aO">
@@ -1120,7 +1121,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sit-Dz-XEI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6045" y="-43.309859154929576"/>
+            <point key="canvasLocation" x="7042.5" y="-43.309859154929576"/>
         </scene>
         <!--Register View Controller-->
         <scene sceneID="kkc-AI-kPe">
@@ -1149,9 +1150,10 @@
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES" textContentType="password"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EFB-4v-s8c">
-                                <rect key="frame" x="48" y="342" width="225" height="30"/>
+                                <rect key="frame" x="48" y="342" width="225" height="50"/>
                                 <color key="backgroundColor" red="0.45009386540000001" green="0.98132258650000004" blue="0.4743030667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="KDg-jE-JTd"/>
                                     <constraint firstAttribute="width" constant="225" id="ypc-Aj-YKv"/>
                                 </constraints>
                                 <state key="normal" title="Регистрация"/>
@@ -1192,7 +1194,7 @@
                         <outlet property="confirmPassTextField" destination="gN4-Lj-gO3" id="ha1-ic-i23"/>
                         <outlet property="mailTextField" destination="waK-Yf-krI" id="O7M-H8-cDJ"/>
                         <outlet property="passwordTextField" destination="Wvy-Uf-e9c" id="89n-jy-2Eo"/>
-                        <segue destination="NyW-ju-O8X" kind="show" id="Kts-0q-Eti"/>
+                        <segue destination="TWb-0v-yv6" kind="show" id="Kts-0q-Eti"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Xi-vh-yU8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1208,10 +1210,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Hx-oJ-VX3">
-                                <rect key="frame" x="47.5" y="237" width="225" height="30"/>
+                                <rect key="frame" x="47.5" y="237" width="225" height="50"/>
                                 <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="225" id="TBK-lg-z0B"/>
+                                    <constraint firstAttribute="height" constant="50" id="zRI-op-ih2"/>
                                 </constraints>
                                 <state key="normal" title="Войти">
                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1226,9 +1229,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4cq-OO-Deu">
-                                <rect key="frame" x="48" y="313" width="225" height="30"/>
+                                <rect key="frame" x="48" y="333" width="225" height="50"/>
                                 <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="22d-bi-NgU"/>
                                     <constraint firstAttribute="width" constant="225" id="ptm-9C-ltR"/>
                                 </constraints>
                                 <state key="normal" title="Зарегистрироваться">
@@ -1268,10 +1272,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v7L-cp-2cJ">
-                                <rect key="frame" x="47.5" y="342" width="225" height="30"/>
+                                <rect key="frame" x="47.5" y="342" width="225" height="50"/>
                                 <color key="backgroundColor" red="0.45009386540000001" green="0.98132258650000004" blue="0.4743030667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="225" id="2ed-ZQ-Kop"/>
+                                    <constraint firstAttribute="height" constant="50" id="A3q-yQ-5iV"/>
                                 </constraints>
                                 <state key="normal" title="Войти"/>
                                 <userDefinedRuntimeAttributes>
@@ -1317,7 +1322,7 @@
                         <outlet property="buttonSignIn" destination="v7L-cp-2cJ" id="aUJ-hJ-c96"/>
                         <outlet property="mailTextField" destination="3QT-Cl-7mI" id="lhX-J1-CJY"/>
                         <outlet property="passwordTextField" destination="czb-yN-fME" id="s0R-qz-yza"/>
-                        <segue destination="NyW-ju-O8X" kind="show" identifier="goToBabyMed" id="kO7-Br-sSi"/>
+                        <segue destination="TWb-0v-yv6" kind="show" identifier="goToBabyMed" id="kO7-Br-sSi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qdB-Fb-iuN" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1327,16 +1332,16 @@
         <!--Main View Controller-->
         <scene sceneID="i4m-Tf-f0H">
             <objects>
-                <viewController id="NyW-ju-O8X" customClass="MainViewController" customModule="BabyMedNew" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="NyW-ju-O8X" customClass="MainViewController" customModule="BabyMedNew" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ptn-RL-1do">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LM2-6h-9ye">
-                                <rect key="frame" x="47.5" y="316" width="225" height="60"/>
+                                <rect key="frame" x="47.5" y="336" width="225" height="50"/>
                                 <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="e3S-ic-3LH"/>
+                                    <constraint firstAttribute="height" constant="50" id="e3S-ic-3LH"/>
                                     <constraint firstAttribute="width" constant="225" id="qN4-BL-9Zt"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -1353,11 +1358,11 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rDb-3B-GSD">
-                                <rect key="frame" x="47.5" y="416" width="225" height="60"/>
+                                <rect key="frame" x="47.5" y="426" width="225" height="50"/>
                                 <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="225" id="J6j-O6-UuL"/>
-                                    <constraint firstAttribute="height" constant="60" id="iB2-xr-3Ak"/>
+                                    <constraint firstAttribute="height" constant="50" id="iB2-xr-3Ak"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Все дети">
@@ -1392,7 +1397,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mZI-2B-hlc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2561.25" y="-43.309859154929576"/>
+            <point key="canvasLocation" x="3558.75" y="-43.309859154929576"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Wmp-FE-dW9">
@@ -1410,12 +1415,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tYh-xc-1J2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5047.5" y="-43.309859154929576"/>
+            <point key="canvasLocation" x="6045" y="-43.309859154929576"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Login Navigation View Controller-->
         <scene sceneID="SCw-3t-Ek7">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Wbj-Ag-DJ3" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="LoginNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="Wbj-Ag-DJ3" customClass="LoginNavigationViewController" customModule="BabyMedNew" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="qFQ-ZT-KWp">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
@@ -1430,6 +1435,24 @@
             </objects>
             <point key="canvasLocation" x="-331.875" y="-68.661971830985919"/>
         </scene>
+        <!--Navigation Root View Controller-->
+        <scene sceneID="DxX-8r-B5B">
+            <objects>
+                <navigationController storyboardIdentifier="NavigationRootViewController" automaticallyAdjustsScrollViewInsets="NO" id="TWb-0v-yv6" customClass="NavigationRootViewController" customModule="BabyMedNew" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5pz-Pa-O47">
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="NyW-ju-O8X" kind="relationship" relationship="rootViewController" id="DXb-8m-Inz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KMG-ai-VSo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2561.25" y="-43.309859154929576"/>
+        </scene>
     </scenes>
     <resources>
         <image name="avatar_default" width="80" height="80"/>
@@ -1438,7 +1461,7 @@
         <image name="plus" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="kO7-Br-sSi"/>
+        <segue reference="Kts-0q-Eti"/>
         <segue reference="TB1-gC-6No"/>
         <segue reference="A41-WS-IVh"/>
     </inferredMetricsTieBreakers>
