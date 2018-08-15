@@ -16,7 +16,7 @@ import FirebaseStorage
 protocol NewChildDataProtocol {
     func newDataChild(childEdit: ChildModel)
 }
-class NewChildViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class NewChildViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
     var ref: DatabaseReference!
     
@@ -47,6 +47,12 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        nameTextField.delegate = self
+        BirthDayTextField.delegate = self
+        genderTextField.delegate = self
+        weightTextField.delegate = self
+        bloodTextField.delegate = self
+        
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         ref = Database.database().reference()
         
@@ -356,6 +362,24 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         let documentsDirectory = paths[0]
         //print("Path: \(documentsDirectory)")
         return documentsDirectory as NSString
+    }
+    
+    func textFieldShouldBeginEditing (_ textField: UITextField) -> Bool {
+        
+        textField.layer.borderColor = #colorLiteral(red: 0.9647058824, green: 0.5294117647, blue: 0.007843137255, alpha: 1)
+        textField.layer.masksToBounds = true
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 5
+        textField.tintColor = #colorLiteral(red: 0.9647058824, green: 0.5294117647, blue: 0.007843137255, alpha: 1)
+        return true
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        textField.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        textField.layer.masksToBounds = true
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 5
+        textField.tintColor = #colorLiteral(red: 0.9647058824, green: 0.5294117647, blue: 0.007843137255, alpha: 1)
     }
 
 }

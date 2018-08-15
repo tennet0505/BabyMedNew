@@ -11,7 +11,7 @@ import Firebase
 import SVProgressHUD
 
 
-class RegisterViewController: UIViewController {
+class RegisterViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var mailTextField: UITextField!
     
@@ -21,6 +21,11 @@ class RegisterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        confirmPassTextField.delegate = self
+        passwordTextField.delegate = self
+        mailTextField.delegate = self
+        
 
     }
     @IBAction func buttonRegister(_ sender: UIButton) {
@@ -56,7 +61,23 @@ class RegisterViewController: UIViewController {
             
         }
     }
-    
+    func textFieldShouldBeginEditing (_ textField: UITextField) -> Bool {
+        
+        textField.layer.borderColor = #colorLiteral(red: 0.9647058824, green: 0.5294117647, blue: 0.007843137255, alpha: 1)
+        textField.layer.masksToBounds = true
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 5
+        textField.tintColor = #colorLiteral(red: 0.9647058824, green: 0.5294117647, blue: 0.007843137255, alpha: 1)
+        return true
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        textField.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        textField.layer.masksToBounds = true
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 5
+        textField.tintColor = #colorLiteral(red: 0.9647058824, green: 0.5294117647, blue: 0.007843137255, alpha: 1)
+    }
    
     
 
