@@ -16,7 +16,24 @@ import FirebaseStorage
 protocol NewChildDataProtocol {
     func newDataChild(childEdit: ChildModel)
 }
-class NewChildViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class NewChildViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+   
+    var bloodTypeArray = ["Группа I+","Группа I-","Группа II+","Группа II-","Группа III+","Группа III-","Группа IV+","Группа IV-"]
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return bloodTypeArray.count
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return bloodTypeArray[row]
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        bloodTextField.text = bloodTypeArray[row]
+    }
+    
 
     var ref: DatabaseReference!
     
@@ -26,6 +43,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     @IBOutlet weak var weightTextField: UITextField!
     @IBOutlet weak var bloodTextField: UITextField!
   
+    let pickerView = UIPickerView()
     let picker = UIDatePicker()
     var birthDayString = ""
     var idChild = NSUUID().uuidString
@@ -47,6 +65,9 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        bloodTextField.inputView = pickerView
         nameTextField.delegate = self
         BirthDayTextField.delegate = self
         genderTextField.delegate = self
@@ -158,6 +179,11 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         
         var components = DateComponents()
         components.year = -70
+        
+        components.year = 0
+        let maxDate = Calendar.current.date(byAdding: components , to: Date())
+        
+        picker.maximumDate = maxDate
  
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
@@ -181,6 +207,8 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         dateFormater.dateFormat = "dd MMMM yyyy"///////////change date format
         dateFormater.locale = Locale(identifier: "RU_ru")
         BirthDayTextField.text = dateFormater.string(from: picker.date)
+     
+       
         
         dateFormater1.dateFormat = "yyyy.MM.dd"///////////change date format
         
@@ -271,7 +299,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
             
         }))
        
-        actionTap.addAction(UIAlertAction(title: "FotoGallery", style: .default, handler: {(action:UIAlertAction) in
+        actionTap.addAction(UIAlertAction(title: "Фото альбом", style: .default, handler: {(action:UIAlertAction) in
             imagePickerController.sourceType = .photoLibrary
             self.present(imagePickerController, animated: true, completion: nil)
             

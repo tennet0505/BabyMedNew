@@ -11,43 +11,44 @@ import FirebaseDatabase
 import Firebase
 import SVProgressHUD
 
-struct ChildModel{
-    
-    var Id = ""
-    var name = ""
-    var birthDate = ""
-    var gender = ""
-    var blood = ""
-    var weight = ""
-    var image = String()
-    var userEmail = ""
-    var ills = [IllModel]()
-    
-    
-    init(Id: String?, name: String?, birthDate: String?,  gender: String?, blood: String?, image: String?, weight: String?, userEmail: String?) {
-        self.Id = Id!
-        self.name = name!
-        self.birthDate = birthDate!
-        self.gender = gender!
-        self.blood = blood!
-        self.image = image!
-        self.weight = weight!
-        self.userEmail = userEmail!
-       // self.ills = ills!
-    }
-    init(Id: String?) {
-        self.Id = Id!
-    }
-   
-    init(ill: [IllModel]?) {
-        self.ills = ill!
-    }
-    
-}
+//struct ChildModel{
+//
+//    var Id = ""
+//    var name = ""
+//    var birthDate = ""
+//    var gender = ""
+//    var blood = ""
+//    var weight = ""
+//    var image = String()
+//    var userEmail = ""
+//    var ills = [IllModel]()
+//
+//
+//    init(Id: String?, name: String?, birthDate: String?,  gender: String?, blood: String?, image: String?, weight: String?, userEmail: String?) {
+//        self.Id = Id!
+//        self.name = name!
+//        self.birthDate = birthDate!
+//        self.gender = gender!
+//        self.blood = blood!
+//        self.image = image!
+//        self.weight = weight!
+//        self.userEmail = userEmail!
+//       // self.ills = ills!
+//    }
+//    init(Id: String?) {
+//        self.Id = Id!
+//    }
+//
+//    init(ill: [IllModel]?) {
+//        self.ills = ill!
+//    }
+//
+//}
 
 
 class ChildsTableViewController: UITableViewController {
 
+  
     var ref: DatabaseReference?
 
     var ArrayChild =  [DataSnapshot]()
@@ -105,37 +106,11 @@ class ChildsTableViewController: UITableViewController {
         vc.uidUser = child.Id
         vc.userEmail = child.userEmail
         vc.childPerson = child
-    
-     //   present(vc, animated: true, completion: nil)
+  
         navigationController?.pushViewController(vc, animated: true)
-
-        
-     //   performSegue(withIdentifier: "ToPersonal", sender: self)
 
     }
 
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//
-//        let vc = segue.destination as! PersonalViewController
-//
-//        if let indexPath = tableView.indexPathForSelectedRow{
-//
-//            let child = childsArray[indexPath.row]
-//
-//            vc.name = child.name
-//            vc.bd = child.birthDate
-//            vc.blood = child.blood
-//            vc.weight = child.weight
-//            vc.gen = child.gender
-//            vc.indexPath = indexPath
-//
-//           // vc.selectedCategory = childsArray?[indexPath.row]
-//        }
-//
-//
-//    }
-    
-    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
       
        
