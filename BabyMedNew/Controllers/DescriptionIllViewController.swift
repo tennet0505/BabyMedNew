@@ -81,6 +81,14 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
             vc.delegate = self
             
         }
+        
+        if segue.identifier == "toImageZoom",
+            let vc = segue.destination as? ImageZoomViewController{
+            vc.imageString = image
+            vc.idIll = idIll
+            vc.uidUser = uidUser
+        }
+        
        
     }
     
@@ -125,6 +133,11 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
             }
         }
     }
+    @IBAction func buttonZoom(_ sender: UIButton) {
+        performSegue(withIdentifier: "toImageZoom", sender: self)
+    }
+    
+    
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageRecept
     }
