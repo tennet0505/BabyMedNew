@@ -13,7 +13,6 @@ import FirebaseStorage
 
 struct IllModel {
     
-   // var illUserID = ChildModel(Id: "")
     var idIll = ""
     var simptoms = ""
     var treatment = ""
@@ -68,6 +67,9 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+      
+        
         
         getImage(imageName: childPerson.image)
         tableView.reloadData()
@@ -148,18 +150,15 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         ref = Database.database().reference()
         ref?.child("Childs").child(uidUser).child("Ills").observe(.childAdded, with: { snapshot  in
             
-            for list in snapshot.children{
-                let illness = list as! DataSnapshot
-                let ill = illness.value as! [String : Any]
-          //      print("ill: \(ill)")
+            if let getData = snapshot.value as? [String:Any] {
                 
                 if
-                    let idIll = ill["idIll"],
-                    let illName = ill["illName"],
-                    let DateIll = ill["DateIll"],
-                    let simptoms = ill["simptoms"],
-                    let treatment = ill["treatment"],
-                    let fotoRecept = ill["fotoRecept"]
+                    let idIll = getData["idIll"],
+                    let illName = getData["illName"],
+                    let DateIll = getData["DateIll"],
+                    let simptoms = getData["simptoms"],
+                    let treatment = getData["treatment"],
+                    let fotoRecept = getData["fotoRecept"]
                 {
                     let illmodel = IllModel(idIll: idIll as? String,
                                             simptoms: simptoms as? String,
@@ -168,11 +167,11 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
                                             DateIll: DateIll as? String,
                                             fotoRecept: fotoRecept as? String
                     )
-
+                    
                     self.illsArray.insert(illmodel, at: 0)
-
-                    self.tableView.reloadData()
+                    
                 }
+                 self.tableView.reloadData()
             }
         })
         tableView.reloadData()
@@ -239,7 +238,6 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
         
     }
     
-  
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         

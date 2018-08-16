@@ -18,7 +18,7 @@ protocol NewChildDataProtocol {
 }
 class NewChildViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
    
-    var bloodTypeArray = ["Группа I+","Группа I-","Группа II+","Группа II-","Группа III+","Группа III-","Группа IV+","Группа IV-"]
+    var bloodTypeArray = ["Выберите группу крови:","Группа I+","Группа I-","Группа II+","Группа II-","Группа III+","Группа III-","Группа IV+","Группа IV-"]
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -110,12 +110,14 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
                                              "weight": weight,
                                              "blood": blood,
                                              "image": imageProfile(),
-                                             "userEmail": userEmail]
+                                             "userEmail": userEmail,
+                                             "ills": []
+                                             ]
             
 
-                let childsDictionary = ["Child": childNew] as [String : Any]
-            print(childsDictionary)
-            ref.child("Childs").child("\(id)").setValue(childsDictionary)
+              //  let childsDictionary = ["Child": childNew] as [String : Any]
+        //    print(childsDictionary)
+            ref.child("Childs").child("\(id)").setValue(childNew)
                
                 
         }
@@ -137,10 +139,11 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
                                                 "weight": weightTextField.text!,
                                                 "blood": bloodTextField.text!,
                                                 "image": imageProfileUpdate(foto: imageTakeFoto.image!),
-                                                "userEmail": userEmail]
+                                                "userEmail": userEmail,
+                                                "ills": []]
             
-            let childsDictionary = ["Child": childUpdate] as [AnyHashable : Any]
-            ref.child("Childs").child("\(idChild)").updateChildValues(childsDictionary)
+          //  let childsDictionary = ["Child": childUpdate] as [AnyHashable : Any]
+            ref.child("Childs").child("\(idChild)").updateChildValues(childUpdate)
             
             childPerson = ChildModel(Id: idChild,
                                      name: nameTextField.text!,

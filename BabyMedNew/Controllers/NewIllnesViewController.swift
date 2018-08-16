@@ -115,9 +115,9 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
                                            "fotoRecept": "foto test",//imageProfile(),
                                            "treatment": treatment]
             
-            let illnessDictionary = ["ill": illNew] as [String : Any]
+            //let illnessDictionary = ["ill": illNew] as [String : Any]
             
-            ref.child("Childs").child(uidUser).child("Ills").child("\(idIll)").setValue(illnessDictionary)
+            ref.child("Childs").child(uidUser).child("Ills").child("\(idIll)").setValue(illNew)
         }
         
     }
@@ -161,10 +161,9 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         ]
         
        
-        let IllDictionary = ["ill": IllUpdate] as [AnyHashable : Any]
+       // let IllDictionary = ["ill": IllUpdate] as [AnyHashable : Any]
         print("idIll: \(idIll)")
-      //  ref.child("Childs").child("\(idChild)").updateChildValues(childsDictionary)
-       ref.child("Childs").child(uidUser).child("Ills").child("\(idIll)").updateChildValues(IllDictionary)
+       ref.child("Childs").child(uidUser).child("Ills").child("\(idIll)").updateChildValues(IllUpdate)
 
         
     }

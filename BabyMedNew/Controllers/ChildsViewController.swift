@@ -58,12 +58,15 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        tableView.reloadData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         loadChildsData()
+        tableView.reloadData()
+
+        
         if let mail = UserDefaults.standard.value(forKeyPath: "email") as? String {
             emailUD = mail
         }
@@ -128,24 +131,26 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     
     func loadChildsData() {
-        SVProgressHUD.show()
+        if childArray.isEmpty{
+             SVProgressHUD.dismiss()
+        }else{
+            SVProgressHUD.show()
+            
+        }
         ref = Database.database().reference()
         ref?.child("Childs").observe(.childAdded, with: { snapshot  in
             
-            for item in snapshot.children{
-                let data = item as! DataSnapshot
-                
-                let child = data.value as! [String : Any]
+            if let getData = snapshot.value as? [String:Any] {
                 
                 if
-                    let name = child["name"],
-                    let birthDay = child["birthDate"],
-                    let blood = child["blood"],
-                    let weight = child["weight"],
-                    let userEmail = child["userEmail"],
-                    let image = child["image"],
-                    let gender = child["gender"],
-                    let idString =  child["Id"]
+                    let name = getData["name"],
+                    let birthDay = getData["birthDate"],
+                    let blood = getData["blood"],
+                    let weight = getData["weight"],
+                    let userEmail = getData["userEmail"],
+                    let image = getData["image"],
+                    let gender = getData["gender"],
+                    let idString =  getData["Id"]
                 {
                     if self.emailUD == userEmail as! String{
                         self.childArray.insert(ChildModel(Id: idString as? String,
@@ -157,13 +162,13 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                                           weight: weight as? String,
                                                           userEmail: userEmail as? String), at: 0)
                         
-                        
-                        self.tableView.reloadData()
                     }
-                    
+                    self.tableView.reloadData()
                 }
+              
             }
             SVProgressHUD.dismiss()
+            
         })
         
         self.tableView.reloadData()

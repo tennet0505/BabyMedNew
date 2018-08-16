@@ -11,39 +11,6 @@ import FirebaseDatabase
 import Firebase
 import SVProgressHUD
 
-//struct ChildModel{
-//
-//    var Id = ""
-//    var name = ""
-//    var birthDate = ""
-//    var gender = ""
-//    var blood = ""
-//    var weight = ""
-//    var image = String()
-//    var userEmail = ""
-//    var ills = [IllModel]()
-//
-//
-//    init(Id: String?, name: String?, birthDate: String?,  gender: String?, blood: String?, image: String?, weight: String?, userEmail: String?) {
-//        self.Id = Id!
-//        self.name = name!
-//        self.birthDate = birthDate!
-//        self.gender = gender!
-//        self.blood = blood!
-//        self.image = image!
-//        self.weight = weight!
-//        self.userEmail = userEmail!
-//       // self.ills = ills!
-//    }
-//    init(Id: String?) {
-//        self.Id = Id!
-//    }
-//
-//    init(ill: [IllModel]?) {
-//        self.ills = ill!
-//    }
-//
-//}
 
 
 class ChildsTableViewController: UITableViewController {
@@ -130,40 +97,44 @@ class ChildsTableViewController: UITableViewController {
     func loadChildsData() {
         SVProgressHUD.show()
         ref = Database.database().reference()
-        ref?.child("Childs").observe(.childAdded, with: { snapshot  in
+        ref?.child("Childs").observe(.value, with: { snapshot  in
             
-            for item in snapshot.children{
-                let data = item as! DataSnapshot
-               
-                let child = data.value as! [String : Any]
-                
-             if
-                let name = child["name"],
-                let birthDay = child["birthDate"],
-                let blood = child["blood"],
-                let weight = child["weight"],
-                let userEmail = child["userEmail"],
-                let image = child["image"],
-                let gender = child["gender"],
-                let idString =  child["Id"]
-                {
-                    if self.emailUD == userEmail as! String{
-                self.childArray.insert(ChildModel(Id: idString as? String,
-                                                  name: name as? String,
-                                                  birthDate: birthDay as? String,
-                                                  gender: gender as? String,
-                                                  blood: blood as? String,
-                                                  image: image as? String,
-                                                  weight: weight as? String,
-                                                  userEmail: userEmail as? String), at: 0)
-
-              
-            self.tableView.reloadData()
-                    }
+            if  snapshot.exists() {
+                guard let snapshot = snapshot.children.allObjects as? [DataSnapshot] else { return }
+                for eachSnap in snapshot {
+                    guard let eachUserDict = eachSnap.value as? Dictionary<String,AnyObject> else { return }
+                    //            for item in snapshot.children{
+                    //                let data = item as! DataSnapshot
+                    //
+                    //                let child = data.value as! [String : Any]
                     
+                    if
+                        let name = eachUserDict["name"],
+                        let birthDay = eachUserDict["birthDate"],
+                        let blood = eachUserDict["blood"],
+                        let weight = eachUserDict["weight"],
+                        let userEmail = eachUserDict["userEmail"],
+                        let image = eachUserDict["image"],
+                        let gender = eachUserDict["gender"],
+                        let idString =  eachUserDict["Id"]
+                    {
+                        if self.emailUD == userEmail as! String{
+                            self.childArray.insert(ChildModel(Id: idString as? String,
+                                                              name: name as? String,
+                                                              birthDate: birthDay as? String,
+                                                              gender: gender as? String,
+                                                              blood: blood as? String,
+                                                              image: image as? String,
+                                                              weight: weight as? String,
+                                                              userEmail: userEmail as? String), at: 0)
+                            
+                            
+                            self.tableView.reloadData()
+                        }
+                    }
+                    SVProgressHUD.dismiss()
                 }
             }
-            SVProgressHUD.dismiss()
         })
         
         tableView.reloadData()
