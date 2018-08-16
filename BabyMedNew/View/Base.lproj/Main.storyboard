@@ -810,7 +810,7 @@
                                                             <constraint firstAttribute="height" constant="204" id="y0G-Cs-ulc"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                        <state key="normal" title="ZOOM">
+                                                        <state key="normal">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                         <userDefinedRuntimeAttributes>
@@ -1514,7 +1514,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Kts-0q-Eti"/>
-        <segue reference="4ah-Uw-DPg"/>
+        <segue reference="TB1-gC-6No"/>
         <segue reference="I3e-na-VJP"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -182,6 +182,11 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         let loc = Locale(identifier: "Ru_ru")
         self.picker.locale = loc
         
+        var components = DateComponents()
+        components.year = 0
+        let maxDate = Calendar.current.date(byAdding: components , to: Date())
+        picker.maximumDate = maxDate
+        
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
         
