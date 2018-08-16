@@ -296,7 +296,7 @@
             </objects>
             <point key="canvasLocation" x="3473" y="-807"/>
         </scene>
-        <!--Дети-->
+        <!--Мои дети-->
         <scene sceneID="BGM-KA-4kj">
             <objects>
                 <viewController id="x3G-Q7-CZY" customClass="ChildsViewController" customModule="BabyMedNew" customModuleProvider="target" sceneMemberID="viewController">
@@ -387,7 +387,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="YFC-QN-6SY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Дети" id="o4m-V2-eiv">
+                    <navigationItem key="navigationItem" title="Мои дети" id="o4m-V2-eiv">
                         <barButtonItem key="rightBarButtonItem" title="Выйти" id="seM-Qh-VXN">
                             <connections>
                                 <action selector="LogOutButton:" destination="x3G-Q7-CZY" id="nEe-gz-953"/>
@@ -533,7 +533,7 @@
                                                         <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S9G-Na-eXR">
-                                                        <rect key="frame" x="139" y="0.0" width="150" height="44"/>
+                                                        <rect key="frame" x="69" y="152" width="150" height="44"/>
                                                         <color key="backgroundColor" red="0.83529411764705885" green="0.23529411764705882" blue="0.0078431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="150" id="KOD-9P-BWS"/>
@@ -544,7 +544,7 @@
                                                         </state>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                                <integer key="value" value="5"/>
+                                                                <integer key="value" value="22"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
@@ -556,11 +556,11 @@
                                                 <constraints>
                                                     <constraint firstAttribute="trailing" secondItem="qd3-uN-zYT" secondAttribute="trailing" id="2pG-1Z-oqn"/>
                                                     <constraint firstAttribute="height" constant="204" id="3Lf-7I-fWg"/>
+                                                    <constraint firstAttribute="bottom" secondItem="S9G-Na-eXR" secondAttribute="bottom" constant="8" id="KS9-eR-xdC"/>
                                                     <constraint firstItem="qd3-uN-zYT" firstAttribute="top" secondItem="XKK-ZW-JoX" secondAttribute="top" id="Lht-Xt-Vl8"/>
-                                                    <constraint firstItem="S9G-Na-eXR" firstAttribute="top" secondItem="XKK-ZW-JoX" secondAttribute="top" id="MIZ-4e-mPu"/>
-                                                    <constraint firstAttribute="trailing" secondItem="S9G-Na-eXR" secondAttribute="trailing" id="Uq7-Tt-rCX"/>
                                                     <constraint firstAttribute="bottom" secondItem="qd3-uN-zYT" secondAttribute="bottom" id="WGD-fj-Lsu"/>
                                                     <constraint firstItem="qd3-uN-zYT" firstAttribute="leading" secondItem="XKK-ZW-JoX" secondAttribute="leading" id="byy-4H-wB7"/>
+                                                    <constraint firstItem="S9G-Na-eXR" firstAttribute="centerX" secondItem="XKK-ZW-JoX" secondAttribute="centerX" id="dr7-BB-Tdq"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -575,6 +575,7 @@
                                             <constraint firstItem="PMF-gu-nG0" firstAttribute="top" secondItem="IsM-Wf-YR3" secondAttribute="bottom" constant="8" id="DyK-l6-Nak"/>
                                             <constraint firstAttribute="trailing" secondItem="XKK-ZW-JoX" secondAttribute="trailing" constant="16" id="Gl2-iP-Bxb"/>
                                             <constraint firstItem="YC3-3f-vSm" firstAttribute="top" secondItem="AcL-wd-4zE" secondAttribute="bottom" constant="18" id="IBV-lt-5sX"/>
+                                            <constraint firstItem="XKK-ZW-JoX" firstAttribute="centerX" secondItem="nq6-rf-uP1" secondAttribute="centerX" id="N3Z-Ql-2O3"/>
                                             <constraint firstItem="YC3-3f-vSm" firstAttribute="leading" secondItem="nq6-rf-uP1" secondAttribute="leading" constant="16" id="PHm-M5-6Ni"/>
                                             <constraint firstItem="Cgx-ch-A1l" firstAttribute="leading" secondItem="nq6-rf-uP1" secondAttribute="leading" constant="16" id="PhM-2W-jUT"/>
                                             <constraint firstItem="0vm-kQ-dOV" firstAttribute="leading" secondItem="nq6-rf-uP1" secondAttribute="leading" constant="16" id="Uak-c3-UrN"/>
@@ -1512,7 +1513,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Kts-0q-Eti"/>
-        <segue reference="4ah-Uw-DPg"/>
-        <segue reference="r7J-Z4-fTT"/>
+        <segue reference="TB1-gC-6No"/>
+        <segue reference="I3e-na-VJP"/>
     </inferredMetricsTieBreakers>
 </document>
