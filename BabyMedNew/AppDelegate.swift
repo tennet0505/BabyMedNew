@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import IQKeyboardManagerSwift
 import Firebase
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,8 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
         UINavigationBar.appearance().tintColor = UIColor.white
         FirebaseApp.configure()
-//                let myDatabase = Database.database().reference()
-//                myDatabase.setValue("We've got data!")
+
+        print(Realm.Configuration.defaultConfiguration.fileURL)
+        
         IQKeyboardManager.shared.enable = true
         setRootViewController()
         return true

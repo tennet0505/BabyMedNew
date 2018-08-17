@@ -252,7 +252,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
                         
                         alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { (_) in
                             if let settingsURL = URL(string: UIApplicationOpenSettingsURLString) {
-                                UIApplication.shared.openURL(settingsURL)
+                                UIApplication.shared.canOpenURL(settingsURL)
                             }
                         }))
                         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

@@ -12,6 +12,7 @@ import FirebaseDatabase
 import Firebase
 import FirebaseAuth
 import FirebaseStorage
+import RealmSwift
 
 protocol NewChildDataProtocol {
     func newDataChild(childEdit: ChildModel)
@@ -35,6 +36,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
 
+    let realm = try! Realm()
     var ref: DatabaseReference!
     
     @IBOutlet weak var nameTextField: UITextField!
@@ -60,10 +62,13 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
                                              image: "",
                                              weight: "",
                                              userEmail: "")
+        @IBOutlet weak var buttonSave: UIButton!
     
-    @IBOutlet weak var buttonSave: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+       
 
         pickerView.delegate = self
         pickerView.dataSource = self
@@ -97,14 +102,14 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
             let gender = genderTextField.text,
             let weight = weightTextField.text,
             let blood = bloodTextField.text
-            {
-           
+         {
+            
             let id = ref.child("Childs").childByAutoId().key
             let userEmail = Auth.auth().currentUser?.email
-
-          
+            
+            
             let childNew : [String : Any] = ["Id": id,
-                                            "name": name,
+                                             "name": name,
                                              "birthDate": birthDay,
                                              "gender": gender,
                                              "weight": weight,
@@ -112,14 +117,33 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
                                              "image": imageProfile(),
                                              "userEmail": userEmail,
                                              "ills": []
-                                             ]
+            ]
             
-
-              //  let childsDictionary = ["Child": childNew] as [String : Any]
-        //    print(childsDictionary)
+            
+            //  let childsDictionary = ["Child": childNew] as [String : Any]
+            //    print(childsDictionary)
             ref.child("Childs").child("\(id)").setValue(childNew)
-               
-                
+            
+//            let childNewRealm = ChildRealm()
+//            childNewRealm.name = name
+//            childNewRealm.birthDate = birthDay
+//            childNewRealm.blood = blood
+//            childNewRealm.gender = gender
+//            childNewRealm.weight = weight
+//            childNewRealm.userEmail = userEmail!
+//
+//            addChildToRealm(child: childNewRealm)
+            
+            
+        }
+    }
+    func addChildToRealm(child: ChildRealm) {
+        do{
+            try realm.write {
+                realm.add(child)
+            }
+        }catch{
+            print("Error save child!!!")
         }
     }
     
@@ -289,7 +313,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
                         
                         alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { (_) in
                             if let settingsURL = URL(string: UIApplicationOpenSettingsURLString) {
-                                UIApplication.shared.openURL(settingsURL)
+                                UIApplication.shared.canOpenURL(settingsURL)
                             }
                         }))
                         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

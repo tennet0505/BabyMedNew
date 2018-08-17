@@ -249,6 +249,18 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
             ref?.child("Childs").child(uidUser).child("Ills").child("\(id)").removeValue()
             illsArray.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
+           
+            let storage = Storage.storage()
+            let url = storage.reference().child("Childs").child(uidUser).child("Ills").child("\(id)").child("images/profile_photo.jpg")
+            
+            url.delete { error in
+                if let error = error {
+                    print(error)
+                } else {
+                    print("Success delete")
+                }
+            }
+            
         }
     }
     

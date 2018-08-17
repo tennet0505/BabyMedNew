@@ -87,8 +87,11 @@ class ChildsTableViewController: UITableViewController {
             let id = childArray[indexPath.row].Id
             
             ref?.child("Childs").child("\(id)").removeValue()
+            
+         
             childArray.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            
         }
        
     }
