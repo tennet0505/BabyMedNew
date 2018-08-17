@@ -132,11 +132,10 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func loadChildsData() {
         if childArray.isEmpty{
-             SVProgressHUD.dismiss()
-        }else{
-            SVProgressHUD.show()
-            
+            SVProgressHUD.dismiss()
         }
+            SVProgressHUD.show()
+        
         ref = Database.database().reference()
         ref?.child("Childs").observe(.childAdded, with: { snapshot  in
             
@@ -187,6 +186,7 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBAction func LogOutButton(_ sender: UIBarButtonItem) {
         do{
+            UserDefaults.standard.set("", forKey: "email")
             try Auth.auth().signOut()
             let storyboard =  UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "LoginNavigationViewController") as! LoginNavigationViewController
