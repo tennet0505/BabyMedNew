@@ -185,17 +185,28 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @IBAction func LogOutButton(_ sender: UIBarButtonItem) {
-        do{
-            UserDefaults.standard.set("", forKey: "email")
-            try Auth.auth().signOut()
-            let storyboard =  UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "LoginNavigationViewController") as! LoginNavigationViewController
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.window?.rootViewController = vc
-        }
-        catch{
-            print("error problem with sign out")
-        }
+        
+        let alert = UIAlertController(title: "Внимание!", message: "Вы хотите покинуть вашу семью!", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Нет", style: .cancel, handler: nil)
+        let action1 = UIAlertAction(title: "Да", style: .default, handler:{(action) -> Void in
+            do{
+                UserDefaults.standard.set("", forKey: "email")
+                try Auth.auth().signOut()
+                let storyboard =  UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "LoginNavigationViewController") as! LoginNavigationViewController
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.window?.rootViewController = vc
+            }
+            catch{
+                print("error problem with sign out")
+            }
+           
+        })
+        alert.addAction(action1)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
+        
+      
     }
  
 }
