@@ -49,6 +49,7 @@ struct ChildModel{
 class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var ref: DatabaseReference?
+    var refreshControl: UIRefreshControl!
     
     var ArrayChild =  [DataSnapshot]()
     var childArray = [ChildModel]()
@@ -63,8 +64,14 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadChildsData()
+        checkReachability()
+       // loadChildsData()
         tableView.reloadData()
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableView.addSubview(refreshControl)
+        
 
         
         if let mail = UserDefaults.standard.value(forKeyPath: "email") as? String {
@@ -73,6 +80,12 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
         
+    }
+    @objc func refresh(_ sender: Any) {
+        childArray.removeAll()
+        loadChildsData()
+        tableView.reloadData()
+        refreshControl.endRefreshing()
     }
     
     
@@ -207,6 +220,45 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.present(alert, animated: true, completion: nil)
         
       
+    }
+    
+    func checkReachability(){
+        
+        
+        if currentReachabilityStatus == .reachableViaWiFi {
+            loadChildsData()
+            print("User is connected to the internet via wifi.")
+        }else if currentReachabilityStatus == .reachableViaWWAN{
+            loadChildsData()
+            print("User is connected to the internet via WWAN.")
+            
+            
+        }else if currentReachabilityStatus == .notReachable{
+            
+            let alert = UIAlertController(title: "Внимание!", message: "Подключитесь к интернету.", preferredStyle: .alert)
+            
+            let action1 = UIAlertAction(title: "OK", style: .cancel, handler:nil)
+            
+            alert.addAction(action1)
+            
+            self.present(alert, animated: true, completion: nil)
+            
+            SVProgressHUD.dismiss()
+            
+        } else {
+            
+            let alert = UIAlertController(title: "Внимание!", message: "Подключитесь к интернету.", preferredStyle: .alert)
+            
+            let action1 = UIAlertAction(title: "OK", style: .cancel, handler:nil)
+            
+            alert.addAction(action1)
+            
+            self.present(alert, animated: true, completion: nil)
+            
+            SVProgressHUD.dismiss()
+            
+            print("There is no internet connection")
+        }
     }
  
 }
