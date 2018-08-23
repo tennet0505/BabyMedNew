@@ -65,14 +65,8 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         checkReachability()
-       // loadChildsData()
-        tableView.reloadData()
-        refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        tableView.addSubview(refreshControl)
-        
-
+        pullToRefresh()
+       
         
         if let mail = UserDefaults.standard.value(forKeyPath: "email") as? String {
             emailUD = mail
@@ -81,6 +75,14 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         
     }
+    func pullToRefresh() {
+       
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Идет обновление...")
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableView.addSubview(refreshControl)
+    }
+    
     @objc func refresh(_ sender: Any) {
         childArray.removeAll()
         loadChildsData()
@@ -103,8 +105,6 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         return cell!
     }
-    
-    
     
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
