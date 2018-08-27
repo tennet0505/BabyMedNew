@@ -17,12 +17,12 @@ struct ChildModel{
     var birthDate = ""
     var gender = ""
     var bloodType = ""
-    var weight = ""
+    var weight = Int()
     var image = String()
     var userId = ""
     var illnessList = [IllModel]()
     
-    init(id: String?, name: String?, birthDate: String?,  gender: String?, bloodType: String?, image: String?, weight: String?, userId: String?) {
+    init(id: String?, name: String?, birthDate: String?,  gender: String?, bloodType: String?, image: String?, weight: Int?, userId: String?) {
         self.id = id!
         self.name = name!
         self.birthDate = birthDate!
@@ -43,6 +43,7 @@ struct ChildModel{
 
 
 class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+   
     
     var ref: DatabaseReference?
     var refreshControl: UIRefreshControl!
@@ -63,6 +64,7 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         childArray.removeAll()
         checkReachability()
         pullToRefresh()
+        SVProgressHUD.dismiss()
         userID = (Auth.auth().currentUser?.uid)!
       
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -109,11 +111,11 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         vc.name = child.name
         vc.bd = child.birthDate
         vc.blood = child.bloodType
-        vc.weight = child.weight
+        vc.weight = child.weight 
         vc.gen = child.gender
         vc.indexPath = indexPath
         vc.imageFoto = child.image
-        vc.id = child.id 
+        vc.uid = child.id  
         vc.userId = child.userId
         vc.childPerson = child
         
@@ -122,12 +124,23 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
+        
         if editingStyle == .delete {
             print("Deleted")
             ref = Database.database().reference()
-            let id = childArray[indexPath.row].id
             
+            let id = childArray[indexPath.row].id
             ref?.child("children").child("\(id)").removeValue()
+            let storage = Storage.storage()
+            let url = storage.reference().child("children").child(id)
+
+            url.delete { error in
+                if let error = error {
+                    print(error)
+                } else {
+                    print("Success delete")
+                }
+            }
             childArray.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
@@ -137,7 +150,7 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if childArray.isEmpty{
             SVProgressHUD.dismiss()
         }
-        SVProgressHUD.show()
+       SVProgressHUD.show()
         
         ref = Database.database().reference()
         ref?.child("children").observe(.childAdded, with: { snapshot  in
@@ -150,7 +163,7 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     let bloodType = getData["bloodType"],
                     let weight = getData["weight"],
                     let userId = getData["userId"],
-                    let image = getData["image"],
+                    let image = getData["photoUri"],
                     let gender = getData["gender"],
                     let idString =  getData["id"]
                 {
@@ -161,7 +174,7 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                                           gender: gender as? String,
                                                           bloodType: bloodType as? String,
                                                           image: image as? String,
-                                                          weight: weight as? String,
+                                                          weight: weight as? Int,
                                                           userId: userId as? String), at: 0)
                     }
                     self.tableView.reloadData()

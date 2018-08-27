@@ -701,7 +701,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="JQX-97-xVR">
-                                                <rect key="frame" x="15" y="31" width="227" height="21"/>
+                                                <rect key="frame" x="15" y="31" width="266" height="21"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="День Рождения:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jOU-7T-46N">
                                                         <rect key="frame" x="0.0" y="0.0" width="111" height="21"/>
@@ -714,9 +714,9 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MZw-cx-wbz">
-                                                        <rect key="frame" x="116" y="0.0" width="111" height="21"/>
+                                                        <rect key="frame" x="116" y="0.0" width="150" height="21"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="111" id="OZY-h3-rYH"/>
+                                                            <constraint firstAttribute="width" constant="150" id="OZY-h3-rYH"/>
                                                             <constraint firstAttribute="height" constant="21" id="eei-wp-2gd"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
@@ -1571,7 +1571,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="kO7-Br-sSi"/>
-        <segue reference="TB1-gC-6No"/>
+        <segue reference="4ah-Uw-DPg"/>
         <segue reference="r7J-Z4-fTT"/>
     </inferredMetricsTieBreakers>
 </document>

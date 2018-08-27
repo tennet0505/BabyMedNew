@@ -14,11 +14,12 @@ import FirebaseStorage
 struct IllModel {
     
     var idIll = ""
-    var simptoms = ""
+    var symptoms = ""
     var treatment = ""
     var illName = ""
     var DateIll = ""
     var fotoRecept = ""
+    var illnessWeight = ""
     
     //    val name : String,
     //    val symptoms : String,
@@ -27,13 +28,14 @@ struct IllModel {
     //    val date : String,
     //    val illnessWeight : Int)
     
-    init(idIll: String?, simptoms: String?, treatment: String?, illName: String?,  DateIll: String?, fotoRecept: String?) {
+    init(idIll: String?, symptoms: String?, treatment: String?, illName: String?,  DateIll: String?, fotoRecept: String?, illnessWeight: String?) {
         self.idIll = idIll!
-        self.simptoms = simptoms!
+        self.symptoms = symptoms!
         self.treatment = treatment!
         self.illName = illName!
         self.DateIll = DateIll!
         self.fotoRecept = fotoRecept!
+        self.illnessWeight = illnessWeight!
     }
 }
 
@@ -43,9 +45,9 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     var name = ""
     var bd = ""
     var gen = ""
-    var weight = ""
+    var weight = 0
     var blood = ""
-    var id = ""
+    var uid = ""
     var userId = ""
     var imageFoto = ""
     var illsArray = [IllModel]()
@@ -56,7 +58,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
                                              gender: "",
                                              bloodType: "",
                                              image: "",
-                                             weight: "",
+                                             weight: 0,
                                              userId: "")
     
     @IBOutlet weak var nameLabel: UILabel!
@@ -97,7 +99,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         if segue.identifier == "ToNewIllness",
             
             let vc = segue.destination as? NewIllnesViewController{
-            vc.id = id
+            vc.id = uid
             //            let index = indexPath
         }
         
@@ -106,14 +108,15 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
             if let indexPath = tableView.indexPathForSelectedRow{
                 
                 let ill = illsArray[indexPath.row]
-                vc.simptoms = ill.simptoms
+                vc.simptoms = ill.symptoms
                 vc.treatment = ill.treatment
                 vc.nameIll = ill.illName
                 vc.date = ill.DateIll
                 vc.name = name
                 vc.image = ill.fotoRecept
                 vc.bd = bd
-                vc.id = id
+                vc.id = uid
+                vc.illWeight = ill.illnessWeight
                 vc.idIll = ill.idIll
             }
         }
@@ -133,7 +136,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         nameLabel.text = childPerson.name
         birthDayLabel.text = childPerson.birthDate
         genderLabel.text = childPerson.gender
-        weightLabel.text = childPerson.weight
+        weightLabel.text = "\(childPerson.weight)"
         bloodLabel.text = childPerson.bloodType
         getImage(imageName: childPerson.image)
     }
@@ -141,24 +144,26 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     func loadIllness() {
         
         ref = Database.database().reference()
-        ref?.child("children").child(id).child("IllnessList").observe(.childAdded, with: { snapshot  in
+        ref?.child("children").child(uid).child("IllnessList").observe(.childAdded, with: { snapshot  in
             
             if let getData = snapshot.value as? [String:Any] {
                 
                 if
                     let idIll = getData["idIll"],
-                    let illName = getData["illName"],
-                    let DateIll = getData["DateIll"],
-                    let simptoms = getData["simptoms"],
+                    let illName = getData["name"],
+                    let DateIll = getData["date"],
+                    let symptoms = getData["symptoms"],
                     let treatment = getData["treatment"],
-                    let fotoRecept = getData["fotoRecept"]
+                    let fotoRecept = getData["treatmentPhotoUri"],
+                    let illnessWeight = getData["illnessWeight"]
                 {
                     let illmodel = IllModel(idIll: idIll as? String,
-                                            simptoms: simptoms as? String,
+                                            symptoms: symptoms as? String,
                                             treatment: treatment as? String,
                                             illName: illName as? String,
                                             DateIll: DateIll as? String,
-                                            fotoRecept: fotoRecept as? String
+                                            fotoRecept: fotoRecept as? String,
+                                            illnessWeight: illnessWeight as? String
                     )
                     self.illsArray.insert(illmodel, at: 0)
                 }
@@ -233,7 +238,7 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
             
             let storage = Storage.storage()
-            let url = storage.reference().child("children").child(id).child("IllnessList").child("\(id)").child("images/profile_photo.jpg")
+            let url = storage.reference().child("children").child(uid).child("IllnessList").child("\(id)").child("images/profile_photo.jpg")
             
             url.delete { error in
                 if let error = error {

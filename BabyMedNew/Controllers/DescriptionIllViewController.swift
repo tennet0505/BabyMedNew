@@ -40,13 +40,15 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
     var image = "BabyMedLogo"
     var id = ""
     var idIll = ""
+    var illWeight = ""
     
     var ill = IllModel(idIll: "",
-                       simptoms: "",
+                       symptoms: "",
                        treatment: "",
                        illName: "",
                        DateIll: "",
-                       fotoRecept: "")
+                       fotoRecept: "",
+                       illnessWeight: "")
     @IBOutlet weak var buttonEdit: UIBarButtonItem!
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,8 +69,10 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
         birthDayLabel.text = bd
         nameIllLabel.text = nameIll
         dateLabel.text = date
+        weightLabel.text = illWeight
         simptomsTextView.text = simptoms
         treatmentTextView.text = treatment
+        weightLabel.text = "\(illWeight)кг"
         // getImage(imageName: image)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -85,6 +89,7 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
             vc.name = name
             vc.birthdate = bd
             vc.idIll = idIll
+            vc.illWeight = illWeight
             vc.delegate = self
         }
         
@@ -118,8 +123,9 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
         ill = illData
         nameIllLabel.text = ill.illName
         dateLabel.text = ill.DateIll
-        simptomsTextView.text = ill.simptoms
+        simptomsTextView.text = ill.symptoms
         treatmentTextView.text = ill.treatment
+        weightLabel.text = ill.illnessWeight
     }
     
     func refreshProfileImage(){

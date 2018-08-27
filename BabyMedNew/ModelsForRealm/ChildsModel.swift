@@ -16,7 +16,7 @@ class ChildRealm: Object {
     @objc dynamic var birthDate : String = ""
     @objc dynamic var gender : String = ""
     @objc dynamic var blood : String = ""
-    @objc dynamic var weight : String = ""
+    @objc dynamic var weight : Int = 0
     @objc dynamic var image : String = ""
     @objc dynamic var userEmail : String = ""
     

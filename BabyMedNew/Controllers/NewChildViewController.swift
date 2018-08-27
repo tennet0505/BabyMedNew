@@ -36,7 +36,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     
-    let realm = try! Realm()
+ //   let realm = try! Realm()
     var ref: DatabaseReference!
     
     @IBOutlet weak var nameTextField: UITextField!
@@ -61,7 +61,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
                                              gender: "",
                                              bloodType: "",
                                              image: "",
-                                             weight: "",
+                                             weight: 0,
                                              userId: "")
     @IBOutlet weak var buttonSave: UIButton!
     
@@ -84,7 +84,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         nameTextField.text = childPerson.name
         BirthDayTextField.text = childPerson.birthDate
         genderTextField.text = childPerson.gender
-        weightTextField.text = childPerson.weight
+        weightTextField.text = "\(childPerson.weight)"
         bloodTextField.text = childPerson.bloodType
         imageTakeFoto.image =  getImage(imageName: childPerson.image)
         buttonSave.isEnabled = true
@@ -97,7 +97,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         if let name = nameTextField.text,
             let birthDay = BirthDayTextField.text,
             let gender = genderTextField.text,
-            let weight = weightTextField.text,
+            let weight = Int(weightTextField.text!),
             let bloodType = bloodTextField.text,
             let userId = Auth.auth().currentUser?.uid
         {
@@ -108,7 +108,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
                                              "gender": gender,
                                              "weight": weight,
                                              "bloodType": bloodType,
-                                             "image": imageProfile(),
+                                             "photoUri": imageProfile(),
                                              "userId": userId,
                                              "illnessList": []]
             
@@ -125,15 +125,15 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
             
         }
     }
-    func addChildToRealm(child: ChildRealm) {
-        do{
-            try realm.write {
-                realm.add(child)
-            }
-        }catch{
-            print("Error save child!!!")
-        }
-    }
+//    func addChildToRealm(child: ChildRealm) {
+//        do{
+//            try realm.write {
+//                realm.add(child)
+//            }
+//        }catch{
+//            print("Error save child!!!")
+//        }
+//    }
     
     @IBAction func SaveData(_ sender: UIButton) {
         
@@ -145,9 +145,9 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
                                                 "name": nameTextField.text!,
                                                 "birthDate": BirthDayTextField.text!,
                                                 "gender": genderTextField.text!,
-                                                "weight": weightTextField.text!,
+                                                "weight": Int(weightTextField.text!)! ,
                                                 "blood": bloodTextField.text!,
-                                                "image": imageProfileUpdate(foto: imageTakeFoto.image!),
+                                                "photoUri": imageProfileUpdate(foto: imageTakeFoto.image!),
                                                 "userId": userId as! String,
                                                 "ills": []]
             
@@ -158,7 +158,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
                                      gender: genderTextField.text!,
                                      bloodType: bloodTextField.text!,
                                      image:  imageProfileUpdate(foto: imageTakeFoto.image!),
-                                     weight: weightTextField.text!,
+                                     weight: Int(weightTextField.text!),
                                      userId:  userId)
         }
         
@@ -177,8 +177,8 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     
     func birthDatePicker()  {
         picker.datePickerMode = .date
-        let loc = Locale(identifier: "Ru_ru")
-        self.picker.locale = loc
+     //   let loc = Locale(identifier: "Ru_ru")
+      //  self.picker.locale = loc
         var components = DateComponents()
         components.year = -70
         components.year = 0
@@ -201,7 +201,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         let dateFormater = DateFormatter()
         let dateFormater1 = DateFormatter()
         dateFormater.dateFormat = "dd MMMM yyyy"///////////change date format
-        dateFormater.locale = Locale(identifier: "RU_ru")
+//  dateFormater.locale = Locale(identifier: "RU_ru")
         BirthDayTextField.text = dateFormater.string(from: picker.date)
         dateFormater1.dateFormat = "yyyy.MM.dd"///////////change date format
         birthDayString = dateFormater1.string(from: picker.date)

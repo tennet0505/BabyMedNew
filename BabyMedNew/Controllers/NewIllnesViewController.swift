@@ -11,6 +11,8 @@ import AVKit
 import FirebaseDatabase
 import FirebaseAuth
 import FirebaseStorage
+import SVProgressHUD
+
 
 
 protocol IllnessProtocol {
@@ -45,15 +47,18 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     var idIll = ""
     var id = ""
     var image = ""
+    var illWeight = ""
     var newIll = IllModel(idIll: "",
-                          simptoms: "",
+                          symptoms: "",
                           treatment: "",
                           illName: "",
                           DateIll: "",
-                          fotoRecept: "")
+                          fotoRecept: "",
+                          illnessWeight: "")
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         if editValue == 0{
             buttonEdit.isHidden = true
             buttonSave.isHidden = false
@@ -80,6 +85,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         dateTextField.text = date
         simptomsTextView.text = simptom
         treatmentTextView.text = treatment
+        weightTextField.text = illWeight
         
         DatePicker()
     }
@@ -97,15 +103,17 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         if let nameIll = nameIllTextField.text,
             let dayIll = dateTextField.text,
             let simptoms = simptomsTextView.text,
-            let treatment = treatmentTextView.text
+            let treatment = treatmentTextView.text,
+            let illnessWeight = weightTextField.text
         {
             let idIll = ref.child("children").child(id).child("IllnessList").childByAutoId().key
             let illNew : [String : Any] = ["idIll": idIll,
-                                           "illName": nameIll,
-                                           "DateIll": dayIll,
-                                           "simptoms": simptoms,
-                                           "fotoRecept": "foto test",//imageProfile(),
-                "treatment": treatment]
+                                           "name": nameIll,
+                                           "date": dayIll,
+                                           "symptoms": simptoms,
+                                           "treatmentPhotoUri": "foto test",
+                                           "treatment": treatment,
+                                           "illnessWeight": illnessWeight]
             
             ref.child("children").child(id).child("IllnessList").child("\(idIll)").setValue(illNew)
         }
@@ -116,8 +124,9 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         let idIll = ref.child("children").child(id).child("IllnessList").childByAutoId().key
         newIll.illName = nameIllTextField.text!
         newIll.DateIll = dateTextField.text!
-        newIll.simptoms = simptomsTextView.text!
+        newIll.symptoms = simptomsTextView.text!
         newIll.treatment = treatmentTextView.text!
+        newIll.illnessWeight = weightTextField.text!
         newIll.idIll = idIll
         updatePersonalData(ill: newIll)
         
@@ -128,6 +137,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         vc1.date = dateTextField.text!
         vc1.simptoms = simptomsTextView.text!
         vc1.treatment = treatmentTextView.text!
+        vc1.illWeight = weightTextField.text! //////////////////
         vc1.name = name
         vc1.bd = birthdate
         
@@ -140,11 +150,12 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     func updatePersonalData(ill: IllModel){
         
         let IllUpdate : [String : Any] = ["idIll": idIll,
-                                          "simptoms": simptomsTextView.text,
+                                          "symptoms": simptomsTextView.text,
                                           "treatment": treatmentTextView.text!,
-                                          "illName": illname,
-                                          "DateIll": dateTextField.text!,
-                                          "fotoRecept": "foto test" ]
+                                          "name": illname,
+                                          "date": dateTextField.text!,
+                                          "treatmentPhotoUri": "foto test",
+                                          "illnessWeight": weightTextField.text!]
         
         ref.child("children").child(id).child("IllnessList").child("\(idIll)").updateChildValues(IllUpdate)
         
@@ -158,8 +169,8 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     func DatePicker()  {
         picker.datePickerMode = .date
         
-        let loc = Locale(identifier: "Ru_ru")
-        self.picker.locale = loc
+//        let loc = Locale(identifier: "Ru_ru")
+//        self.picker.locale = loc
         var components = DateComponents()
         components.year = 0
         let maxDate = Calendar.current.date(byAdding: components , to: Date())
@@ -180,7 +191,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         let dateFormater = DateFormatter()
         let dateFormater1 = DateFormatter()
         dateFormater.dateFormat = "dd MMMM yyyy"///////////change date format
-        dateFormater.locale = Locale(identifier: "RU_ru")
+//        dateFormater.locale = Locale(identifier: "RU_ru")
         dateTextField.text = dateFormater.string(from: picker.date)
         dateFormater1.dateFormat = "yyyy.MM.dd"///////////change date format
         
@@ -195,6 +206,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
+    
     @IBAction func buttonFoto(_ sender: UIButton) {
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
@@ -242,22 +254,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         
     }
     
-    func imageProfile() -> String{
-        
-        var data :NSData = NSData()
-        if let image = imageRecept.image{
-            data = UIImageJPEGRepresentation(image, 0.1)! as NSData
-        }
-        let base64String = data.base64EncodedString(options: .lineLength64Characters)
-        return base64String ?? "BabyMedLogo"
-    }
-    func imageProfileUpdate(foto: UIImage) -> String{
-        
-        var data :NSData = NSData()
-        data = UIImageJPEGRepresentation(foto, 0.1)! as NSData
-        let base64String = data.base64EncodedString(options: .lineLength64Characters)
-        return base64String ?? "avatar_default"
-    }
+   
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let img = info[UIImagePickerControllerEditedImage] as? String
@@ -307,11 +304,27 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         var decodeImage = UIImage()
         if imageName != ""{
             let decode = NSData(base64Encoded: imageName, options: .ignoreUnknownCharacters)
-            decodeImage = UIImage(data: decode as! Data)!
+            decodeImage = UIImage(data: decode! as Data)!
             imageRecept.image = decodeImage
         }else{
             imageRecept.image = UIImage(named: "BabyMedLogo")
         }
+    }
+    func imageProfile() -> String{
+        
+        var data :NSData = NSData()
+        if let image = imageRecept.image{
+            data = UIImageJPEGRepresentation(image, 0.1)! as NSData
+        }
+        let base64String = data.base64EncodedString(options: .lineLength64Characters)
+        return base64String ?? "BabyMedLogo"
+    }
+    func imageProfileUpdate(foto: UIImage) -> String{
+        
+        var data :NSData = NSData()
+        data = UIImageJPEGRepresentation(foto, 0.1)! as NSData
+        let base64String = data.base64EncodedString(options: .lineLength64Characters)
+        return base64String ?? "avatar_default"
     }
     
     func getDocumentsDirectory() -> NSString {
