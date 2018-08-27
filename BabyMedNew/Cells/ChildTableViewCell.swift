@@ -9,10 +9,9 @@
 import UIKit
 
 class ChildTableViewCell: UITableViewCell {
+    
     @IBOutlet weak var labelName: UILabel!
-    
     @IBOutlet weak var labelAge: UILabel!
-    
     @IBOutlet weak var imageFoto: UIImageView!
     
     override func awakeFromNib() {
@@ -21,5 +20,4 @@ class ChildTableViewCell: UITableViewCell {
         imageFoto.layer.cornerRadius  = imageFoto.frame.size.width/2
         imageFoto.layer.masksToBounds = true
     }
-
 }

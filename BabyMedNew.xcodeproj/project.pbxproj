@@ -126,8 +126,8 @@
 		0640339720EB31AD003776CD /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				062290A9212441FE009137DA /* ChildsViewController.swift */,
 				064033A620EB3801003776CD /* NewChildViewController.swift */,
-				0640339A20EB31F2003776CD /* IllnessTableViewController.swift */,
 				064033A820EB66A9003776CD /* PersonalViewController.swift */,
 				064033AA20EB6F9D003776CD /* NewIllnesViewController.swift */,
 				064033AC20EB9741003776CD /* DescriptionIllViewController.swift */,
@@ -136,7 +136,7 @@
 				062290A12123F1EE009137DA /* ImageZoomViewController.swift */,
 				062290A32123FF7A009137DA /* LoginNavigationViewController.swift */,
 				062290A52124011A009137DA /* NavigationRootViewController.swift */,
-				062290A9212441FE009137DA /* ChildsViewController.swift */,
+				0640339A20EB31F2003776CD /* IllnessTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

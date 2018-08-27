@@ -15,10 +15,10 @@ import FirebaseStorage
 import RealmSwift
 
 protocol NewChildDataProtocol {
-    func newDataChild(childEdit: ChildModel)
+    func newDataChild(childEdit: ChildModel, indexPath: IndexPath?)
 }
 class NewChildViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
-   
+    
     var bloodTypeArray = ["Выберите группу крови:","Группа I+","Группа I-","Группа II+","Группа II-","Группа III+","Группа III-","Группа IV+","Группа IV-"]
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -35,7 +35,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         bloodTextField.text = bloodTypeArray[row]
     }
     
-
+    
     let realm = try! Realm()
     var ref: DatabaseReference!
     
@@ -44,32 +44,31 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     @IBOutlet weak var genderTextField: UITextField!
     @IBOutlet weak var weightTextField: UITextField!
     @IBOutlet weak var bloodTextField: UITextField!
-  
+    
     let pickerView = UIPickerView()
     let picker = UIDatePicker()
     var birthDayString = ""
     var idChild = NSUUID().uuidString
     var editValue = 0
+    var indexPath = IndexPath()
     @IBOutlet weak var imageTakeFoto: UIImageView!
-
+    
     var delegate: NewChildDataProtocol?
     var illarray = [IllModel]()
-    var childPerson: ChildModel = ChildModel(Id: "",
+    var childPerson: ChildModel = ChildModel(id: "",
                                              name: "",
                                              birthDate: "",
                                              gender: "",
-                                             blood: "",
+                                             bloodType: "",
                                              image: "",
                                              weight: "",
-                                             userEmail: "")
-        @IBOutlet weak var buttonSave: UIButton!
+                                             userId: "")
+    @IBOutlet weak var buttonSave: UIButton!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       
-
         pickerView.delegate = self
         pickerView.dataSource = self
         bloodTextField.inputView = pickerView
@@ -86,54 +85,43 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         BirthDayTextField.text = childPerson.birthDate
         genderTextField.text = childPerson.gender
         weightTextField.text = childPerson.weight
-        bloodTextField.text = childPerson.blood
+        bloodTextField.text = childPerson.bloodType
         imageTakeFoto.image =  getImage(imageName: childPerson.image)
         buttonSave.isEnabled = true
         birthDatePicker()
         
-        
-        
     }
     
     func addChild() {
-
-         if let name = nameTextField.text,
+        
+        if let name = nameTextField.text,
             let birthDay = BirthDayTextField.text,
             let gender = genderTextField.text,
             let weight = weightTextField.text,
-            let blood = bloodTextField.text
-         {
-            
-            let id = ref.child("Childs").childByAutoId().key
-            let userEmail = Auth.auth().currentUser?.email
-            
-            
-            let childNew : [String : Any] = ["Id": id,
+            let bloodType = bloodTextField.text,
+            let userId = Auth.auth().currentUser?.uid
+        {
+            let id = ref.child("children").childByAutoId().key
+            let childNew : [String : Any] = ["id": id,
                                              "name": name,
                                              "birthDate": birthDay,
                                              "gender": gender,
                                              "weight": weight,
-                                             "blood": blood,
+                                             "bloodType": bloodType,
                                              "image": imageProfile(),
-                                             "userEmail": userEmail,
-                                             "ills": []
-            ]
+                                             "userId": userId,
+                                             "illnessList": []]
             
+            ref.child("children").child("\(id)").setValue(childNew)
             
-            //  let childsDictionary = ["Child": childNew] as [String : Any]
-            //    print(childsDictionary)
-            ref.child("Childs").child("\(id)").setValue(childNew)
-            
-//            let childNewRealm = ChildRealm()
-//            childNewRealm.name = name
-//            childNewRealm.birthDate = birthDay
-//            childNewRealm.blood = blood
-//            childNewRealm.gender = gender
-//            childNewRealm.weight = weight
-//            childNewRealm.userEmail = userEmail!
-//
-//            addChildToRealm(child: childNewRealm)
-            
+            //            let childNewRealm = ChildRealm()
+            //            childNewRealm.name = name
+            //            childNewRealm.birthDate = birthDay
+            //            childNewRealm.blood = blood
+            //            childNewRealm.gender = gender
+            //            childNewRealm.weight = weight
+            //            childNewRealm.userEmail = userEmail!
+            //            addChildToRealm(child: childNewRealm)
             
         }
     }
@@ -147,40 +135,35 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         }
     }
     
-    
     @IBAction func SaveData(_ sender: UIButton) {
-        
         
         if editValue == 0{
             addChild()
-            
         }else{
-            let userEmail = Auth.auth().currentUser?.email
-            let childUpdate : [String : Any] = ["Id": idChild,
+            let userId = Auth.auth().currentUser?.uid
+            let childUpdate : [String : Any] = ["id": idChild,
                                                 "name": nameTextField.text!,
                                                 "birthDate": BirthDayTextField.text!,
                                                 "gender": genderTextField.text!,
                                                 "weight": weightTextField.text!,
                                                 "blood": bloodTextField.text!,
                                                 "image": imageProfileUpdate(foto: imageTakeFoto.image!),
-                                                "userEmail": userEmail,
+                                                "userId": userId as! String,
                                                 "ills": []]
             
-          //  let childsDictionary = ["Child": childUpdate] as [AnyHashable : Any]
-            ref.child("Childs").child("\(idChild)").updateChildValues(childUpdate)
-            
-            childPerson = ChildModel(Id: idChild,
+            ref.child("children").child("\(idChild)").updateChildValues(childUpdate)
+            childPerson = ChildModel(id: idChild,
                                      name: nameTextField.text!,
                                      birthDate: BirthDayTextField.text!,
                                      gender: genderTextField.text!,
-                                     blood: bloodTextField.text!,
+                                     bloodType: bloodTextField.text!,
                                      image:  imageProfileUpdate(foto: imageTakeFoto.image!),
                                      weight: weightTextField.text!,
-                                     userEmail:  userEmail)
+                                     userId:  userId)
         }
         
         let newChild = childPerson
-        delegate?.newDataChild(childEdit: newChild)
+        delegate?.newDataChild(childEdit: newChild, indexPath: nil)
         
         nameTextField.text = ""
         BirthDayTextField.text = ""
@@ -189,40 +172,26 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         bloodTextField.text = ""
         buttonSave.isEnabled = false
         
-//        saveImage(imageName: "\(child.name)+\(child.birthDate)")
-        
-
-       
         navigationController?.popViewController(animated: true)
-       
     }
-    
     
     func birthDatePicker()  {
         picker.datePickerMode = .date
-        
         let loc = Locale(identifier: "Ru_ru")
         self.picker.locale = loc
-        
         var components = DateComponents()
         components.year = -70
-        
         components.year = 0
         let maxDate = Calendar.current.date(byAdding: components , to: Date())
-        
         picker.maximumDate = maxDate
- 
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
         
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donePressed));
-        
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
         
         toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
-        
         
         BirthDayTextField.inputAccessoryView = toolbar
         BirthDayTextField.inputView = picker
@@ -234,53 +203,37 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         dateFormater.dateFormat = "dd MMMM yyyy"///////////change date format
         dateFormater.locale = Locale(identifier: "RU_ru")
         BirthDayTextField.text = dateFormater.string(from: picker.date)
-     
-       
-        
         dateFormater1.dateFormat = "yyyy.MM.dd"///////////change date format
-        
         birthDayString = dateFormater1.string(from: picker.date)
-        
         self.view.endEditing(true)
-    
-        }
+        
+    }
     
     @objc func cancelDatePicker(){
         
         self.view.endEditing(true)
-      
+        
     }
     
     @IBAction func sexChoiceButton(_ sender: UIButton) {
         
         let sexChoiceAlert = UIAlertController()
-        
         let action1 = UIAlertAction(title: "Мальчик", style: .default, handler: { (action) in
-            
-            
             self.genderTextField.text = "Мальчик"
             if self.genderTextField.text == "Male"{
-              //  self.sexTextString = "Male"
             }
-            
         })
-        
         
         let action2 = UIAlertAction(title: "Девочка", style: .default, handler: { action in
             self.genderTextField.text = "Девочка"
             if self.genderTextField.text == "Female"{
-             //   self.sexTextString = "Female"
             }
-        
         })
         
         let action3 = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
         sexChoiceAlert.addAction(action1)
         sexChoiceAlert.addAction(action2)
         sexChoiceAlert.addAction(action3)
-        
-        
         self.present(sexChoiceAlert, animated: true, completion: nil)
         
     }
@@ -294,15 +247,11 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         let actionTap = UIAlertController(title: "Фото", message: "Выберите источник:", preferredStyle: .actionSheet)
         
         actionTap.addAction(UIAlertAction(title: "Камера", style: .default, handler: {(action:UIAlertAction) in
-            
-            
             AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (granted :Bool) -> Void in
                 DispatchQueue.main.async {
-                    
                     if granted == true
                     {
                         if UIImagePickerController.isSourceTypeAvailable(.camera){
-                            
                             imagePickerController.sourceType = .camera
                             self.present(imagePickerController, animated: true, completion: nil)
                         }else{
@@ -323,24 +272,18 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
                     }
                     
                 }})
-            
         }))
-       
         actionTap.addAction(UIAlertAction(title: "Фото альбом", style: .default, handler: {(action:UIAlertAction) in
             imagePickerController.sourceType = .photoLibrary
             self.present(imagePickerController, animated: true, completion: nil)
             
         }))
-        
         actionTap.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
         self.present(actionTap, animated: true, completion: nil)
-        
     }
     func loadImageFromPath(path: String) -> UIImage? {
         
         let image = UIImage(contentsOfFile: path as String)
-        
         if image == nil {
             return UIImage()
         } else{
@@ -350,22 +293,15 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        
         if let img = info[UIImagePickerControllerEditedImage] as? String
-            
         {
             imageTakeFoto.image = loadImageFromPath(path: img)
-            
-            
         }
         else if let img = info[UIImagePickerControllerOriginalImage] as? UIImage
         {
             imageTakeFoto.image = img////////////////
-            
         }
-        
         picker.dismiss(animated: true,completion: nil)
-        
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -377,7 +313,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     func imageProfile() -> String{
-
+        
         var data :NSData = NSData()
         if let image = imageTakeFoto.image{
             data = UIImageJPEGRepresentation(image, 0.1)! as NSData
@@ -389,7 +325,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     func imageProfileUpdate(foto: UIImage) -> String{
         
         var data :NSData = NSData()
-            data = UIImageJPEGRepresentation(foto, 0.1)! as NSData
+        data = UIImageJPEGRepresentation(foto, 0.1)! as NSData
         let base64String = data.base64EncodedString(options: .lineLength64Characters)
         
         return base64String ?? "avatar_default"
@@ -410,12 +346,11 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         imageTakeFoto.layer.masksToBounds = true
     }
     
-
+    
     
     func getDocumentsDirectory() -> NSString {
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let documentsDirectory = paths[0]
-        //print("Path: \(documentsDirectory)")
         return documentsDirectory as NSString
     }
     
@@ -436,7 +371,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         textField.layer.cornerRadius = 5
         textField.tintColor = #colorLiteral(red: 0.9647058824, green: 0.5294117647, blue: 0.007843137255, alpha: 1)
     }
-
+    
 }
 
 

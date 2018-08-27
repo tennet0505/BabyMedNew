@@ -13,15 +13,18 @@ import FirebaseAuth
 import FirebaseStorage
 
 class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollViewDelegate  {
-   
-//    let realm = try! Realm()
-//    var childsArray : Results<ChildModel>!
-
+    
+    //    let realm = try! Realm()
+    //    var childsArray : Results<ChildModel>!
+    
     @IBOutlet weak var imageRecept: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var birthDayLabel: UILabel!
     @IBOutlet weak var nameIllLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    
+    @IBOutlet weak var weightLabel: UILabel!
+    
     @IBOutlet weak var simptomsTextView: UITextView!
     @IBOutlet weak var treatmentTextView: UITextView!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -35,7 +38,7 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
     var simptoms = ""
     var treatment = ""
     var image = "BabyMedLogo"
-    var uidUser = ""
+    var id = ""
     var idIll = ""
     
     var ill = IllModel(idIll: "",
@@ -45,7 +48,7 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
                        DateIll: "",
                        fotoRecept: "")
     @IBOutlet weak var buttonEdit: UIBarButtonItem!
-  
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         nameLabel.text = name
@@ -59,14 +62,14 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
         
         self.scrollView.minimumZoomScale = 1.0
         self.scrollView.maximumZoomScale = 5.0
+        
         nameLabel.text = name
         birthDayLabel.text = bd
         nameIllLabel.text = nameIll
         dateLabel.text = date
         simptomsTextView.text = simptoms
         treatmentTextView.text = treatment
-        
-       // getImage(imageName: image)
+        // getImage(imageName: image)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -78,29 +81,25 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
             vc.illname = nameIll
             vc.date = date
             vc.editValue = 1
-            vc.uidUser = uidUser
+            vc.id = id
             vc.name = name
             vc.birthdate = bd
             vc.idIll = idIll
             vc.delegate = self
-            
         }
         
         if segue.identifier == "toImageZoom",
             let vc = segue.destination as? ImageZoomViewController{
             vc.imageString = image
             vc.idIll = idIll
-            vc.uidUser = uidUser
+            vc.id = id
         }
-        
-       
     }
     
     @IBAction func buttonEdit(_ sender: Any) {
         performSegue(withIdentifier: "toIllForEdit", sender: self)
-
+        
     }
-  
     
     func getImage(imageName: String){
         
@@ -124,14 +123,14 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
     }
     
     func refreshProfileImage(){
-       
+        
         let store = Storage.storage()
-        let storeRef = store.reference().child("Childs").child(uidUser).child("Ills").child("\(idIll)/images/profile_photo.jpg")
+        let storeRef = store.reference().child("children").child(id).child("IllnessList").child("\(idIll)/images/profile_photo.jpg")
         print(storeRef)
         storeRef.getData(maxSize: 15 * 1024 * 1024) { data, error in
             if let error = error {
                 print("error: \(error.localizedDescription)")
-               self.hightConstraint.constant = 0
+                self.hightConstraint.constant = 0
             } else {
                 self.hightConstraint.constant = 204
                 let image = UIImage(data: data!)
@@ -142,7 +141,6 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
     @IBAction func buttonZoom(_ sender: UIButton) {
         performSegue(withIdentifier: "toImageZoom", sender: self)
     }
-    
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageRecept

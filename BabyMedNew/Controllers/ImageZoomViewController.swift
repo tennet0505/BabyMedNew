@@ -10,24 +10,24 @@ import UIKit
 import FirebaseStorage
 
 class ImageZoomViewController: UIViewController, UIScrollViewDelegate {
-
+    
     @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var imageZoom: UIImageView!
     
     var imageString = ""
-    var uidUser = ""
+    var id = ""
     var idIll = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         scrollView.minimumZoomScale = 1.0
         scrollView.maximumZoomScale = 4.0
         refreshProfileImage()
-       
+        
     }
-
+    
     @IBAction func closeButton(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
@@ -35,7 +35,7 @@ class ImageZoomViewController: UIViewController, UIScrollViewDelegate {
     func refreshProfileImage(){
         
         let store = Storage.storage()
-        let storeRef = store.reference().child("Childs").child(uidUser).child("Ills").child("\(idIll)/images/profile_photo.jpg")
+        let storeRef = store.reference().child("children").child(id).child("IllnessList").child("\(idIll)/images/profile_photo.jpg")
         print(storeRef)
         storeRef.getData(maxSize: 15 * 1024 * 1024) { data, error in
             if let error = error {
@@ -49,7 +49,4 @@ class ImageZoomViewController: UIViewController, UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageZoom
     }
-
-    
-
 }

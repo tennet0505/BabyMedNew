@@ -20,6 +20,13 @@ struct IllModel {
     var DateIll = ""
     var fotoRecept = ""
     
+    //    val name : String,
+    //    val symptoms : String,
+    //    val treatment : String,
+    //    val treatmentPhotoUri : String?,
+    //    val date : String,
+    //    val illnessWeight : Int)
+    
     init(idIll: String?, simptoms: String?, treatment: String?, illName: String?,  DateIll: String?, fotoRecept: String?) {
         self.idIll = idIll!
         self.simptoms = simptoms!
@@ -27,49 +34,42 @@ struct IllModel {
         self.illName = illName!
         self.DateIll = DateIll!
         self.fotoRecept = fotoRecept!
-        
     }
 }
 
 class PersonalViewController: UIViewController, NewChildDataProtocol {
-
+    
     var ref: DatabaseReference?
     var name = ""
     var bd = ""
     var gen = ""
     var weight = ""
     var blood = ""
-    var uidUser = ""
-    var userEmail = ""
+    var id = ""
+    var userId = ""
     var imageFoto = ""
     var illsArray = [IllModel]()
     var child = [ChildModel]()
-    var childPerson: ChildModel = ChildModel(Id: "",
+    var childPerson: ChildModel = ChildModel(id: "",
                                              name: "",
                                              birthDate: "",
                                              gender: "",
-                                             blood: "",
+                                             bloodType: "",
                                              image: "",
                                              weight: "",
-                                             userEmail: "")
+                                             userId: "")
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var birthDayLabel: UILabel!
     @IBOutlet weak var genderLabel: UILabel!
     @IBOutlet weak var weightLabel: UILabel!
     @IBOutlet weak var bloodLabel: UILabel!
-    
     @IBOutlet weak var fotoImage: UIImageView!
     var indexPath = IndexPath()
-    
     @IBOutlet weak var tableView: UITableView!
     
-   
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-      
-        
         
         getImage(imageName: childPerson.image)
         tableView.reloadData()
@@ -82,33 +82,27 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         nameLabel.text = name
         birthDayLabel.text = bd
         genderLabel.text = gen
-        weightLabel.text = weight
+        weightLabel.text = "\(weight)кг"
         bloodLabel.text = blood
         getImage(imageName: imageFoto)
- 
-        
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-       
-        if segue.identifier == "ToIllness",
         
-            let vc = segue.destination as? IllnessTableViewController{
-
-            let index = indexPath
-
-        }
+        //        if segue.identifier == "ToIllness",
+        //            let vc = segue.destination as? IllnessTableViewController{
+        //            let index = indexPath
+        //        }
+        
         if segue.identifier == "ToNewIllness",
             
             let vc = segue.destination as? NewIllnesViewController{
-            vc.uidUser = uidUser
-            let index = indexPath
+            vc.id = id
+            //            let index = indexPath
         }
         
         if segue.identifier == "toDescriptionIll",
             let vc = segue.destination as? DescriptionIllViewController{
-            
-            
             if let indexPath = tableView.indexPathForSelectedRow{
                 
                 let ill = illsArray[indexPath.row]
@@ -119,36 +113,35 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
                 vc.name = name
                 vc.image = ill.fotoRecept
                 vc.bd = bd
-                vc.uidUser = uidUser
+                vc.id = id
                 vc.idIll = ill.idIll
-
             }
         }
         if segue.identifier == "toPersonalForEdit",
-          
+            
             let vc = segue.destination as? NewChildViewController{
             let child = self.childPerson
             vc.childPerson = child
-            vc.idChild = childPerson.Id
+            vc.idChild = childPerson.id
             vc.editValue = 1
             vc.delegate = self
+            vc.indexPath = indexPath 
         }
     }
-    
-    func newDataChild(childEdit: ChildModel) {
+    func newDataChild(childEdit: ChildModel, indexPath: IndexPath?) {
         childPerson = childEdit
         nameLabel.text = childPerson.name
         birthDayLabel.text = childPerson.birthDate
         genderLabel.text = childPerson.gender
         weightLabel.text = childPerson.weight
-        bloodLabel.text = childPerson.blood
+        bloodLabel.text = childPerson.bloodType
         getImage(imageName: childPerson.image)
-        
     }
+    
     func loadIllness() {
         
         ref = Database.database().reference()
-        ref?.child("Childs").child(uidUser).child("Ills").observe(.childAdded, with: { snapshot  in
+        ref?.child("children").child(id).child("IllnessList").observe(.childAdded, with: { snapshot  in
             
             if let getData = snapshot.value as? [String:Any] {
                 
@@ -167,32 +160,28 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
                                             DateIll: DateIll as? String,
                                             fotoRecept: fotoRecept as? String
                     )
-                    
                     self.illsArray.insert(illmodel, at: 0)
-                    
                 }
-                 self.tableView.reloadData()
+                self.tableView.reloadData()
             }
         })
         tableView.reloadData()
-        
     }
     
-    
-    @IBAction func allIllnessButton(_ sender: UIButton) {
-        
-        performSegue(withIdentifier: "ToIllness", sender: self)
-    }
+    //    @IBAction func allIllnessButton(_ sender: UIButton) {
+    //
+    //        performSegue(withIdentifier: "ToIllness", sender: self)
+    //    }
     
     @IBAction func newIllButton(_ sender: UIButton) {
-         performSegue(withIdentifier: "ToNewIllness", sender: self)
+        performSegue(withIdentifier: "ToNewIllness", sender: self)
     }
     
     @IBAction func buttonEdit(_ sender: Any) {
         performSegue(withIdentifier: "toPersonalForEdit", sender: self)
         
     }
-   
+    
     func getImage(imageName: String){
         let decode  = NSData(base64Encoded: imageName, options: .ignoreUnknownCharacters)
         let decodeImage = UIImage(data: decode! as Data)
@@ -216,28 +205,21 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        
         let ill = illsArray[indexPath.row]
         cell.textLabel?.text = ill.illName
         cell.detailTextLabel?.text = ill.DateIll
-        
         
         return cell
     }
     
     //MARK TableView Delegate methods
     
-     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         performSegue(withIdentifier: "toDescriptionIll", sender: self)
         
-        
     }
-    
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
@@ -246,12 +228,12 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
             ref = Database.database().reference()
             let id = illsArray[indexPath.row].idIll
             
-            ref?.child("Childs").child(uidUser).child("Ills").child("\(id)").removeValue()
+            ref?.child("children").child(id).child("IllnessList").child("\(id)").removeValue()
             illsArray.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
-           
+            
             let storage = Storage.storage()
-            let url = storage.reference().child("Childs").child(uidUser).child("Ills").child("\(id)").child("images/profile_photo.jpg")
+            let url = storage.reference().child("children").child(id).child("IllnessList").child("\(id)").child("images/profile_photo.jpg")
             
             url.delete { error in
                 if let error = error {

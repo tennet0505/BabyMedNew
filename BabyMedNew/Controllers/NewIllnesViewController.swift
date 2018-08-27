@@ -17,7 +17,7 @@ protocol IllnessProtocol {
     func dataToNewIllness(illData: IllModel)
 }
 
-class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate{
     
     var ref: DatabaseReference!
     
@@ -27,6 +27,9 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     @IBOutlet weak var buttonSave: UIButton!
     @IBOutlet weak var nameIllTextField: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
+    
+    @IBOutlet weak var weightTextField: UITextField!
+    
     @IBOutlet weak var simptomsTextView: UITextView!
     @IBOutlet weak var treatmentTextView: UITextView!
     let picker = UIDatePicker()
@@ -40,7 +43,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     var treatment = ""
     var editValue = 0
     var idIll = ""
-    var uidUser = ""
+    var id = ""
     var image = ""
     var newIll = IllModel(idIll: "",
                           simptoms: "",
@@ -48,8 +51,6 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
                           illName: "",
                           DateIll: "",
                           fotoRecept: "")
-  
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -67,64 +68,52 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
             dateTextField.isEnabled = false
             nameIllTextField.alpha = 0.5
             dateTextField.alpha = 0.5
-            
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         ref = Database.database().reference()
-        
-        print(uidUser)
-
         nameIllTextField.text = illname
         dateTextField.text = date
         simptomsTextView.text = simptom
         treatmentTextView.text = treatment
-      //  getImage(imageName: image)
         
         DatePicker()
-        
-        
     }
-
+    
     @IBAction func saveButton(_ sender: UIButton) {
-       
+        
         addNewIll()
-
-                navigationController?.popViewController(animated: true)
-
-     
+        navigationController?.popViewController(animated: true)
+        
     }
     
     func addNewIll() {
-          print(uidUser)
+        print(id)
         
         if let nameIll = nameIllTextField.text,
             let dayIll = dateTextField.text,
             let simptoms = simptomsTextView.text,
             let treatment = treatmentTextView.text
         {
-            let idIll = ref.child("Childs").child(uidUser).child("Ills").childByAutoId().key
+            let idIll = ref.child("children").child(id).child("IllnessList").childByAutoId().key
             let illNew : [String : Any] = ["idIll": idIll,
                                            "illName": nameIll,
                                            "DateIll": dayIll,
                                            "simptoms": simptoms,
                                            "fotoRecept": "foto test",//imageProfile(),
-                                           "treatment": treatment]
+                "treatment": treatment]
             
-            //let illnessDictionary = ["ill": illNew] as [String : Any]
-            
-            ref.child("Childs").child(uidUser).child("Ills").child("\(idIll)").setValue(illNew)
+            ref.child("children").child(id).child("IllnessList").child("\(idIll)").setValue(illNew)
         }
-        
     }
- 
+    
     @IBAction func buttonEdit(_ sender: UIButton) {
         
-        let idIll = ref.child("Childs").child(uidUser).child("Ills").childByAutoId().key
+        let idIll = ref.child("children").child(id).child("IllnessList").childByAutoId().key
         newIll.illName = nameIllTextField.text!
         newIll.DateIll = dateTextField.text!
         newIll.simptoms = simptomsTextView.text!
@@ -134,16 +123,14 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc1 = storyboard.instantiateViewController(withIdentifier: "DescriptionIllViewController") as! DescriptionIllViewController
-
+        
         vc1.nameIll = nameIllTextField.text!
         vc1.date = dateTextField.text!
         vc1.simptoms = simptomsTextView.text!
         vc1.treatment = treatmentTextView.text!
-       
         vc1.name = name
         vc1.bd = birthdate
-
-
+        
         let illEdit = newIll
         delegate?.dataToNewIllness(illData: illEdit)
         navigationController?.popViewController(animated: true)
@@ -157,46 +144,33 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
                                           "treatment": treatmentTextView.text!,
                                           "illName": illname,
                                           "DateIll": dateTextField.text!,
-                                          "fotoRecept": "foto test"//imageProfileUpdate(foto: imageRecept.image!)
-        ]
+                                          "fotoRecept": "foto test" ]
         
-       
-       // let IllDictionary = ["ill": IllUpdate] as [AnyHashable : Any]
-        print("idIll: \(idIll)")
-       ref.child("Childs").child(uidUser).child("Ills").child("\(idIll)").updateChildValues(IllUpdate)
-
+        ref.child("children").child(id).child("IllnessList").child("\(idIll)").updateChildValues(IllUpdate)
         
     }
     
-
-    
     func loadIllness() {
-
-//        illArray = selectedChild?.ills.sorted(byKeyPath: "illName", ascending: true)
-
+        
+        //        illArray = selectedChild?.ills.sorted(byKeyPath: "illName", ascending: true)
+        
     }
     func DatePicker()  {
         picker.datePickerMode = .date
         
         let loc = Locale(identifier: "Ru_ru")
         self.picker.locale = loc
-        
         var components = DateComponents()
         components.year = 0
         let maxDate = Calendar.current.date(byAdding: components , to: Date())
         picker.maximumDate = maxDate
-        
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
-        
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donePressed));
-        
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
         
         toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
-        
         
         dateTextField.inputAccessoryView = toolbar
         dateTextField.inputView = picker
@@ -208,13 +182,9 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         dateFormater.dateFormat = "dd MMMM yyyy"///////////change date format
         dateFormater.locale = Locale(identifier: "RU_ru")
         dateTextField.text = dateFormater.string(from: picker.date)
-        
         dateFormater1.dateFormat = "yyyy.MM.dd"///////////change date format
         
-       // birthDayString = dateFormater1.string(from: picker.date)
-        
         self.view.endEditing(true)
-        
     }
     
     @objc func cancelDatePicker(){
@@ -233,8 +203,6 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         let actionTap = UIAlertController(title: "Фото", message: "Выберите источник:", preferredStyle: .actionSheet)
         
         actionTap.addAction(UIAlertAction(title: "Камера", style: .default, handler: {(action:UIAlertAction) in
-            
-            
             AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (granted :Bool) -> Void in
                 DispatchQueue.main.async {
                     
@@ -260,9 +228,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
                         
                         return
                     }
-                    
                 }})
-            
         }))
         
         actionTap.addAction(UIAlertAction(title: "Фото альбом", style: .default, handler: {(action:UIAlertAction) in
@@ -270,13 +236,12 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
             self.present(imagePickerController, animated: true, completion: nil)
             
         }))
-        
         actionTap.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         self.present(actionTap, animated: true, completion: nil)
         
     }
-   
+    
     func imageProfile() -> String{
         
         var data :NSData = NSData()
@@ -284,7 +249,6 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
             data = UIImageJPEGRepresentation(image, 0.1)! as NSData
         }
         let base64String = data.base64EncodedString(options: .lineLength64Characters)
-        
         return base64String ?? "BabyMedLogo"
     }
     func imageProfileUpdate(foto: UIImage) -> String{
@@ -292,19 +256,14 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         var data :NSData = NSData()
         data = UIImageJPEGRepresentation(foto, 0.1)! as NSData
         let base64String = data.base64EncodedString(options: .lineLength64Characters)
-        
         return base64String ?? "avatar_default"
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        
         if let img = info[UIImagePickerControllerEditedImage] as? String
             
         {
             imageRecept.image = loadImageFromPath(path: img)
-            
-            
         }
         else if let img = info[UIImagePickerControllerOriginalImage] as? UIImage
         {
@@ -312,12 +271,11 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
             metadata.contentType = "image/jpeg"
             
             let imageData: Data = UIImageJPEGRepresentation(img, 0.1)!
-  
             let store = Storage.storage()
             let user = Auth.auth().currentUser
             if let user = user{
                 print(idIll)
-                let storeRef = store.reference().child("Childs").child(uidUser).child("Ills").child("\(idIll)").child("images/profile_photo.jpg")
+                let storeRef = store.reference().child("children").child(id).child("IllnessList").child("\(idIll)").child("images/profile_photo.jpg")
                 let _ = storeRef.putData(imageData, metadata: metadata) { (metadata, error) in
                     guard let _ = metadata else {
                         print("error occurred: \(error.debugDescription)")
@@ -325,13 +283,9 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
                     }
                     self.imageRecept.image = img
                 }
-                
             }
-
         }
-        
         picker.dismiss(animated: true,completion: nil)
-        
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -341,15 +295,12 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     func loadImageFromPath(path: String) -> UIImage? {
         
         let image = UIImage(contentsOfFile: path as String)
-        
         if image == nil {
             return UIImage()
         } else{
             return image
         }
     }
-    
-   
     
     func getImage(imageName: String){
         
@@ -366,10 +317,8 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     func getDocumentsDirectory() -> NSString {
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let documentsDirectory = paths[0]
-        //print("Path: \(documentsDirectory)")
         return documentsDirectory as NSString
     }
-    
 }
 
 
