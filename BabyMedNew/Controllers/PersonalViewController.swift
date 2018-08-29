@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import Firebase
 import FirebaseStorage
+import FirebaseDatabase
 
 struct IllModel {
     
@@ -175,11 +176,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         tableView.reloadData()
     }
     
-    //    @IBAction func allIllnessButton(_ sender: UIButton) {
-    //
-    //        performSegue(withIdentifier: "ToIllness", sender: self)
-    //    }
-    
+  
     @IBAction func newIllButton(_ sender: UIButton) {
         performSegue(withIdentifier: "ToNewIllness", sender: self)
     }
@@ -188,13 +185,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         performSegue(withIdentifier: "toPersonalForEdit", sender: self)
         
     }
-    
-//    func getImage(imageName: String){
-//        let decode  = NSData(base64Encoded: imageName, options: .ignoreUnknownCharacters)
-//        let decodeImage = UIImage(data: decode! as Data)
-//        fotoImage.image = decodeImage
-//    }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -234,14 +225,14 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
             print("Deleted")
             ref = Database.database().reference()
             let id = illsArray[indexPath.row].idIll
+            let imgPath = illsArray[indexPath.row].fotoRecept
             
-            ref?.child("children").child(id).child("IllnessList").child("\(id)").removeValue()
+            ref?.child("children").child(uid).child("IllnessList").child("\(id)").removeValue()
             illsArray.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
             
             let storage = Storage.storage()
-            let url = storage.reference().child("children").child(uid).child("IllnessList").child("\(id)").child("images/profile_photo.jpg")
-            
+            let url = storage.reference().child("images/\(imgPath)")
             url.delete { error in
                 if let error = error {
                     print(error)

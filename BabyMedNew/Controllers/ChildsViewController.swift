@@ -154,10 +154,11 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             ref = Database.database().reference()
             
             let id = childArray[indexPath.row].id
+            let imgPath = childArray[indexPath.row].image
             ref?.child("children").child("\(id)").removeValue()
+         
             let storage = Storage.storage()
-            let url = storage.reference().child("children").child(id)
-
+            let url = storage.reference().child("images/\(imgPath)")
             url.delete { error in
                 if let error = error {
                     print(error)
