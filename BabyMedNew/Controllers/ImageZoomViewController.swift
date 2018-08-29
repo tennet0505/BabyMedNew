@@ -34,15 +34,24 @@ class ImageZoomViewController: UIViewController, UIScrollViewDelegate {
     
     func refreshProfileImage(){
         
-        let store = Storage.storage()
-        let storeRef = store.reference().child("children").child(id).child("IllnessList").child("\(idIll)/images/profile_photo.jpg")
-        print(storeRef)
-        storeRef.getData(maxSize: 15 * 1024 * 1024) { data, error in
-            if let error = error {
-                print("error: \(error.localizedDescription)")
-            } else {
-                let image = UIImage(data: data!)
-                self.imageZoom.image = image
+        if imageString == ""{
+            imageZoom.image = UIImage(named: "avatar_default")
+        }else{
+            let store = Storage.storage()
+            let storeRef = store.reference(forURL: imageString)
+            
+            storeRef.downloadURL { url, error in
+                if let error = error {
+                    
+                    print("error: \(error)")
+                } else {
+                    if let data = try? Data(contentsOf: url!) {
+                        if let image = UIImage(data: data) {
+                            
+                            self.imageZoom.image = image
+                        }
+                    }
+                }
             }
         }
     }

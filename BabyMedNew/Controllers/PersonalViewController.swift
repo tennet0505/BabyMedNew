@@ -115,7 +115,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
                 vc.nameIll = ill.illName
                 vc.date = ill.DateIll
                 vc.name = name
-                vc.image = ill.fotoRecept
+                vc.imagePath = ill.fotoRecept 
                 vc.bd = bd
                 vc.id = uid
                 vc.illWeight = ill.illnessWeight
@@ -272,5 +272,4 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
             }
         }
     }
-    
 }

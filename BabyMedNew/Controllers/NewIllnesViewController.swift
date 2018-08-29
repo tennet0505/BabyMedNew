@@ -48,6 +48,8 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     var id = ""
     var image = ""
     var illWeight = ""
+    var imgReceptPath = String()
+    var downloadURL = ""
     var newIll = IllModel(idIll: "",
                           symptoms: "",
                           treatment: "",
@@ -86,7 +88,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         simptomsTextView.text = simptom
         treatmentTextView.text = treatment
         weightTextField.text = illWeight
-        
+        refreshProfileImage()
         DatePicker()
     }
     
@@ -111,7 +113,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
                                            "name": nameIll,
                                            "date": dayIll,
                                            "symptoms": simptoms,
-                                           "treatmentPhotoUri": "foto test",
+                                           "treatmentPhotoUri": downloadURL,
                                            "treatment": treatment,
                                            "illnessWeight": illnessWeight]
             
@@ -140,6 +142,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         vc1.illWeight = weightTextField.text! //////////////////
         vc1.name = name
         vc1.bd = birthdate
+        vc1.imagePath = imgReceptPath
         
         let illEdit = newIll
         delegate?.dataToNewIllness(illData: illEdit)
@@ -154,10 +157,11 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
                                           "treatment": treatmentTextView.text!,
                                           "name": illname,
                                           "date": dateTextField.text!,
-                                          "treatmentPhotoUri": "foto test",
+                                          "treatmentPhotoUri": downloadURL,
                                           "illnessWeight": weightTextField.text!]
         
         ref.child("children").child(id).child("IllnessList").child("\(idIll)").updateChildValues(IllUpdate)
+        ref.child("children").child(id).child("IllnessList").child("\(idIll)").updateChildValues(["treatmentPhotoUri": downloadURL])
         
     }
     
@@ -257,81 +261,85 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
    
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let img = info[UIImagePickerControllerEditedImage] as? String
+        let alertController = UIAlertController(title: "load foto...", message: " ", preferredStyle: .alert)
+        let spinnerIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        spinnerIndicator.center = CGPoint(x: 135.0, y: 65.5)
+        spinnerIndicator.color = UIColor.black
+        spinnerIndicator.startAnimating()
+        alertController.view.addSubview(spinnerIndicator)
+        
+        guard let fileUrl = info[UIImagePickerControllerImageURL] as? URL else { return }
+        
+        imgReceptPath = "\(fileUrl.lastPathComponent)"
+        print(imgReceptPath)
+        if let img1 = info[UIImagePickerControllerOriginalImage] as? UIImage{
             
-        {
-            imageRecept.image = loadImageFromPath(path: img)
-        }
-        else if let img = info[UIImagePickerControllerOriginalImage] as? UIImage
-        {
-            let metadata = StorageMetadata()
-            metadata.contentType = "image/jpeg"
             
-            let imageData: Data = UIImageJPEGRepresentation(img, 0.1)!
+            var imageData = Data()
+            imageData = UIImageJPEGRepresentation(img1, 0.1)!
+            imageRecept.image = img1
             let store = Storage.storage()
-            let user = Auth.auth().currentUser
-            if let user = user{
-                print(idIll)
-                let storeRef = store.reference().child("children").child(id).child("IllnessList").child("\(idIll)").child("images/profile_photo.jpg")
-                let _ = storeRef.putData(imageData, metadata: metadata) { (metadata, error) in
-                    guard let _ = metadata else {
-                        print("error occurred: \(error.debugDescription)")
-                        return
+            let storeRef = store.reference().child("images/\(imgReceptPath)")
+            let metaData = StorageMetadata()
+            metaData.contentType = "image/jpg"
+            
+            storeRef.putData(imageData as Data, metadata: metaData){ metadata,error in
+                //                let size = metadata?.size
+                // You can also access to download URL after upload.
+                
+                
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
+                }else{
+                    
+                    storeRef.downloadURL { (url, error) in
+                        DispatchQueue.main.async {
+                            if  let URLdownload = url {
+                                self.downloadURL = URLdownload.absoluteString
+                                alertController.dismiss(animated: true, completion: nil)
+                                print(self.downloadURL)
+                            }
+                        }
                     }
-                    self.imageRecept.image = img
                 }
             }
         }
-        picker.dismiss(animated: true,completion: nil)
+        picker.dismiss(animated: true, completion: nil)
+        
+        self.present(alertController, animated: false, completion: nil)
+
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
-    
-    func loadImageFromPath(path: String) -> UIImage? {
+   
+    func refreshProfileImage(){
         
-        let image = UIImage(contentsOfFile: path as String)
-        if image == nil {
-            return UIImage()
-        } else{
-            return image
-        }
-    }
-    
-    func getImage(imageName: String){
-        
-        var decodeImage = UIImage()
-        if imageName != ""{
-            let decode = NSData(base64Encoded: imageName, options: .ignoreUnknownCharacters)
-            decodeImage = UIImage(data: decode! as Data)!
-            imageRecept.image = decodeImage
+        if imgReceptPath == ""{
+            imageRecept.image = UIImage(named: "avatar_default")
         }else{
-            imageRecept.image = UIImage(named: "BabyMedLogo")
+            let store = Storage.storage()
+            let storeRef = store.reference(forURL: imgReceptPath)
+            
+            storeRef.downloadURL { url, error in
+                if let error = error {
+                    
+                    print("error: \(error)")
+                } else {
+                    if let data = try? Data(contentsOf: url!) {
+                        if let image = UIImage(data: data) {
+                            
+                            self.imageRecept.image = image
+                        }
+                    }
+                }
+            }
         }
-    }
-    func imageProfile() -> String{
-        
-        var data :NSData = NSData()
-        if let image = imageRecept.image{
-            data = UIImageJPEGRepresentation(image, 0.1)! as NSData
-        }
-        let base64String = data.base64EncodedString(options: .lineLength64Characters)
-        return base64String ?? "BabyMedLogo"
-    }
-    func imageProfileUpdate(foto: UIImage) -> String{
-        
-        var data :NSData = NSData()
-        data = UIImageJPEGRepresentation(foto, 0.1)! as NSData
-        let base64String = data.base64EncodedString(options: .lineLength64Characters)
-        return base64String ?? "avatar_default"
     }
     
-    func getDocumentsDirectory() -> NSString {
-        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        let documentsDirectory = paths[0]
-        return documentsDirectory as NSString
-    }
+
 }
 
 
