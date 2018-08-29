@@ -8,6 +8,8 @@
 import UIKit
 import FirebaseDatabase
 import Firebase
+import FirebaseStorage
+import FirebaseAuth
 import SVProgressHUD
 
 struct ChildModel{
@@ -54,21 +56,19 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var tableView: UITableView!
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
+       super.viewWillAppear(animated)
+        childArray.removeAll()
+        checkReachability()
+        SVProgressHUD.dismiss()
+        userID = (Auth.auth().currentUser?.uid)!
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        childArray.removeAll()
-        checkReachability()
         pullToRefresh()
-        SVProgressHUD.dismiss()
-        userID = (Auth.auth().currentUser?.uid)!
-      
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-            }
+    }
     
     func pullToRefresh() {
         
@@ -81,7 +81,7 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @objc func refresh(_ sender: Any) {
         
         childArray.removeAll()
-        loadChildsData()
+        checkReachability()
         tableView.reloadData()
         refreshControl.endRefreshing()
     }
@@ -95,10 +95,33 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? ChildTableViewCell
         
+        let store = Storage.storage()
+        
+        
         cell?.labelName.text = childArray[indexPath.row].name
         cell?.labelAge.text = childArray[indexPath.row].birthDate
-        cell?.imageFoto.image = getImage(imageName: childArray[indexPath.row].image)
         
+        if childArray[indexPath.row].image == ""{
+            cell?.imageFoto.image = UIImage(named: "avatar_default")
+        }else{
+            let storeRef = store.reference(forURL: childArray[indexPath.row].image)
+            storeRef.downloadURL { url, error in
+                if let error = error {
+                    print("error: \(error)")
+                } else {
+                    if let urlString = url{
+                        if let data = try? Data(contentsOf: urlString) {
+                            print("URL:\(String(describing: url))")
+                            if let image = UIImage(data: data) {
+                                DispatchQueue.main.async {
+                                    cell?.imageFoto.image = image
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         return cell!
     }
     
@@ -114,10 +137,11 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         vc.weight = child.weight 
         vc.gen = child.gender
         vc.indexPath = indexPath
-        vc.imageFoto = child.image
+       // vc.imageFoto = child.image
         vc.uid = child.id  
         vc.userId = child.userId
         vc.childPerson = child
+        vc.firebaseImagePath = child.image
         
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -152,6 +176,7 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
        SVProgressHUD.show()
         
+        
         ref = Database.database().reference()
         ref?.child("children").observe(.childAdded, with: { snapshot  in
             
@@ -165,7 +190,7 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     let userId = getData["userId"],
                     let image = getData["photoUri"],
                     let gender = getData["gender"],
-                    let idString =  getData["id"]
+                    let idString = getData["id"]
                 {
                     if self.userID == userId as! String{
                         self.childArray.insert(ChildModel(id: idString as? String,
@@ -176,24 +201,40 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                                           image: image as? String,
                                                           weight: weight as? Int,
                                                           userId: userId as? String), at: 0)
+                    
                     }
-                    self.tableView.reloadData()
+                     self.tableView.reloadData()
                 }
+                 self.tableView.reloadData()
             }
             SVProgressHUD.dismiss()
         })
         self.tableView.reloadData()
+
+        print(childArray)
     }
     
-    func getImage(imageName: String) -> UIImage{
+    func getImage(imageUrl: String) -> UIImage{
+        var img = UIImage()
+        let store = Storage.storage()
+        let storeRef = store.reference(forURL: imageUrl)
         
-        var decodeImage = UIImage()
-        if  let decode  = NSData(base64Encoded: imageName, options: .ignoreUnknownCharacters){
-            decodeImage = UIImage(data: decode as Data) ?? UIImage(named: "avatar_default")!
+        storeRef.downloadURL { url, error in
+            if let error = error {
+                print("error: \(error)")
+            } else {
+                if let data = try? Data(contentsOf: url!) {
+                    print("URL:\(String(describing: url))")
+                    if let image = UIImage(data: data) {
+                            img = image
+                    }
+                }
+            }
         }
-        return decodeImage
+        return img
     }
-    
+ 
+
     @IBAction func LogOutButton(_ sender: UIBarButtonItem) {
         
         let alert = UIAlertController(title: "Внимание!", message: "Вы хотите покинуть вашу семью!", preferredStyle: .alert)
@@ -219,9 +260,11 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func checkReachability(){
         
         if currentReachabilityStatus == .reachableViaWiFi {
+            childArray.removeAll()
             loadChildsData()
             print("User is connected to the internet via wifi.")
         }else if currentReachabilityStatus == .reachableViaWWAN{
+            childArray.removeAll()
             loadChildsData()
             print("User is connected to the internet via WWAN.")
         }else if currentReachabilityStatus == .notReachable{

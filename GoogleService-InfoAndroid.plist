@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>93625902074-scu9bim9sflejk4c2k75na1u1kc005i3.apps.googleusercontent.com</string>
+	<string>706565387125-1rfll8rc24iq2q7oq474ak7br3b14kbl.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.93625902074-scu9bim9sflejk4c2k75na1u1kc005i3</string>
+	<string>com.googleusercontent.apps.706565387125-1rfll8rc24iq2q7oq474ak7br3b14kbl</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBpVfgyQHMub6DCxxUf41NfWO-PQBdFPtg</string>
+	<string>AIzaSyAQR0Ln6u5W3wylXZrM1xlfIhHnWffrArU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>93625902074</string>
+	<string>706565387125</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.babymed.spalmalo</string>
 	<key>PROJECT_ID</key>
-	<string>babymed-fe806</string>
+	<string>babymed-194d8</string>
 	<key>STORAGE_BUCKET</key>
-	<string>babymed-fe806.appspot.com</string>
+	<string>babymed-194d8.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:93625902074:ios:55182e8c34cb7263</string>
+	<string>1:706565387125:ios:55182e8c34cb7263</string>
 	<key>DATABASE_URL</key>
-	<string>https://babymed-fe806.firebaseio.com</string>
+	<string>https://babymed-194d8.firebaseio.com</string>
 </dict>
 </plist>

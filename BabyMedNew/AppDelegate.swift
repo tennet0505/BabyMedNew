@@ -11,6 +11,7 @@ import CoreData
 import IQKeyboardManagerSwift
 import Firebase
 import RealmSwift
+import FirebaseAuth
 import Realm
 
 @UIApplicationMain

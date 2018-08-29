@@ -17,6 +17,7 @@ import RealmSwift
 protocol NewChildDataProtocol {
     func newDataChild(childEdit: ChildModel, indexPath: IndexPath?)
 }
+
 class NewChildViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     var bloodTypeArray = ["Выберите группу крови:","Группа I+","Группа I-","Группа II+","Группа II-","Группа III+","Группа III-","Группа IV+","Группа IV-"]
@@ -36,7 +37,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     
- //   let realm = try! Realm()
+    //   let realm = try! Realm()
     var ref: DatabaseReference!
     
     @IBOutlet weak var nameTextField: UITextField!
@@ -51,8 +52,12 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     var idChild = NSUUID().uuidString
     var editValue = 0
     var indexPath = IndexPath()
+    var downloadURL = ""
     @IBOutlet weak var imageTakeFoto: UIImageView!
     
+    
+    var imgProfilePath = String()
+    var firebaseImagePath = String()
     var delegate: NewChildDataProtocol?
     var illarray = [IllModel]()
     var childPerson: ChildModel = ChildModel(id: "",
@@ -86,13 +91,16 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         genderTextField.text = childPerson.gender
         weightTextField.text = "\(childPerson.weight)"
         bloodTextField.text = childPerson.bloodType
-        imageTakeFoto.image =  getImage(imageName: childPerson.image)
         buttonSave.isEnabled = true
         birthDatePicker()
+        refreshProfileImage()
+        
         
     }
     
     func addChild() {
+        
+    
         
         if let name = nameTextField.text,
             let birthDay = BirthDayTextField.text,
@@ -108,32 +116,15 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
                                              "gender": gender,
                                              "weight": weight,
                                              "bloodType": bloodType,
-                                             "photoUri": imageProfile(),
+                                             "photoUri": downloadURL,
                                              "userId": userId,
                                              "illnessList": []]
             
             ref.child("children").child("\(id)").setValue(childNew)
-            
-            //            let childNewRealm = ChildRealm()
-            //            childNewRealm.name = name
-            //            childNewRealm.birthDate = birthDay
-            //            childNewRealm.blood = blood
-            //            childNewRealm.gender = gender
-            //            childNewRealm.weight = weight
-            //            childNewRealm.userEmail = userEmail!
-            //            addChildToRealm(child: childNewRealm)
-            
         }
+        
     }
-//    func addChildToRealm(child: ChildRealm) {
-//        do{
-//            try realm.write {
-//                realm.add(child)
-//            }
-//        }catch{
-//            print("Error save child!!!")
-//        }
-//    }
+    
     
     @IBAction func SaveData(_ sender: UIButton) {
         
@@ -146,18 +137,19 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
                                                 "birthDate": BirthDayTextField.text!,
                                                 "gender": genderTextField.text!,
                                                 "weight": Int(weightTextField.text!)! ,
-                                                "blood": bloodTextField.text!,
-                                                "photoUri": imageProfileUpdate(foto: imageTakeFoto.image!),
+                                                "bloodType": bloodTextField.text!,
+                                                "photoUri": downloadURL,
                                                 "userId": userId as! String,
                                                 "ills": []]
             
             ref.child("children").child("\(idChild)").updateChildValues(childUpdate)
+            ref.child("children").child("\(idChild)").updateChildValues(["photoUri": downloadURL])
             childPerson = ChildModel(id: idChild,
                                      name: nameTextField.text!,
                                      birthDate: BirthDayTextField.text!,
                                      gender: genderTextField.text!,
                                      bloodType: bloodTextField.text!,
-                                     image:  imageProfileUpdate(foto: imageTakeFoto.image!),
+                                     image:  downloadURL,
                                      weight: Int(weightTextField.text!),
                                      userId:  userId)
         }
@@ -177,8 +169,8 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     
     func birthDatePicker()  {
         picker.datePickerMode = .date
-     //   let loc = Locale(identifier: "Ru_ru")
-      //  self.picker.locale = loc
+        //   let loc = Locale(identifier: "Ru_ru")
+        //  self.picker.locale = loc
         var components = DateComponents()
         components.year = -70
         components.year = 0
@@ -201,7 +193,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         let dateFormater = DateFormatter()
         let dateFormater1 = DateFormatter()
         dateFormater.dateFormat = "dd MMMM yyyy"///////////change date format
-//  dateFormater.locale = Locale(identifier: "RU_ru")
+        //  dateFormater.locale = Locale(identifier: "RU_ru")
         BirthDayTextField.text = dateFormater.string(from: picker.date)
         dateFormater1.dateFormat = "yyyy.MM.dd"///////////change date format
         birthDayString = dateFormater1.string(from: picker.date)
@@ -281,32 +273,64 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         actionTap.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(actionTap, animated: true, completion: nil)
     }
-    func loadImageFromPath(path: String) -> UIImage? {
-        
-        let image = UIImage(contentsOfFile: path as String)
-        if image == nil {
-            return UIImage()
-        } else{
-            return image
-        }
-    }
+
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        if let img = info[UIImagePickerControllerEditedImage] as? String
-        {
-            imageTakeFoto.image = loadImageFromPath(path: img)
+        let alertController = UIAlertController(title: "load foto...", message: " ", preferredStyle: .alert)
+        let spinnerIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        spinnerIndicator.center = CGPoint(x: 135.0, y: 65.5)
+        spinnerIndicator.color = UIColor.black
+        spinnerIndicator.startAnimating()
+        alertController.view.addSubview(spinnerIndicator)
+        
+        guard let fileUrl = info[UIImagePickerControllerImageURL] as? URL else { return }
+        
+        imgProfilePath = "\(fileUrl.lastPathComponent)"
+        print(imgProfilePath)
+        if let img1 = info[UIImagePickerControllerOriginalImage] as? UIImage{
+        
+            
+            var imageData = Data()
+            imageData = UIImageJPEGRepresentation(img1, 0.1)!
+            imageTakeFoto.image = img1
+            let store = Storage.storage()
+            let storeRef = store.reference().child("images/\(imgProfilePath)")
+            let metaData = StorageMetadata()
+            metaData.contentType = "image/jpg"
+            
+            storeRef.putData(imageData as Data, metadata: metaData){ metadata,error in
+//                let size = metadata?.size
+                // You can also access to download URL after upload.
+               
+
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
+                }else{
+                    
+                    storeRef.downloadURL { (url, error) in
+                        DispatchQueue.main.async {
+                            if  let URLdownload = url {
+                                self.downloadURL = URLdownload.absoluteString
+                                alertController.dismiss(animated: true, completion: nil)
+                                print(self.downloadURL)
+                            }
+                        }
+                    }
+                }
+            }
         }
-        else if let img = info[UIImagePickerControllerOriginalImage] as? UIImage
-        {
-            imageTakeFoto.image = img////////////////
-        }
-        picker.dismiss(animated: true,completion: nil)
+        picker.dismiss(animated: true, completion: nil)
+        
+        self.present(alertController, animated: false, completion: nil)
     }
+   
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
@@ -330,29 +354,35 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         
         return base64String ?? "avatar_default"
     }
-    
-    func getImage(imageName: String) -> UIImage{
-        
-        var decodeImage = UIImage()
-        if  let decode  = NSData(base64Encoded: imageName, options: .ignoreUnknownCharacters){
-            decodeImage = UIImage(data: decode as Data) ?? UIImage(named: "avatar_default")!
+    func refreshProfileImage(){
+        if childPerson.image == ""{
+            imageTakeFoto.image = UIImage(named: "avatar_default")
+        }else{
+            let store = Storage.storage()
+            let storeRef = store.reference(forURL: childPerson.image)
+            
+            storeRef.downloadURL { url, error in
+                if let error = error {
+                    print("error: \(error)")
+                } else {
+                    if let data = try? Data(contentsOf: url!) {
+                        if let image = UIImage(data: data) {
+                            self.imageTakeFoto.image = image
+                        }
+                    }
+                }
+            }
+            
         }
-        return decodeImage
     }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         imageTakeFoto.layer.cornerRadius  = imageTakeFoto.frame.size.width/2
         imageTakeFoto.layer.masksToBounds = true
     }
-    
-    
-    
-    func getDocumentsDirectory() -> NSString {
-        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        let documentsDirectory = paths[0]
-        return documentsDirectory as NSString
-    }
+  
     
     func textFieldShouldBeginEditing (_ textField: UITextField) -> Bool {
         

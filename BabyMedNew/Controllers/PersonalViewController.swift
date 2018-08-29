@@ -21,6 +21,7 @@ struct IllModel {
     var fotoRecept = ""
     var illnessWeight = ""
     
+    
     //    val name : String,
     //    val symptoms : String,
     //    val treatment : String,
@@ -52,6 +53,8 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     var imageFoto = ""
     var illsArray = [IllModel]()
     var child = [ChildModel]()
+    var imgProfilePath = ""
+    var firebaseImagePath = ""
     var childPerson: ChildModel = ChildModel(id: "",
                                              name: "",
                                              birthDate: "",
@@ -72,8 +75,8 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        getImage(imageName: childPerson.image)
+        refreshProfileImage()
+      //  getImage(imageName: childPerson.image)
         tableView.reloadData()
     }
     
@@ -86,7 +89,6 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         genderLabel.text = gen
         weightLabel.text = "\(weight)кг"
         bloodLabel.text = blood
-        getImage(imageName: imageFoto)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -138,7 +140,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         genderLabel.text = childPerson.gender
         weightLabel.text = "\(childPerson.weight)"
         bloodLabel.text = childPerson.bloodType
-        getImage(imageName: childPerson.image)
+      //  getImage(imageName: childPerson.image)
     }
     
     func loadIllness() {
@@ -187,11 +189,11 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         
     }
     
-    func getImage(imageName: String){
-        let decode  = NSData(base64Encoded: imageName, options: .ignoreUnknownCharacters)
-        let decodeImage = UIImage(data: decode! as Data)
-        fotoImage.image = decodeImage
-    }
+//    func getImage(imageName: String){
+//        let decode  = NSData(base64Encoded: imageName, options: .ignoreUnknownCharacters)
+//        let decodeImage = UIImage(data: decode! as Data)
+//        fotoImage.image = decodeImage
+//    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -248,6 +250,26 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
                 }
             }
             
+        }
+    }
+    func refreshProfileImage(){
+        if childPerson.image == ""{
+            fotoImage.image = UIImage(named: "avatar_default")
+        }else{
+            let store = Storage.storage()
+            let storeRef = store.reference(forURL: childPerson.image)
+            
+            storeRef.downloadURL { url, error in
+                if let error = error {
+                    print("error: \(error)")
+                } else {
+                    if let data = try? Data(contentsOf: url!) {
+                        if let image = UIImage(data: data) {
+                            self.fotoImage.image = image
+                        }
+                    }
+                }
+            }
         }
     }
     
