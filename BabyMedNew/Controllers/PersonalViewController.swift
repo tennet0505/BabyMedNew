@@ -231,14 +231,17 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
             illsArray.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
             
-            let storage = Storage.storage()
-            let url = storage.reference().child("images/\(imgPath)")
-            url.delete { error in
-                if let error = error {
-                    print(error)
-                } else {
-                    print("Success delete")
+            if imgPath != ""{
+                let storage = Storage.storage()
+                let url = storage.reference(forURL: imgPath)
+                url.delete { error in
+                    if let error = error {
+                        print(error)
+                    } else {
+                        print("Success delete")
+                    }
                 }
+                
             }
             
         }

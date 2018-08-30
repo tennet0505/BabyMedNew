@@ -20,7 +20,7 @@ protocol NewChildDataProtocol {
 
 class NewChildViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    var bloodTypeArray = ["Выберите группу крови:","Группа I+","Группа I-","Группа II+","Группа II-","Группа III+","Группа III-","Группа IV+","Группа IV-"]
+    var bloodTypeArray = ["Выберите группу крови:", "1(0) Rh+","1(0) Rh-", "2(A) Rh+","2(A) Rh-", "3(B) Rh+", "3(B) Rh-", "4(AB) Rh+", "4(AB) Rh-"]
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -89,7 +89,13 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         nameTextField.text = childPerson.name
         BirthDayTextField.text = childPerson.birthDate
         genderTextField.text = childPerson.gender
-        weightTextField.text = "\(childPerson.weight)"
+        if childPerson.weight != 0
+        {
+            weightTextField.text = "\(childPerson.weight)"
+        }else{
+            weightTextField.text = "0"
+        }
+        
         bloodTextField.text = childPerson.bloodType
         buttonSave.isEnabled = true
         birthDatePicker()
@@ -127,44 +133,54 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     
     
     @IBAction func SaveData(_ sender: UIButton) {
-        
-        if editValue == 0{
-            addChild()
+        if nameTextField.text == ""{
+            let alert = UIAlertController(title: "Внимание!", message: "Заполните поле!", preferredStyle: .alert)
+            let action1 = UIAlertAction(title: "OK", style: .default) { action1 in
+                self.nameTextField.becomeFirstResponder()
+            }
+            alert.addAction(action1)
+            self.present(alert, animated: true, completion: nil)
         }else{
-            let userId = Auth.auth().currentUser?.uid
-            let childUpdate : [String : Any] = ["id": idChild,
-                                                "name": nameTextField.text!,
-                                                "birthDate": BirthDayTextField.text!,
-                                                "gender": genderTextField.text!,
-                                                "weight": Int(weightTextField.text!)! ,
-                                                "bloodType": bloodTextField.text!,
-                                                "photoUri": downloadURL,
-                                                "userId": userId as! String,
-                                                "ills": []]
+
+            if editValue == 0{
+                addChild()
+            }else{
+                let userId = Auth.auth().currentUser?.uid
+                let childUpdate : [String : Any] = ["id": idChild,
+                                                    "name": nameTextField.text!,
+                                                    "birthDate": BirthDayTextField.text!,
+                                                    "gender": genderTextField.text!,
+                                                    "weight": Int(weightTextField.text!)! ,
+                                                    "bloodType": bloodTextField.text!,
+                                                    "photoUri": downloadURL,
+                                                    "userId": userId as! String,
+                                                    "ills": []]
+                
+                ref.child("children").child("\(idChild)").updateChildValues(childUpdate)
+                ref.child("children").child("\(idChild)").updateChildValues(["photoUri": downloadURL])
+                childPerson = ChildModel(id: idChild,
+                                         name: nameTextField.text!,
+                                         birthDate: BirthDayTextField.text!,
+                                         gender: genderTextField.text!,
+                                         bloodType: bloodTextField.text!,
+                                         image:  downloadURL,
+                                         weight: Int(weightTextField.text!),
+                                         userId:  userId)
+            }
             
-            ref.child("children").child("\(idChild)").updateChildValues(childUpdate)
-            ref.child("children").child("\(idChild)").updateChildValues(["photoUri": downloadURL])
-            childPerson = ChildModel(id: idChild,
-                                     name: nameTextField.text!,
-                                     birthDate: BirthDayTextField.text!,
-                                     gender: genderTextField.text!,
-                                     bloodType: bloodTextField.text!,
-                                     image:  downloadURL,
-                                     weight: Int(weightTextField.text!),
-                                     userId:  userId)
+            let newChild = childPerson
+            delegate?.newDataChild(childEdit: newChild, indexPath: nil)
+            
+            nameTextField.text = ""
+            BirthDayTextField.text = ""
+            genderTextField.text = ""
+            weightTextField.text = ""
+            bloodTextField.text = ""
+            buttonSave.isEnabled = false
+            
+            navigationController?.popViewController(animated: true)
+            
         }
-        
-        let newChild = childPerson
-        delegate?.newDataChild(childEdit: newChild, indexPath: nil)
-        
-        nameTextField.text = ""
-        BirthDayTextField.text = ""
-        genderTextField.text = ""
-        weightTextField.text = ""
-        bloodTextField.text = ""
-        buttonSave.isEnabled = false
-        
-        navigationController?.popViewController(animated: true)
     }
     
     func birthDatePicker()  {
@@ -336,24 +352,24 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         view.endEditing(true)
     }
     
-    func imageProfile() -> String{
-        
-        var data :NSData = NSData()
-        if let image = imageTakeFoto.image{
-            data = UIImageJPEGRepresentation(image, 0.1)! as NSData
-        }
-        let base64String = data.base64EncodedString(options: .lineLength64Characters)
-        
-        return base64String ?? "avatar_default"
-    }
-    func imageProfileUpdate(foto: UIImage) -> String{
-        
-        var data :NSData = NSData()
-        data = UIImageJPEGRepresentation(foto, 0.1)! as NSData
-        let base64String = data.base64EncodedString(options: .lineLength64Characters)
-        
-        return base64String ?? "avatar_default"
-    }
+//    func imageProfile() -> String{
+//
+//        var data :NSData = NSData()
+//        if let image = imageTakeFoto.image{
+//            data = UIImageJPEGRepresentation(image, 0.1)! as NSData
+//        }
+//        let base64String = data.base64EncodedString(options: .lineLength64Characters)
+//
+//        return base64String ?? "avatar_default"
+//    }
+//    func imageProfileUpdate(foto: UIImage) -> String{
+//
+//        var data :NSData = NSData()
+//        data = UIImageJPEGRepresentation(foto, 0.1)! as NSData
+//        let base64String = data.base64EncodedString(options: .lineLength64Characters)
+//
+//        return base64String ?? "avatar_default"
+//    }
     func refreshProfileImage(){
         if childPerson.image == ""{
             imageTakeFoto.image = UIImage(named: "avatar_default")
@@ -385,7 +401,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
   
     
     func textFieldShouldBeginEditing (_ textField: UITextField) -> Bool {
-        
+        textField.text = ""
         textField.layer.borderColor = #colorLiteral(red: 0.9647058824, green: 0.5294117647, blue: 0.007843137255, alpha: 1)
         textField.layer.masksToBounds = true
         textField.layer.borderWidth = 1

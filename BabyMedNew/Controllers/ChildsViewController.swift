@@ -11,6 +11,7 @@ import Firebase
 import FirebaseStorage
 import FirebaseAuth
 import SVProgressHUD
+import AlamofireImage
 
 struct ChildModel{
     
@@ -46,7 +47,6 @@ struct ChildModel{
 
 class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
    
-    
     var ref: DatabaseReference?
     var refreshControl: UIRefreshControl!
     var ArrayChild =  [DataSnapshot]()
@@ -56,17 +56,20 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var tableView: UITableView!
     
     override func viewWillAppear(_ animated: Bool) {
-       super.viewWillAppear(animated)
-        childArray.removeAll()
-        checkReachability()
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
         SVProgressHUD.dismiss()
-        userID = (Auth.auth().currentUser?.uid)!
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        checkReachability()
         pullToRefresh()
+        userID = (Auth.auth().currentUser?.uid)!
+        SVProgressHUD.dismiss()
+        
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     }
     
@@ -78,14 +81,17 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.addSubview(refreshControl)
     }
     
+    fileprivate func extractedFunc() {
+        loadChildsData()
+    }
+    
     @objc func refresh(_ sender: Any) {
         
         childArray.removeAll()
-        checkReachability()
-        tableView.reloadData()
+        extractedFunc()
+        SVProgressHUD.dismiss()
         refreshControl.endRefreshing()
     }
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return childArray.count//childsArray?.count ?? 1
@@ -97,23 +103,23 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let store = Storage.storage()
         
-        
         cell?.labelName.text = childArray[indexPath.row].name
         cell?.labelAge.text = childArray[indexPath.row].birthDate
-        
-        if childArray[indexPath.row].image == ""{
-            cell?.imageFoto.image = UIImage(named: "avatar_default")
-        }else{
-            let storeRef = store.reference(forURL: childArray[indexPath.row].image)
-            storeRef.downloadURL { url, error in
-                if let error = error {
-                    print("error: \(error)")
-                } else {
-                    if let urlString = url{
-                        if let data = try? Data(contentsOf: urlString) {
-                            print("URL:\(String(describing: url))")
-                            if let image = UIImage(data: data) {
-                                DispatchQueue.main.async {
+        DispatchQueue.main.async {
+            if self.childArray[indexPath.row].image == ""{
+                cell?.imageFoto.image = UIImage(named: "avatar_default")
+            }else{
+                
+                let storeRef = store.reference(forURL: self.childArray[indexPath.row].image)
+                storeRef.downloadURL { url, error in
+                    
+                    if let error = error {
+                        print("error: \(error)")
+                    } else {
+                        
+                        if let urlString = url{
+                            if let data = try? Data(contentsOf: urlString) {
+                                if let image = UIImage(data: data) {
                                     cell?.imageFoto.image = image
                                 }
                             }
@@ -137,8 +143,7 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         vc.weight = child.weight 
         vc.gen = child.gender
         vc.indexPath = indexPath
-       // vc.imageFoto = child.image
-        vc.uid = child.id  
+        vc.uid = child.id
         vc.userId = child.userId
         vc.childPerson = child
         vc.firebaseImagePath = child.image
@@ -156,14 +161,32 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let id = childArray[indexPath.row].id
             let imgPath = childArray[indexPath.row].image
             ref?.child("children").child("\(id)").removeValue()
-         
-            let storage = Storage.storage()
-            let url = storage.reference().child("images/\(imgPath)")
-            url.delete { error in
-                if let error = error {
-                    print(error)
-                } else {
-                    print("Success delete")
+            
+            let illCount = childArray[indexPath.row].illnessList.count
+            print("illCount:\(illCount)")
+            if illCount > 0{
+                for index in 0...(illCount - 1){
+                    let idill = childArray[indexPath.row].illnessList[index].fotoRecept
+                    let storage = Storage.storage()
+                    let storeRef = storage.reference(forURL: idill)
+                    storeRef.delete { error in
+                        if let error = error {
+                            print(error)
+                        } else {
+                            print("Success delete")
+                        }
+                    }
+                }
+            }
+            if imgPath != ""{
+                let storage = Storage.storage()
+                let storeRef = storage.reference(forURL: imgPath)
+                storeRef.delete { error in
+                    if let error = error {
+                        print(error)
+                    } else {
+                        print("Success delete")
+                    }
                 }
             }
             childArray.remove(at: indexPath.row)
@@ -172,17 +195,15 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func loadChildsData() {
-        if childArray.isEmpty{
-            SVProgressHUD.dismiss()
-        }
-       SVProgressHUD.show()
-        
+        SVProgressHUD.show()
         
         ref = Database.database().reference()
+        self.childArray.removeAll()
+        
         ref?.child("children").observe(.childAdded, with: { snapshot  in
             
             if let getData = snapshot.value as? [String:Any] {
-                
+               
                 if
                     let name = getData["name"],
                     let birthDay = getData["birthDate"],
@@ -194,17 +215,17 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     let idString = getData["id"]
                 {
                     if self.userID == userId as! String{
-                        self.childArray.insert(ChildModel(id: idString as? String,
+                        self.childArray.append(ChildModel(id: idString as? String,
                                                           name: name as? String,
                                                           birthDate: birthDay as? String,
                                                           gender: gender as? String,
                                                           bloodType: bloodType as? String,
                                                           image: image as? String,
                                                           weight: weight as? Int,
-                                                          userId: userId as? String), at: 0)
-                    
+                                                          userId: userId as? String))
+                      self.tableView.reloadData()
                     }
-                     self.tableView.reloadData()
+                    self.tableView.reloadData()
                 }
                  self.tableView.reloadData()
             }
@@ -261,11 +282,9 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func checkReachability(){
         
         if currentReachabilityStatus == .reachableViaWiFi {
-            childArray.removeAll()
             loadChildsData()
             print("User is connected to the internet via wifi.")
         }else if currentReachabilityStatus == .reachableViaWWAN{
-            childArray.removeAll()
             loadChildsData()
             print("User is connected to the internet via WWAN.")
         }else if currentReachabilityStatus == .notReachable{
