@@ -37,18 +37,20 @@ class ImageZoomViewController: UIViewController, UIScrollViewDelegate {
         if imageString == ""{
             imageZoom.image = UIImage(named: "avatar_default")
         }else{
-            let store = Storage.storage()
-            let storeRef = store.reference(forURL: imageString)
-            
-            storeRef.downloadURL { url, error in
-                if let error = error {
-                    
-                    print("error: \(error)")
-                } else {
-                    if let data = try? Data(contentsOf: url!) {
-                        if let image = UIImage(data: data) {
-                            
-                            self.imageZoom.image = image
+            DispatchQueue.main.async {
+                let store = Storage.storage()
+                let storeRef = store.reference(forURL: self.imageString)
+                
+                storeRef.downloadURL { url, error in
+                    if let error = error {
+                        
+                        print("error: \(error)")
+                    } else {
+                        if let data = try? Data(contentsOf: url!) {
+                            if let image = UIImage(data: data) {
+                                
+                                self.imageZoom.image = image
+                            }
                         }
                     }
                 }

@@ -37,10 +37,10 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
     var date = ""
     var simptoms = ""
     var treatment = ""
-    var imagePath = "BabyMedLogo"
+    var imagePath = ""
     var id = ""
-    var idIll = ""
-    var illWeight = ""
+    var idIllness = ""
+    var illWeight: Int? = nil
     
     var ill = IllModel(idIll: "",
                        symptoms: "",
@@ -48,7 +48,7 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
                        illName: "",
                        DateIll: "",
                        fotoRecept: "",
-                       illnessWeight: "")
+                       illnessWeight: nil)
     @IBOutlet weak var buttonEdit: UIBarButtonItem!
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,10 +69,12 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
         birthDayLabel.text = bd
         nameIllLabel.text = nameIll
         dateLabel.text = date
-        weightLabel.text = illWeight
         simptomsTextView.text = simptoms
         treatmentTextView.text = treatment
-        weightLabel.text = "\(illWeight)кг"
+        if let weightString = illWeight{
+            weightLabel.text = "\(String(describing: weightString))кг"
+            
+        }
         
         // getImage(imageName: image)
     }
@@ -89,8 +91,10 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
             vc.id = id
             vc.name = name
             vc.birthdate = bd
-            vc.idIll = idIll
-            vc.illWeight = illWeight
+            vc.idIllness = idIllness
+            if let id = illWeight{
+                vc.illWeight = id
+            }
             vc.imgReceptPath = imagePath
             vc.delegate = self
         }
@@ -98,13 +102,14 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
         if segue.identifier == "toImageZoom",
             let vc = segue.destination as? ImageZoomViewController{
             vc.imageString = imagePath
-            vc.idIll = idIll
+            vc.idIll = idIllness
             vc.id = id
         }
     }
     
     @IBAction func buttonEdit(_ sender: Any) {
         performSegue(withIdentifier: "toIllForEdit", sender: self)
+        
         
     }
     
@@ -127,15 +132,16 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
         dateLabel.text = ill.DateIll
         simptomsTextView.text = ill.symptoms
         treatmentTextView.text = ill.treatment
-        weightLabel.text = ill.illnessWeight
+        weightLabel.text = "\(ill.illnessWeight)"
     }
     
     func refreshProfileImage(){
-            if imagePath == ""{
+            if imagePath == "null" || imagePath == ""{
                 imageRecept.image = UIImage(named: "avatar_default")
             }else{
+                 DispatchQueue.global().async {
                 let store = Storage.storage()
-                let storeRef = store.reference(forURL: imagePath)
+                    let storeRef = store.reference(forURL: self.imagePath)
                 
                 storeRef.downloadURL { url, error in
                     if let error = error {
@@ -152,9 +158,10 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
                 }
             }
         }
+    }
         
 //        let store = Storage.storage()
-//        let storeRef = store.reference().child("children").child(id).child("IllnessList").child("\(idIll)/images/profile_photo.jpg")
+//        let storeRef = store.reference().child("children").child(id).child("illnessList").child("\(idIll)/images/profile_photo.jpg")
 //        print(storeRef)
 //        storeRef.getData(maxSize: 15 * 1024 * 1024) { data, error in
 //            if let error = error {

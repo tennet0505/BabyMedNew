@@ -23,7 +23,6 @@
 		0640338B20EB3145003776CD /* BabyMedNew.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0640338920EB3145003776CD /* BabyMedNew.xcdatamodeld */; };
 		0640338D20EB3146003776CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0640338C20EB3146003776CD /* Assets.xcassets */; };
 		0640339020EB3146003776CD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0640338E20EB3146003776CD /* LaunchScreen.storyboard */; };
-		0640339B20EB31F2003776CD /* IllnessTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0640339A20EB31F2003776CD /* IllnessTableViewController.swift */; };
 		064033A720EB3801003776CD /* NewChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064033A620EB3801003776CD /* NewChildViewController.swift */; };
 		064033A920EB66A9003776CD /* PersonalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064033A820EB66A9003776CD /* PersonalViewController.swift */; };
 		064033AB20EB6F9D003776CD /* NewIllnesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064033AA20EB6F9D003776CD /* NewIllnesViewController.swift */; };
@@ -52,7 +51,6 @@
 		0640338C20EB3146003776CD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0640338F20EB3146003776CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0640339120EB3146003776CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0640339A20EB31F2003776CD /* IllnessTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllnessTableViewController.swift; sourceTree = "<group>"; };
 		064033A620EB3801003776CD /* NewChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChildViewController.swift; sourceTree = "<group>"; };
 		064033A820EB66A9003776CD /* PersonalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalViewController.swift; sourceTree = "<group>"; };
 		064033AA20EB6F9D003776CD /* NewIllnesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIllnesViewController.swift; sourceTree = "<group>"; };
@@ -139,7 +137,6 @@
 				062290A12123F1EE009137DA /* ImageZoomViewController.swift */,
 				062290A32123FF7A009137DA /* LoginNavigationViewController.swift */,
 				062290A52124011A009137DA /* NavigationRootViewController.swift */,
-				0640339A20EB31F2003776CD /* IllnessTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -305,7 +302,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0640339B20EB31F2003776CD /* IllnessTableViewController.swift in Sources */,
 				0640338B20EB3145003776CD /* BabyMedNew.xcdatamodeld in Sources */,
 				0640338320EB3145003776CD /* AppDelegate.swift in Sources */,
 				062290AD21269E98009137DA /* ChildsModel.swift in Sources */,
@@ -469,7 +465,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T55Q7XMBEC;
 				INFOPLIST_FILE = BabyMedNew/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.babymed.spalmalo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -485,7 +484,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T55Q7XMBEC;
 				INFOPLIST_FILE = BabyMedNew/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.babymed.spalmalo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

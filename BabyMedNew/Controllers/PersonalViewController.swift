@@ -11,16 +11,17 @@ import FirebaseAuth
 import Firebase
 import FirebaseStorage
 import FirebaseDatabase
+import SVProgressHUD
 
 struct IllModel {
     
-    var idIll = ""
+    var idIll: String? = nil
     var symptoms = ""
     var treatment = ""
     var illName = ""
     var DateIll = ""
     var fotoRecept = ""
-    var illnessWeight = ""
+    var illnessWeight: Int? = nil
     
     
     //    val name : String,
@@ -30,14 +31,14 @@ struct IllModel {
     //    val date : String,
     //    val illnessWeight : Int)
     
-    init(idIll: String?, symptoms: String?, treatment: String?, illName: String?,  DateIll: String?, fotoRecept: String?, illnessWeight: String?) {
+    init(idIll: String?, symptoms: String?, treatment: String?, illName: String?,  DateIll: String?, fotoRecept: String?, illnessWeight: Int?) {
         self.idIll = idIll!
         self.symptoms = symptoms!
         self.treatment = treatment!
         self.illName = illName!
         self.DateIll = DateIll!
         self.fotoRecept = fotoRecept!
-        self.illnessWeight = illnessWeight!
+        self.illnessWeight = nil
     }
 }
 
@@ -76,7 +77,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        refreshProfileImage()
+      
       //  getImage(imageName: childPerson.image)
         tableView.reloadData()
     }
@@ -85,6 +86,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         super.viewDidLoad()
         
         loadIllness()
+        refreshProfileImage()
         nameLabel.text = name
         birthDayLabel.text = bd
         genderLabel.text = gen
@@ -103,7 +105,9 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
             
             let vc = segue.destination as? NewIllnesViewController{
             vc.id = uid
-            //            let index = indexPath
+            vc.imgReceptPath = "null"
+            vc.illWeight = weight
+
         }
         
         if segue.identifier == "toDescriptionIll",
@@ -119,8 +123,9 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
                 vc.imagePath = ill.fotoRecept 
                 vc.bd = bd
                 vc.id = uid
-                vc.illWeight = ill.illnessWeight
-                vc.idIll = ill.idIll
+                vc.illWeight = weight
+                vc.idIllness = illsArray[indexPath.row].idIll!
+                print(illsArray[indexPath.row].idIll)
             }
         }
         if segue.identifier == "toPersonalForEdit",
@@ -145,10 +150,10 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     }
     
     func loadIllness() {
-        
+        SVProgressHUD.show()
         ref = Database.database().reference()
-        ref?.child("children").child(uid).child("IllnessList").observe(.childAdded, with: { snapshot  in
-            
+        ref?.child("children").child(uid).child("illnessList").observe(.childAdded, with: { snapshot  in
+//            print(self.ref?.child("children").child(self.uid).child("illnessList"))
             if let getData = snapshot.value as? [String:Any] {
                 
                 if
@@ -166,7 +171,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
                                             illName: illName as? String,
                                             DateIll: DateIll as? String,
                                             fotoRecept: fotoRecept as? String,
-                                            illnessWeight: illnessWeight as? String
+                                            illnessWeight: illnessWeight as? Int
                     )
                     self.illsArray.insert(illmodel, at: 0)
                 }
@@ -227,7 +232,7 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
             let id = illsArray[indexPath.row].idIll
             let imgPath = illsArray[indexPath.row].fotoRecept
             
-            ref?.child("children").child(uid).child("IllnessList").child("\(id)").removeValue()
+            ref?.child("children").child(uid).child("illnessList").child("\(id)").removeValue()
             illsArray.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
             
@@ -241,29 +246,32 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
                         print("Success delete")
                     }
                 }
-                
             }
-            
         }
     }
     func refreshProfileImage(){
         if childPerson.image == ""{
             fotoImage.image = UIImage(named: "avatar_default")
+             SVProgressHUD.dismiss()
         }else{
-            let store = Storage.storage()
-            let storeRef = store.reference(forURL: childPerson.image)
             
-            storeRef.downloadURL { url, error in
-                if let error = error {
-                    print("error: \(error)")
-                } else {
-                    if let data = try? Data(contentsOf: url!) {
-                        if let image = UIImage(data: data) {
-                            self.fotoImage.image = image
+//            DispatchQueue.main.async {
+                let store = Storage.storage()
+                let storeRef = store.reference(forURL: self.childPerson.image)
+                
+                storeRef.downloadURL { url, error in
+                    if let error = error {
+                        print("error: \(error)")
+                    } else {
+                        if let data = try? Data(contentsOf: url!) {
+                            if let image = UIImage(data: data) {
+                                self.fotoImage.image = image
+                                 SVProgressHUD.dismiss()
+                            }
                         }
                     }
                 }
-            }
+//            }
         }
     }
 }

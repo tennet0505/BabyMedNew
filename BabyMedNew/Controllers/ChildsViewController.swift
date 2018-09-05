@@ -57,18 +57,18 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        view.isUserInteractionEnabled = true
         
-        tableView.reloadData()
-        SVProgressHUD.dismiss()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        SVProgressHUD.show()
         checkReachability()
         pullToRefresh()
         userID = (Auth.auth().currentUser?.uid)!
-        SVProgressHUD.dismiss()
+       
         
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     }
@@ -105,11 +105,11 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         cell?.labelName.text = childArray[indexPath.row].name
         cell?.labelAge.text = childArray[indexPath.row].birthDate
-        DispatchQueue.main.async {
             if self.childArray[indexPath.row].image == ""{
                 cell?.imageFoto.image = UIImage(named: "avatar_default")
-            }else{
                 
+            }else{
+//                DispatchQueue.main.async {
                 let storeRef = store.reference(forURL: self.childArray[indexPath.row].image)
                 storeRef.downloadURL { url, error in
                     
@@ -126,7 +126,7 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
                         }
                     }
                 }
-            }
+//            }
         }
         return cell!
     }
@@ -147,7 +147,7 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         vc.userId = child.userId
         vc.childPerson = child
         vc.firebaseImagePath = child.image
-        
+        view.isUserInteractionEnabled = false
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -195,7 +195,6 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func loadChildsData() {
-        SVProgressHUD.show()
         
         ref = Database.database().reference()
         self.childArray.removeAll()
@@ -227,12 +226,14 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     }
                     self.tableView.reloadData()
                 }
-                 self.tableView.reloadData()
+                self.tableView.reloadData()
             }
-            SVProgressHUD.dismiss()
+          
+                SVProgressHUD.dismiss()
+         
         })
         self.tableView.reloadData()
-
+       
         print(childArray)
     }
     
@@ -249,6 +250,7 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     print("URL:\(String(describing: url))")
                     if let image = UIImage(data: data) {
                             img = image
+                       
                     }
                 }
             }

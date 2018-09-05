@@ -44,10 +44,10 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     var simptom = ""
     var treatment = ""
     var editValue = 0
-    var idIll = ""
+    var idIllness = ""
     var id = ""
     var image = ""
-    var illWeight = ""
+    var illWeight = Int()
     var imgReceptPath = String()
     var downloadURL = ""
     var newIll = IllModel(idIll: "",
@@ -56,7 +56,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
                           illName: "",
                           DateIll: "",
                           fotoRecept: "",
-                          illnessWeight: "")
+                          illnessWeight: nil)
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -68,6 +68,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
             dateTextField.isEnabled = true
             nameIllTextField.alpha = 1
             dateTextField.alpha = 1
+           
         }else{
             buttonEdit.isHidden = false
             buttonSave.isHidden = true
@@ -75,6 +76,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
             dateTextField.isEnabled = false
             nameIllTextField.alpha = 0.5
             dateTextField.alpha = 0.5
+          
         }
     }
     
@@ -87,7 +89,10 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         dateTextField.text = date
         simptomsTextView.text = simptom
         treatmentTextView.text = treatment
-        weightTextField.text = illWeight
+        if let kg: Int = illWeight
+        {
+            weightTextField.text = "\(kg)"
+        }
         refreshProfileImage()
         DatePicker()
     }
@@ -108,27 +113,27 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
             let treatment = treatmentTextView.text,
             let illnessWeight = weightTextField.text
         {
-            let idIll = ref.child("children").child(id).child("IllnessList").childByAutoId().key
+            let idIll = ref.child("children").child(id).child("illnessList").childByAutoId().key
             let illNew : [String : Any] = ["idIll": idIll,
                                            "name": nameIll,
                                            "date": dayIll,
                                            "symptoms": simptoms,
                                            "treatmentPhotoUri": downloadURL,
                                            "treatment": treatment,
-                                           "illnessWeight": illnessWeight]
+                                           "illnessWeight": Int(illnessWeight) as Any]
             
-            ref.child("children").child(id).child("IllnessList").child("\(idIll)").setValue(illNew)
+            ref.child("children").child(id).child("illnessList").child("\(idIll)").setValue(illNew)
         }
     }
     
     @IBAction func buttonEdit(_ sender: UIButton) {
         
-        let idIll = ref.child("children").child(id).child("IllnessList").childByAutoId().key
+        let idIll = ref.child("children").child(id).child("illnessList").childByAutoId().key
         newIll.illName = nameIllTextField.text!
         newIll.DateIll = dateTextField.text!
         newIll.symptoms = simptomsTextView.text!
         newIll.treatment = treatmentTextView.text!
-        newIll.illnessWeight = weightTextField.text!
+        newIll.illnessWeight = Int(weightTextField.text!)
         newIll.idIll = idIll
         updatePersonalData(ill: newIll)
         
@@ -139,7 +144,10 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         vc1.date = dateTextField.text!
         vc1.simptoms = simptomsTextView.text!
         vc1.treatment = treatmentTextView.text!
-        vc1.illWeight = weightTextField.text! //////////////////
+        if let weight = Int(weightTextField.text!){
+            vc1.illWeight = weight
+            
+        } //////////////////
         vc1.name = name
         vc1.bd = birthdate
         vc1.imagePath = imgReceptPath
@@ -152,17 +160,18 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     
     func updatePersonalData(ill: IllModel){
         
-        let IllUpdate : [String : Any] = ["idIll": idIll,
+        let IllUpdate : [String : Any] = ["idIll": idIllness,
                                           "symptoms": simptomsTextView.text,
                                           "treatment": treatmentTextView.text!,
                                           "name": illname,
                                           "date": dateTextField.text!,
                                           "treatmentPhotoUri": downloadURL,
-                                          "illnessWeight": weightTextField.text!]
+                                          "illnessWeight": Int(weightTextField.text!) as Any]
         
-        ref.child("children").child(id).child("IllnessList").child("\(idIll)").updateChildValues(IllUpdate)
-        ref.child("children").child(id).child("IllnessList").child("\(idIll)").updateChildValues(["treatmentPhotoUri": downloadURL])
-        
+        ref.child("children").child(id).child("illnessList").child("\(idIllness)").updateChildValues(IllUpdate)
+        if downloadURL != "" {
+        ref.child("children").child(id).child("illnessList").child("\(idIllness)").updateChildValues(["treatmentPhotoUri": downloadURL])
+        }
     }
     
     func loadIllness() {
@@ -209,6 +218,11 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
+    }
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        textField.text = ""
+        
+        return true
     }
     
     @IBAction func buttonFoto(_ sender: UIButton) {
@@ -261,6 +275,22 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
    
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        var imgFromPicker = info[UIImagePickerControllerOriginalImage]
+        var fileUrl1 = info[UIImagePickerControllerImageURL]
+        
+        if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
+            imgFromPicker = info[UIImagePickerControllerOriginalImage] as? UIImage
+            imageRecept.image = imgFromPicker as? UIImage
+            UIImageWriteToSavedPhotosAlbum(imageRecept.image!, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+            fileUrl1 = info[UIImagePickerControllerImageURL] as? NSURL
+        }
+        else{
+            (UIImagePickerController.isSourceTypeAvailable(.photoLibrary))
+            
+            imgFromPicker = info[UIImagePickerControllerOriginalImage] as? UIImage
+            
+        }
+        
         let alertController = UIAlertController(title: "load foto...", message: " ", preferredStyle: .alert)
         let spinnerIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
         spinnerIndicator.center = CGPoint(x: 135.0, y: 65.5)
@@ -268,9 +298,11 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         spinnerIndicator.startAnimating()
         alertController.view.addSubview(spinnerIndicator)
         
-        guard let fileUrl = info[UIImagePickerControllerImageURL] as? URL else { return }
+        if let fileUrl = fileUrl1 as? URL
+        {
+            imgReceptPath = "\(fileUrl.lastPathComponent)"
+        }
         
-        imgReceptPath = "\(fileUrl.lastPathComponent)"
         print(imgReceptPath)
         if let img1 = info[UIImagePickerControllerOriginalImage] as? UIImage{
             
@@ -314,32 +346,45 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
+    
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            // we got back an error!
+            let ac = UIAlertController(title: "Save error", message: error.localizedDescription, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        } else {
+            let ac = UIAlertController(title: "Saved!", message: "Your altered image has been saved to your photos.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        }
+    }
    
     func refreshProfileImage(){
         
-        if imgReceptPath == ""{
+        if imgReceptPath == "null" || imgReceptPath == ""{
             imageRecept.image = UIImage(named: "avatar_default")
         }else{
-            let store = Storage.storage()
-            let storeRef = store.reference(forURL: imgReceptPath)
-            
-            storeRef.downloadURL { url, error in
-                if let error = error {
-                    
-                    print("error: \(error)")
-                } else {
-                    if let data = try? Data(contentsOf: url!) {
-                        if let image = UIImage(data: data) {
-                            
-                            self.imageRecept.image = image
+            DispatchQueue.main.async {
+                let store = Storage.storage()
+                let storeRef = store.reference(forURL: self.imgReceptPath)
+                
+                storeRef.downloadURL { url, error in
+                    if let error = error {
+                        
+                        print("error: \(error)")
+                    } else {
+                        if let data = try? Data(contentsOf: url!) {
+                            if let image = UIImage(data: data) {
+                                
+                                self.imageRecept.image = image
+                            }
                         }
                     }
                 }
             }
         }
     }
-    
-
 }
 
 

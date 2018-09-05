@@ -128,7 +128,6 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
             
             ref.child("children").child("\(id)").setValue(childNew)
         }
-        
     }
     
     
@@ -205,6 +204,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         BirthDayTextField.inputView = picker
         
     }
+    
     @objc func donePressed(){
         let dateFormater = DateFormatter()
         let dateFormater1 = DateFormatter()
@@ -293,6 +293,23 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
+        var imgFromPicker = info[UIImagePickerControllerOriginalImage]
+        var fileUrl1 = info[UIImagePickerControllerImageURL]
+        
+        if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
+            imgFromPicker = info[UIImagePickerControllerOriginalImage] as? UIImage
+            imageTakeFoto.image = imgFromPicker as? UIImage
+            UIImageWriteToSavedPhotosAlbum(imageTakeFoto.image!, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+            fileUrl1 = info[UIImagePickerControllerImageURL] as? NSURL
+        }
+        else{
+            (UIImagePickerController.isSourceTypeAvailable(.photoLibrary))
+            
+            imgFromPicker = info[UIImagePickerControllerOriginalImage] as? UIImage
+            
+        }
+        
+        
         let alertController = UIAlertController(title: "load foto...", message: " ", preferredStyle: .alert)
         let spinnerIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
         spinnerIndicator.center = CGPoint(x: 135.0, y: 65.5)
@@ -300,12 +317,12 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         spinnerIndicator.startAnimating()
         alertController.view.addSubview(spinnerIndicator)
         
-        guard let fileUrl = info[UIImagePickerControllerImageURL] as? URL else { return }
-        
-        imgProfilePath = "\(fileUrl.lastPathComponent)"
+        if let fileUrl = fileUrl1 as? URL
+        {
+            imgProfilePath = "\(fileUrl.lastPathComponent)"
+        }
         print(imgProfilePath)
-        if let img1 = info[UIImagePickerControllerOriginalImage] as? UIImage{
-        
+        if let img1 = imgFromPicker as? UIImage{
             
             var imageData = Data()
             imageData = UIImageJPEGRepresentation(img1, 0.1)!
@@ -346,6 +363,20 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
+    
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            // we got back an error!
+            let ac = UIAlertController(title: "Save error", message: error.localizedDescription, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        } else {
+            let ac = UIAlertController(title: "Saved!", message: "Your altered image has been saved to your photos.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        }
+    }
+
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -388,7 +419,6 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
                     }
                 }
             }
-            
         }
     }
     
