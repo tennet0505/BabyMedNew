@@ -77,7 +77,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-      
+      view.isUserInteractionEnabled = true
       //  getImage(imageName: childPerson.image)
         tableView.reloadData()
     }
@@ -219,7 +219,7 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
     //MARK TableView Delegate methods
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+         view.isUserInteractionEnabled = false
         performSegue(withIdentifier: "toDescriptionIll", sender: self)
         
     }

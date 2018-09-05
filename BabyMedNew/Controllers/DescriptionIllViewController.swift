@@ -11,6 +11,7 @@ import FirebaseDatabase
 import Firebase
 import FirebaseAuth
 import FirebaseStorage
+import SVProgressHUD
 
 class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollViewDelegate  {
     
@@ -133,11 +134,14 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
         simptomsTextView.text = ill.symptoms
         treatmentTextView.text = ill.treatment
         weightLabel.text = "\(ill.illnessWeight)"
+        imagePath = ill.fotoRecept
     }
     
     func refreshProfileImage(){
+        SVProgressHUD.show()
             if imagePath == "null" || imagePath == ""{
                 imageRecept.image = UIImage(named: "avatar_default")
+                SVProgressHUD.dismiss()
             }else{
                  DispatchQueue.global().async {
                 let store = Storage.storage()
@@ -152,6 +156,7 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
                             if let image = UIImage(data: data) {
                                 self.hightConstraint.constant = 204
                                 self.imageRecept.image = image
+                                SVProgressHUD.dismiss()
                             }
                         }
                     }

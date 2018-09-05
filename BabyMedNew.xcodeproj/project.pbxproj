@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0621ECDA2113292B002686CF /* ChildTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0621ECD92113292B002686CF /* ChildTableViewCell.swift */; };
-		0621ECDF21195D6C002686CF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0621ECDE21195D6A002686CF /* GoogleService-Info.plist */; };
+		0621ECDF21195D6C002686CF /* GoogleService-InfoForiOS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0621ECDE21195D6A002686CF /* GoogleService-InfoForiOS.plist */; };
 		0621ECE121196944002686CF /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0621ECE021196944002686CF /* RegisterViewController.swift */; };
 		0621ECE321196952002686CF /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0621ECE221196952002686CF /* AuthViewController.swift */; };
 		062290A22123F1EE009137DA /* ImageZoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062290A12123F1EE009137DA /* ImageZoomViewController.swift */; };
@@ -27,14 +27,14 @@
 		064033A920EB66A9003776CD /* PersonalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064033A820EB66A9003776CD /* PersonalViewController.swift */; };
 		064033AB20EB6F9D003776CD /* NewIllnesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064033AA20EB6F9D003776CD /* NewIllnesViewController.swift */; };
 		064033AD20EB9741003776CD /* DescriptionIllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064033AC20EB9741003776CD /* DescriptionIllViewController.swift */; };
-		068BF38C2133F78D0090AC21 /* GoogleService-InfoAndroid.plist in Resources */ = {isa = PBXBuildFile; fileRef = 068BF38B2133F78D0090AC21 /* GoogleService-InfoAndroid.plist */; };
+		068BF38C2133F78D0090AC21 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 068BF38B2133F78D0090AC21 /* GoogleService-Info.plist */; };
 		A47AF1770982426D838EEB2F /* Pods_BabyMedNew.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23E00FA166380BB22953B847 /* Pods_BabyMedNew.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		02A640D9CD008ED778851A64 /* Pods-BabyMedNew.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BabyMedNew.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BabyMedNew/Pods-BabyMedNew.debug.xcconfig"; sourceTree = "<group>"; };
 		0621ECD92113292B002686CF /* ChildTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildTableViewCell.swift; sourceTree = "<group>"; };
-		0621ECDE21195D6A002686CF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0621ECDE21195D6A002686CF /* GoogleService-InfoForiOS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-InfoForiOS.plist"; sourceTree = "<group>"; };
 		0621ECE021196944002686CF /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		0621ECE221196952002686CF /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		062290A12123F1EE009137DA /* ImageZoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageZoomViewController.swift; sourceTree = "<group>"; };
@@ -55,7 +55,7 @@
 		064033A820EB66A9003776CD /* PersonalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalViewController.swift; sourceTree = "<group>"; };
 		064033AA20EB6F9D003776CD /* NewIllnesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIllnesViewController.swift; sourceTree = "<group>"; };
 		064033AC20EB9741003776CD /* DescriptionIllViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionIllViewController.swift; sourceTree = "<group>"; };
-		068BF38B2133F78D0090AC21 /* GoogleService-InfoAndroid.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-InfoAndroid.plist"; sourceTree = "<group>"; };
+		068BF38B2133F78D0090AC21 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		23E00FA166380BB22953B847 /* Pods_BabyMedNew.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BabyMedNew.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE3C20C4414FD0FA02B2BF8C /* Pods-BabyMedNew.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BabyMedNew.release.xcconfig"; path = "Pods/Target Support Files/Pods-BabyMedNew/Pods-BabyMedNew.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -92,8 +92,8 @@
 		0640337620EB3145003776CD = {
 			isa = PBXGroup;
 			children = (
-				0621ECDE21195D6A002686CF /* GoogleService-Info.plist */,
-				068BF38B2133F78D0090AC21 /* GoogleService-InfoAndroid.plist */,
+				0621ECDE21195D6A002686CF /* GoogleService-InfoForiOS.plist */,
+				068BF38B2133F78D0090AC21 /* GoogleService-Info.plist */,
 				0640338120EB3145003776CD /* BabyMedNew */,
 				0640338020EB3145003776CD /* Products */,
 				9B999BF02E744DBCA2B4F869 /* Pods */,
@@ -230,9 +230,9 @@
 			files = (
 				0640339020EB3146003776CD /* LaunchScreen.storyboard in Resources */,
 				0640338D20EB3146003776CD /* Assets.xcassets in Resources */,
-				068BF38C2133F78D0090AC21 /* GoogleService-InfoAndroid.plist in Resources */,
+				068BF38C2133F78D0090AC21 /* GoogleService-Info.plist in Resources */,
 				0640338820EB3145003776CD /* Main.storyboard in Resources */,
-				0621ECDF21195D6C002686CF /* GoogleService-Info.plist in Resources */,
+				0621ECDF21195D6C002686CF /* GoogleService-InfoForiOS.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

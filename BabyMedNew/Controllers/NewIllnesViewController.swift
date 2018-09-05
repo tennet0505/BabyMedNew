@@ -57,6 +57,13 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
                           DateIll: "",
                           fotoRecept: "",
                           illnessWeight: nil)
+    var newIll1 = IllModel(idIll: "",
+                          symptoms: "",
+                          treatment: "",
+                          illName: "",
+                          DateIll: "",
+                          fotoRecept: "",
+                          illnessWeight: nil)
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -127,13 +134,14 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     @IBAction func buttonEdit(_ sender: UIButton) {
-        
+      
         let idIll = ref.child("children").child(id).child("illnessList").childByAutoId().key
         newIll.illName = nameIllTextField.text!
         newIll.DateIll = dateTextField.text!
         newIll.symptoms = simptomsTextView.text!
         newIll.treatment = treatmentTextView.text!
         newIll.illnessWeight = Int(weightTextField.text!)
+        //newIll.fotoRecept = downloadURL
         newIll.idIll = idIll
         updatePersonalData(ill: newIll)
         
@@ -150,9 +158,14 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         } //////////////////
         vc1.name = name
         vc1.bd = birthdate
-        vc1.imagePath = imgReceptPath
-        
-        let illEdit = newIll
+       
+        newIll1.illName = nameIllTextField.text!
+        newIll1.DateIll = dateTextField.text!
+        newIll1.symptoms = simptomsTextView.text!
+        newIll1.treatment = treatmentTextView.text!
+        newIll1.illnessWeight = Int(weightTextField.text!)
+        newIll1.fotoRecept = downloadURL
+        let illEdit = newIll1
         delegate?.dataToNewIllness(illData: illEdit)
         navigationController?.popViewController(animated: true)
     }
