@@ -301,6 +301,11 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
             imageTakeFoto.image = imgFromPicker as? UIImage
             UIImageWriteToSavedPhotosAlbum(imageTakeFoto.image!, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
             fileUrl1 = info[UIImagePickerControllerImageURL] as? NSURL
+            
+            let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            let imageUniqueName : Int64 = Int64(NSDate().timeIntervalSince1970 * 1000);
+            fileUrl1 = docDir.appendingPathComponent("\(imageUniqueName).png");
+       
         }
         else{
             (UIImagePickerController.isSourceTypeAvailable(.photoLibrary))
