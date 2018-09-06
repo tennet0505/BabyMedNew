@@ -52,7 +52,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     var idChild = NSUUID().uuidString
     var editValue = 0
     var indexPath = IndexPath()
-    var downloadURL = ""
+    var downloadURL = "null"
     @IBOutlet weak var imageTakeFoto: UIImageView!
     
     
@@ -407,7 +407,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
 //        return base64String ?? "avatar_default"
 //    }
     func refreshProfileImage(){
-        if childPerson.image == ""{
+        if childPerson.image == "" || childPerson.image == "null"{
             imageTakeFoto.image = UIImage(named: "avatar_default")
         }else{
             let store = Storage.storage()

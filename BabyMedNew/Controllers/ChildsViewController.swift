@@ -105,7 +105,7 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         cell?.labelName.text = childArray[indexPath.row].name
         cell?.labelAge.text = childArray[indexPath.row].birthDate
-            if self.childArray[indexPath.row].image == ""{
+            if self.childArray[indexPath.row].image == "" || self.childArray[indexPath.row].image == "null" {
                 cell?.imageFoto.image = UIImage(named: "avatar_default")
                 
             }else{

@@ -34,7 +34,7 @@ class ImageZoomViewController: UIViewController, UIScrollViewDelegate {
     
     func refreshProfileImage(){
         
-        if imageString == ""{
+        if imageString == "" || imageString == "null"{
             imageZoom.image = UIImage(named: "avatar_default")
         }else{
             DispatchQueue.main.async {

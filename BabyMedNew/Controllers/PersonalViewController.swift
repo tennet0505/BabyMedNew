@@ -250,7 +250,7 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
         }
     }
     func refreshProfileImage(){
-        if childPerson.image == ""{
+        if childPerson.image == "" || childPerson.image == "null"{
             fotoImage.image = UIImage(named: "avatar_default")
              SVProgressHUD.dismiss()
         }else{

@@ -17,7 +17,6 @@ pod 'SVProgressHUD'
 pod 'AlamofireImage' 
 pod 'Alamofire'
 
-
 end
 
 post_install do |installer|
