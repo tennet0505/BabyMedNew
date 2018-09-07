@@ -133,7 +133,7 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
         dateLabel.text = ill.DateIll
         simptomsTextView.text = ill.symptoms
         treatmentTextView.text = ill.treatment
-        weightLabel.text = "\(ill.illnessWeight)"
+        weightLabel.text = "\(String(describing: ill.illnessWeight))"
         imagePath = ill.fotoRecept
     }
     

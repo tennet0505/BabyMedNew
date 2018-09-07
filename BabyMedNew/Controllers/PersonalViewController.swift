@@ -52,6 +52,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     var blood = ""
     var uid = ""
     var userId = ""
+    var illnessId = ""
     var imageFoto = ""
     var illsArray = [IllModel]()
     var child = [ChildModel]()
@@ -66,6 +67,14 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
                                              weight: 0,
                                              userId: "")
     
+//    var child1: ChildModel?{
+//        didSet{
+//            guard let child1 = child1 else { return }
+//            fotoImage.image = ProfileImage(imgString: child1.image)
+//
+//        }
+//    }
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var birthDayLabel: UILabel!
     @IBOutlet weak var genderLabel: UILabel!
@@ -78,7 +87,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
       view.isUserInteractionEnabled = true
-      //  getImage(imageName: childPerson.image)
+
         tableView.reloadData()
     }
     
@@ -93,13 +102,11 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         weightLabel.text = "\(weight)кг"
         bloodLabel.text = blood
     }
+    override func viewDidDisappear(_ animated: Bool) {
+        SVProgressHUD.dismiss()
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        //        if segue.identifier == "ToIllness",
-        //            let vc = segue.destination as? IllnessTableViewController{
-        //            let index = indexPath
-        //        }
         
         if segue.identifier == "ToNewIllness",
             
@@ -107,7 +114,6 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
             vc.id = uid
             vc.imgReceptPath = "null"
             vc.illWeight = weight
-
         }
         
         if segue.identifier == "toDescriptionIll",
@@ -125,7 +131,7 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
                 vc.id = uid
                 vc.illWeight = weight
                 vc.idIllness = illsArray[indexPath.row].idIll!
-                print(illsArray[indexPath.row].idIll)
+                print(illsArray[indexPath.row].idIll as Any)
             }
         }
         if segue.identifier == "toPersonalForEdit",
@@ -146,6 +152,8 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         genderLabel.text = childPerson.gender
         weightLabel.text = "\(childPerson.weight)"
         bloodLabel.text = childPerson.bloodType
+        imageFoto = childPerson.image
+        refreshProfileImage()
       //  getImage(imageName: childPerson.image)
     }
     
@@ -229,14 +237,29 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
         if editingStyle == .delete {
             print("Deleted")
             ref = Database.database().reference()
-            let id = illsArray[indexPath.row].idIll
+            if let illId = illsArray[indexPath.row].idIll{
+                illnessId = illId
+            }
             let imgPath = illsArray[indexPath.row].fotoRecept
             
-            ref?.child("children").child(uid).child("illnessList").child("\(id)").removeValue()
+            ref?.child("children").child(uid).child("illnessList").child("\(illnessId)").removeValue(completionBlock:  { (error, refer) in
+                if error != nil {
+                    print(error as Any)
+                } else {
+                    print(refer)
+                    print("Child Removed Correctly")
+                }
+            })
+            
+            
+            
+        
             illsArray.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
             
-            if imgPath != ""{
+            if imgPath == "" || imgPath == "null"{
+                print("NO Image!!!")
+            }else{
                 let storage = Storage.storage()
                 let url = storage.reference(forURL: imgPath)
                 url.delete { error in
@@ -252,26 +275,43 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
     func refreshProfileImage(){
         if childPerson.image == "" || childPerson.image == "null"{
             fotoImage.image = UIImage(named: "avatar_default")
-             SVProgressHUD.dismiss()
+            SVProgressHUD.dismiss()
         }else{
+            let store = Storage.storage()
+            let storeRef = store.reference(forURL: self.childPerson.image)
             
-//            DispatchQueue.main.async {
-                let store = Storage.storage()
-                let storeRef = store.reference(forURL: self.childPerson.image)
-                
-                storeRef.downloadURL { url, error in
-                    if let error = error {
-                        print("error: \(error)")
-                    } else {
-                        if let data = try? Data(contentsOf: url!) {
-                            if let image = UIImage(data: data) {
-                                self.fotoImage.image = image
-                                 SVProgressHUD.dismiss()
-                            }
+            storeRef.downloadURL { url, error in
+                if let error = error {
+                    print("error: \(error)")
+                } else {
+                    if let data = try? Data(contentsOf: url!) {
+                        if let image = UIImage(data: data) {
+                            self.fotoImage.image = image
+                            SVProgressHUD.dismiss()
                         }
                     }
                 }
-//            }
+            }
         }
     }
+//    func ProfileImage(imgString: String) -> UIImage{
+//
+//        var img = UIImage()
+//        let store = Storage.storage()
+//        let storeRef = store.reference(forURL: imgString)
+//
+//        storeRef.downloadURL { url, error in
+//            if let error = error {
+//                print("error: \(error)")
+//            } else {
+//                if let data = try? Data(contentsOf: url!) {
+//                    if let image = UIImage(data: data) {
+//                        img = image
+//                        SVProgressHUD.dismiss()
+//                    }
+//                }
+//            }
+//        }
+//        return img
+//    }
 }

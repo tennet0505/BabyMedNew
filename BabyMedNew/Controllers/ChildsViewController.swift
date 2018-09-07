@@ -46,11 +46,19 @@ struct ChildModel{
 
 
 class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-   
+    
     var ref: DatabaseReference?
     var refreshControl: UIRefreshControl!
     var ArrayChild =  [DataSnapshot]()
-    var childArray = [ChildModel]()
+    var childArray = [ChildModel]()  {
+        didSet {
+            OperationQueue.main.addOperation {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    
     var userID = ""
     
     @IBOutlet weak var tableView: UITableView!
@@ -58,6 +66,7 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.isUserInteractionEnabled = true
+        
         
     }
     
@@ -68,7 +77,7 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         checkReachability()
         pullToRefresh()
         userID = (Auth.auth().currentUser?.uid)!
-       
+        
         
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     }
@@ -103,30 +112,30 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let store = Storage.storage()
         
-        cell?.labelName.text = childArray[indexPath.row].name
-        cell?.labelAge.text = childArray[indexPath.row].birthDate
-            if self.childArray[indexPath.row].image == "" || self.childArray[indexPath.row].image == "null" {
-                cell?.imageFoto.image = UIImage(named: "avatar_default")
+        cell?.labelName.text = self.childArray[indexPath.row].name
+        cell?.labelAge.text = self.childArray[indexPath.row].birthDate
+        if self.childArray[indexPath.row].image == "" || self.childArray[indexPath.row].image == "null" {
+            cell?.imageFoto.image = UIImage(named: "avatar_default")
+            
+        }else{
+            
+            let storeRef = store.reference(forURL: self.childArray[indexPath.row].image)
+            storeRef.downloadURL { url, error in
                 
-            }else{
-//                DispatchQueue.main.async {
-                let storeRef = store.reference(forURL: self.childArray[indexPath.row].image)
-                storeRef.downloadURL { url, error in
+                if let error = error {
+                    print("error: \(error)")
+                } else {
                     
-                    if let error = error {
-                        print("error: \(error)")
-                    } else {
-                        
-                        if let urlString = url{
-                            if let data = try? Data(contentsOf: urlString) {
-                                if let image = UIImage(data: data) {
-                                    cell?.imageFoto.image = image
-                                }
+                    if let urlString = url{
+                        if let data = try? Data(contentsOf: urlString) {
+                            if let image = UIImage(data: data) {
+                                
+                                cell?.imageFoto.image = image
                             }
                         }
                     }
                 }
-//            }
+            }
         }
         return cell!
     }
@@ -178,7 +187,7 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     }
                 }
             }
-            if imgPath != ""{
+            if imgPath != "" || imgPath != "null"{
                 let storage = Storage.storage()
                 let storeRef = storage.reference(forURL: imgPath)
                 storeRef.delete { error in
@@ -202,7 +211,7 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         ref?.child("children").observe(.childAdded, with: { snapshot  in
             
             if let getData = snapshot.value as? [String:Any] {
-               
+                
                 if
                     let name = getData["name"],
                     let birthDay = getData["birthDate"],
@@ -222,43 +231,20 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                                           image: image as? String,
                                                           weight: weight as? Int,
                                                           userId: userId as? String))
-                      self.tableView.reloadData()
+                        self.tableView.reloadData()
                     }
                     self.tableView.reloadData()
                 }
                 self.tableView.reloadData()
             }
-          
-                SVProgressHUD.dismiss()
-         
+            SVProgressHUD.dismiss()
         })
         self.tableView.reloadData()
-       
+        
         print(childArray)
     }
     
-    func getImage(imageUrl: String) -> UIImage{
-        var img = UIImage()
-        let store = Storage.storage()
-        let storeRef = store.reference(forURL: imageUrl)
-        
-        storeRef.downloadURL { url, error in
-            if let error = error {
-                print("error: \(error)")
-            } else {
-                if let data = try? Data(contentsOf: url!) {
-                    print("URL:\(String(describing: url))")
-                    if let image = UIImage(data: data) {
-                            img = image
-                       
-                    }
-                }
-            }
-        }
-        return img
-    }
- 
-
+    
     @IBAction func LogOutButton(_ sender: UIBarButtonItem) {
         
         let alert = UIAlertController(title: "Внимание!", message: "Вы хотите покинуть вашу семью!", preferredStyle: .alert)
