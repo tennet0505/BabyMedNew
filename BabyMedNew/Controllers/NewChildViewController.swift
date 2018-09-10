@@ -132,10 +132,21 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     
     
     @IBAction func SaveData(_ sender: UIButton) {
-        if nameTextField.text == ""{
+        if nameTextField.text == "" || BirthDayTextField.text == "" {
             let alert = UIAlertController(title: "Внимание!", message: "Заполните поле!", preferredStyle: .alert)
             let action1 = UIAlertAction(title: "OK", style: .default) { action1 in
-                self.nameTextField.becomeFirstResponder()
+            }
+            
+            if nameTextField.text == "" {
+                changeBorderOf(textField: nameTextField)
+            }else{
+                changeBorderOfFull(textField: nameTextField)
+            }
+            
+            if BirthDayTextField.text == "" {
+                changeBorderOf(textField: BirthDayTextField)
+            }else{
+                changeBorderOfFull(textField: BirthDayTextField)
             }
             alert.addAction(action1)
             self.present(alert, animated: true, completion: nil)
@@ -433,6 +444,16 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         imageTakeFoto.layer.cornerRadius  = imageTakeFoto.frame.size.width/2
         imageTakeFoto.layer.masksToBounds = true
     }
+    
+    func changeBorderOf(textField : UITextField){
+    
+        textField.layer.borderColor = #colorLiteral(red: 0.8352941176, green: 0.2352941176, blue: 0.007843137255, alpha: 1)
+        textField.layer.masksToBounds = true
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 5
+        textField.tintColor = #colorLiteral(red: 0.9647058824, green: 0.5294117647, blue: 0.007843137255, alpha: 1)
+
+    }
   
     
     func textFieldShouldBeginEditing (_ textField: UITextField) -> Bool {
@@ -451,6 +472,25 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 5
         textField.tintColor = #colorLiteral(red: 0.9647058824, green: 0.5294117647, blue: 0.007843137255, alpha: 1)
+    }
+    
+    func changeBorderOfFull(textField : UITextField){
+        
+        textField.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        textField.layer.masksToBounds = true
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 5
+        textField.tintColor = #colorLiteral(red: 0.9647058824, green: 0.5294117647, blue: 0.007843137255, alpha: 1)
+        
+    }
+    func changeBorderOfFull(textView : UITextView){
+        
+        textView.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        textView.layer.masksToBounds = true
+        textView.layer.borderWidth = 1
+        textView.layer.cornerRadius = 5
+        textView.tintColor = #colorLiteral(red: 0.9647058824, green: 0.5294117647, blue: 0.007843137255, alpha: 1)
+        
     }
     
 }

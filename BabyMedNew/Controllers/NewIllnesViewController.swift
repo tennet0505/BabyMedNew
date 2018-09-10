@@ -58,12 +58,12 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
                           fotoRecept: "",
                           illnessWeight: nil)
     var newIll1 = IllModel(idIll: "",
-                          symptoms: "",
-                          treatment: "",
-                          illName: "",
-                          DateIll: "",
-                          fotoRecept: "",
-                          illnessWeight: nil)
+                           symptoms: "",
+                           treatment: "",
+                           illName: "",
+                           DateIll: "",
+                           fotoRecept: "",
+                           illnessWeight: nil)
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -75,7 +75,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
             dateTextField.isEnabled = true
             nameIllTextField.alpha = 1
             dateTextField.alpha = 1
-           
+            
         }else{
             buttonEdit.isHidden = false
             buttonSave.isHidden = true
@@ -83,7 +83,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
             dateTextField.isEnabled = false
             nameIllTextField.alpha = 0.5
             dateTextField.alpha = 0.5
-          
+            
         }
     }
     
@@ -106,8 +106,36 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     @IBAction func saveButton(_ sender: UIButton) {
-        
-        addNewIll()
+        if nameIllTextField.text == "" || simptomsTextView.text == "" || treatmentTextView.text == "" || dateTextField.text == ""{
+            let alert = UIAlertController(title: "Внимание!", message: "Заполните все поля!", preferredStyle: .alert)
+            let action1 = UIAlertAction(title: "OK", style: .default) { action1 in
+            }
+            if nameIllTextField.text == "" {
+                changeBorderOf(textField: nameIllTextField)
+            }else{
+                changeBorderOfFull(textField: nameIllTextField)
+            }
+            if simptomsTextView.text == "" {
+                changeBorderOf(textView: simptomsTextView)
+            }else{
+                changeBorderOfFull(textView: simptomsTextView)
+            }
+            if treatmentTextView.text == "" {
+                changeBorderOf(textView: treatmentTextView)
+            }else{
+                changeBorderOfFull(textView: treatmentTextView)
+            }
+            if dateTextField.text == "" {
+                changeBorderOf(textField: dateTextField)
+            }else{
+                changeBorderOfFull(textField: dateTextField)
+            }
+            alert.addAction(action1)
+            self.present(alert, animated: true, completion: nil)
+        }else{
+            addNewIll()
+            
+        }
         navigationController?.popViewController(animated: true)
         
     }
@@ -135,40 +163,71 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     @IBAction func buttonEdit(_ sender: UIButton) {
-      
-        let idIll = ref.child("children").child(id).child("illnessList").childByAutoId().key
-        newIll.illName = nameIllTextField.text!
-        newIll.DateIll = dateTextField.text!
-        newIll.symptoms = simptomsTextView.text!
-        newIll.treatment = treatmentTextView.text!
-        newIll.illnessWeight = Int(weightTextField.text!)
-        //newIll.fotoRecept = downloadURL
-        newIll.idIll = idIll
-        updatePersonalData(ill: newIll)
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc1 = storyboard.instantiateViewController(withIdentifier: "DescriptionIllViewController") as! DescriptionIllViewController
-        
-        vc1.nameIll = nameIllTextField.text!
-        vc1.date = dateTextField.text!
-        vc1.simptoms = simptomsTextView.text!
-        vc1.treatment = treatmentTextView.text!
-        if let weight = Int(weightTextField.text!){
-            vc1.illWeight = weight
+        if nameIllTextField.text == "" || simptomsTextView.text == "" || treatmentTextView.text == "" || dateTextField.text == ""{
+            let alert = UIAlertController(title: "Внимание!", message: "Заполните все поля!", preferredStyle: .alert)
+            let action1 = UIAlertAction(title: "OK", style: .default) { action1 in
+            }
+            if nameIllTextField.text == "" {
+                changeBorderOf(textField: nameIllTextField)
+            }else{
+                changeBorderOfFull(textField: nameIllTextField)
+            }
+            if simptomsTextView.text == "" {
+                changeBorderOf(textView: simptomsTextView)
+            }else{
+                changeBorderOfFull(textView: simptomsTextView)
+            }
+            if treatmentTextView.text == "" {
+                changeBorderOf(textView: treatmentTextView)
+            }else{
+                changeBorderOfFull(textView: treatmentTextView)
+            }
+            if dateTextField.text == "" {
+                changeBorderOf(textField: dateTextField)
+            }else{
+                changeBorderOfFull(textField: dateTextField)
+            }
+            alert.addAction(action1)
+            self.present(alert, animated: true, completion: nil)
+        }else{
             
-        } //////////////////
-        vc1.name = name
-        vc1.bd = birthdate
-       
-        newIll1.illName = nameIllTextField.text!
-        newIll1.DateIll = dateTextField.text!
-        newIll1.symptoms = simptomsTextView.text!
-        newIll1.treatment = treatmentTextView.text!
-        newIll1.illnessWeight = Int(weightTextField.text!)
-        newIll1.fotoRecept = downloadURL
-        let illEdit = newIll1
-        delegate?.dataToNewIllness(illData: illEdit)
-        navigationController?.popViewController(animated: true)
+            
+            let idIll = ref.child("children").child(id).child("illnessList").childByAutoId().key
+            newIll.illName = nameIllTextField.text!
+            newIll.DateIll = dateTextField.text!
+            newIll.symptoms = simptomsTextView.text!
+            newIll.treatment = treatmentTextView.text!
+            newIll.illnessWeight = Int(weightTextField.text!)
+            //newIll.fotoRecept = downloadURL
+            newIll.idIll = idIll
+            updatePersonalData(ill: newIll)
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc1 = storyboard.instantiateViewController(withIdentifier: "DescriptionIllViewController") as! DescriptionIllViewController
+            
+            vc1.nameIll = nameIllTextField.text!
+            vc1.date = dateTextField.text!
+            vc1.simptoms = simptomsTextView.text!
+            vc1.treatment = treatmentTextView.text!
+            if let weight = Int(weightTextField.text!){
+                vc1.illWeight = weight
+                
+            } //////////////////
+            vc1.name = name
+            vc1.bd = birthdate
+            
+            newIll1.illName = nameIllTextField.text!
+            newIll1.DateIll = dateTextField.text!
+            newIll1.symptoms = simptomsTextView.text!
+            newIll1.treatment = treatmentTextView.text!
+            newIll1.illnessWeight = Int(weightTextField.text!)
+            newIll1.fotoRecept = downloadURL
+            let illEdit = newIll1
+            delegate?.dataToNewIllness(illData: illEdit)
+            navigationController?.popViewController(animated: true)
+        }
+        
     }
     
     
@@ -184,7 +243,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         
         ref.child("children").child(id).child("illnessList").child("\(idIllness)").updateChildValues(IllUpdate)
         if downloadURL != "" {
-        ref.child("children").child(id).child("illnessList").child("\(idIllness)").updateChildValues(["treatmentPhotoUri": downloadURL])
+            ref.child("children").child(id).child("illnessList").child("\(idIllness)").updateChildValues(["treatmentPhotoUri": downloadURL])
         }
     }
     
@@ -196,8 +255,8 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
     func DatePicker()  {
         picker.datePickerMode = .date
         
-//        let loc = Locale(identifier: "Ru_ru")
-//        self.picker.locale = loc
+        //        let loc = Locale(identifier: "Ru_ru")
+        //        self.picker.locale = loc
         var components = DateComponents()
         components.year = 0
         let maxDate = Calendar.current.date(byAdding: components , to: Date())
@@ -218,7 +277,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         let dateFormater = DateFormatter()
         let dateFormater1 = DateFormatter()
         dateFormater.dateFormat = "dd MMMM yyyy"///////////change date format
-//        dateFormater.locale = Locale(identifier: "RU_ru")
+        //        dateFormater.locale = Locale(identifier: "RU_ru")
         dateTextField.text = dateFormater.string(from: picker.date)
         dateFormater1.dateFormat = "yyyy.MM.dd"///////////change date format
         
@@ -287,7 +346,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         
     }
     
-   
+    
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         var imgFromPicker = info[UIImagePickerControllerOriginalImage]
@@ -359,7 +418,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         picker.dismiss(animated: true, completion: nil)
         
         self.present(alertController, animated: false, completion: nil)
-
+        
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -378,7 +437,44 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
             present(ac, animated: true)
         }
     }
-   
+    
+    func changeBorderOf(textField : UITextField){
+        
+        textField.layer.borderColor = #colorLiteral(red: 0.8352941176, green: 0.2352941176, blue: 0.007843137255, alpha: 1)
+        textField.layer.masksToBounds = true
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 5
+        textField.tintColor = #colorLiteral(red: 0.9647058824, green: 0.5294117647, blue: 0.007843137255, alpha: 1)
+        
+    }
+    func changeBorderOfFull(textField : UITextField){
+        
+        textField.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        textField.layer.masksToBounds = true
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 5
+        textField.tintColor = #colorLiteral(red: 0.9647058824, green: 0.5294117647, blue: 0.007843137255, alpha: 1)
+        
+    }
+    func changeBorderOfFull(textView : UITextView){
+        
+        textView.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        textView.layer.masksToBounds = true
+        textView.layer.borderWidth = 1
+        textView.layer.cornerRadius = 5
+        textView.tintColor = #colorLiteral(red: 0.9647058824, green: 0.5294117647, blue: 0.007843137255, alpha: 1)
+        
+    }
+    func changeBorderOf(textView : UITextView){
+        
+        textView.layer.borderColor = #colorLiteral(red: 0.8352941176, green: 0.2352941176, blue: 0.007843137255, alpha: 1)
+        textView.layer.masksToBounds = true
+        textView.layer.borderWidth = 1
+        textView.layer.cornerRadius = 5
+        textView.tintColor = #colorLiteral(red: 0.9647058824, green: 0.5294117647, blue: 0.007843137255, alpha: 1)
+        
+    }
+    
     func refreshProfileImage(){
         
         if imgReceptPath == "null" || imgReceptPath == ""{

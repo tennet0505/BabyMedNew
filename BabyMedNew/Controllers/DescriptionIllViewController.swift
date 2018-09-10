@@ -74,7 +74,8 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
         treatmentTextView.text = treatment
         if let weightString = illWeight{
             weightLabel.text = "\(String(describing: weightString))кг"
-            
+        }else{
+            weightLabel.text = ""
         }
         
         // getImage(imageName: image)
