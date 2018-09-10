@@ -114,11 +114,13 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         cell?.labelName.text = self.childArray[indexPath.row].name
         cell?.labelAge.text = self.childArray[indexPath.row].birthDate
+        
         if self.childArray[indexPath.row].image == "" || self.childArray[indexPath.row].image == "null" {
             cell?.imageFoto.image = UIImage(named: "avatar_default")
             
         }else{
             
+            SVProgressHUD.show()
             let storeRef = store.reference(forURL: self.childArray[indexPath.row].image)
             storeRef.downloadURL { url, error in
                 
@@ -129,14 +131,20 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     if let urlString = url{
                         if let data = try? Data(contentsOf: urlString) {
                             if let image = UIImage(data: data) {
-                                
-                                cell?.imageFoto.image = image
+                                DispatchQueue.global(qos: .userInitiated).async {
+                                    DispatchQueue.main.async {
+                                        cell?.imageFoto.image = image
+                                        SVProgressHUD.dismiss()
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
         }
+        
+        
         return cell!
     }
     
@@ -289,6 +297,27 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             SVProgressHUD.dismiss()
             print("There is no internet connection")
         }
+    }
+}
+extension UIImage {
+    func decodeImage() -> UIImage? {
+        guard let newImage = self.cgImage else { return nil }
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let context = CGContext(data: nil,
+                                width: newImage.width,
+                                height: newImage.height,
+                                bitsPerComponent: 8,
+                                bytesPerRow: newImage.width * 4,
+                                space: colorSpace,
+                                bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue)
+        context?.draw(newImage, in: CGRect(x: 0, y: 0, width: newImage.width, height: newImage.height))
+        
+        let decodeImage = context?.makeImage()
+        
+        if let decodeImage = decodeImage {
+            return UIImage(cgImage: decodeImage)
+        }
+        return nil
     }
 }
 
