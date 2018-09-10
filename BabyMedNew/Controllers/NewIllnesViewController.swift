@@ -96,6 +96,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         dateTextField.text = date
         simptomsTextView.text = simptom
         treatmentTextView.text = treatment
+        weightTextField.delegate = self
         if let kg: Int = illWeight
         {
             weightTextField.text = "\(kg)"
@@ -237,6 +238,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         
         return true
     }
+    
     
     @IBAction func buttonFoto(_ sender: UIButton) {
         let imagePickerController = UIImagePickerController()
