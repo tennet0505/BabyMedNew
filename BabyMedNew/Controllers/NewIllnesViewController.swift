@@ -97,6 +97,7 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         simptomsTextView.text = simptom
         treatmentTextView.text = treatment
         weightTextField.delegate = self
+        downloadURL = imgReceptPath
         if let kg: Int = illWeight
         {
             weightTextField.text = "\(kg)"
@@ -247,16 +248,9 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         }
     }
     
-    func loadIllness() {
-        
-        //        illArray = selectedChild?.ills.sorted(byKeyPath: "illName", ascending: true)
-        
-    }
     func DatePicker()  {
         picker.datePickerMode = .date
-        
-        //        let loc = Locale(identifier: "Ru_ru")
-        //        self.picker.locale = loc
+       
         var components = DateComponents()
         components.year = 0
         let maxDate = Calendar.current.date(byAdding: components , to: Date())
@@ -277,7 +271,6 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
         let dateFormater = DateFormatter()
         let dateFormater1 = DateFormatter()
         dateFormater.dateFormat = "dd MMMM yyyy"///////////change date format
-        //        dateFormater.locale = Locale(identifier: "RU_ru")
         dateTextField.text = dateFormater.string(from: picker.date)
         dateFormater1.dateFormat = "yyyy.MM.dd"///////////change date format
         
@@ -394,9 +387,6 @@ class NewIllnesViewController: UIViewController, UIImagePickerControllerDelegate
             metaData.contentType = "image/jpg"
             
             storeRef.putData(imageData as Data, metadata: metaData){ metadata,error in
-                //                let size = metadata?.size
-                // You can also access to download URL after upload.
-                
                 
                 if let error = error {
                     print(error.localizedDescription)

@@ -245,7 +245,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-BabyMedNew/Pods-BabyMedNew-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-BabyMedNew/Pods-BabyMedNew-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
@@ -274,7 +274,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BabyMedNew/Pods-BabyMedNew-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BabyMedNew/Pods-BabyMedNew-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8BF46355D4D320A052954379 /* [CP] Check Pods Manifest.lock */ = {

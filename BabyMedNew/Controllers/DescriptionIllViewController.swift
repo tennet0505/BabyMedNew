@@ -72,13 +72,12 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
         dateLabel.text = date
         simptomsTextView.text = simptoms
         treatmentTextView.text = treatment
+        
         if let weightString = illWeight{
             weightLabel.text = "\(String(describing: weightString))кг"
         }else{
             weightLabel.text = ""
         }
-        
-        // getImage(imageName: image)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -111,7 +110,6 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
     
     @IBAction func buttonEdit(_ sender: Any) {
         performSegue(withIdentifier: "toIllForEdit", sender: self)
-        
         
     }
     
@@ -165,20 +163,6 @@ class DescriptionIllViewController: UIViewController, IllnessProtocol, UIScrollV
             }
         }
     }
-        
-//        let store = Storage.storage()
-//        let storeRef = store.reference().child("children").child(id).child("illnessList").child("\(idIll)/images/profile_photo.jpg")
-//        print(storeRef)
-//        storeRef.getData(maxSize: 15 * 1024 * 1024) { data, error in
-//            if let error = error {
-//                print("error: \(error.localizedDescription)")
-//
-//            } else {
-//                self.hightConstraint.constant = 204
-//                let image = UIImage(data: data!)
-//                self.imageRecept.image = image
-//            }
-//        }
     
     @IBAction func buttonZoom(_ sender: UIButton) {
         performSegue(withIdentifier: "toImageZoom", sender: self)

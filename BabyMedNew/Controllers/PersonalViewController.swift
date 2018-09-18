@@ -23,14 +23,6 @@ struct IllModel {
     var fotoRecept = ""
     var illnessWeight: Int? = nil
     
-    
-    //    val name : String,
-    //    val symptoms : String,
-    //    val treatment : String,
-    //    val treatmentPhotoUri : String?,
-    //    val date : String,
-    //    val illnessWeight : Int)
-    
     init(idIll: String?, symptoms: String?, treatment: String?, illName: String?,  DateIll: String?, fotoRecept: String?, illnessWeight: Int?) {
         self.idIll = idIll!
         self.symptoms = symptoms!
@@ -67,13 +59,6 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
                                              weight: 0,
                                              userId: "")
     
-//    var child1: ChildModel?{
-//        didSet{
-//            guard let child1 = child1 else { return }
-//            fotoImage.image = ProfileImage(imgString: child1.image)
-//
-//        }
-//    }
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var birthDayLabel: UILabel!
@@ -154,14 +139,12 @@ class PersonalViewController: UIViewController, NewChildDataProtocol {
         bloodLabel.text = childPerson.bloodType
         imageFoto = childPerson.image
         refreshProfileImage()
-      //  getImage(imageName: childPerson.image)
     }
     
     func loadIllness() {
         SVProgressHUD.show()
         ref = Database.database().reference()
         ref?.child("children").child(uid).child("illnessList").observe(.childAdded, with: { snapshot  in
-//            print(self.ref?.child("children").child(self.uid).child("illnessList"))
             if let getData = snapshot.value as? [String:Any] {
                 
                 if
@@ -250,10 +233,6 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
                     print("Child Removed Correctly")
                 }
             })
-            
-            
-            
-        
             illsArray.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
             
@@ -294,24 +273,4 @@ extension PersonalViewController: UITableViewDataSource, UITableViewDelegate{
             }
         }
     }
-//    func ProfileImage(imgString: String) -> UIImage{
-//
-//        var img = UIImage()
-//        let store = Storage.storage()
-//        let storeRef = store.reference(forURL: imgString)
-//
-//        storeRef.downloadURL { url, error in
-//            if let error = error {
-//                print("error: \(error)")
-//            } else {
-//                if let data = try? Data(contentsOf: url!) {
-//                    if let image = UIImage(data: data) {
-//                        img = image
-//                        SVProgressHUD.dismiss()
-//                    }
-//                }
-//            }
-//        }
-//        return img
-//    }
 }

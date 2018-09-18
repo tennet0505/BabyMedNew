@@ -89,6 +89,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         nameTextField.text = childPerson.name
         BirthDayTextField.text = childPerson.birthDate
         genderTextField.text = childPerson.gender
+        downloadURL = childPerson.image
         if childPerson.weight != 0
         {
             weightTextField.text = "\(childPerson.weight)"
@@ -106,7 +107,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     
     func addChild() {
         
-    
+        
         
         if let name = nameTextField.text,
             let birthDay = BirthDayTextField.text,
@@ -127,6 +128,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
                                              "illnessList": []]
             
             ref.child("children").child("\(id)").setValue(childNew)
+
         }
     }
     
@@ -151,7 +153,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
             alert.addAction(action1)
             self.present(alert, animated: true, completion: nil)
         }else{
-
+            
             if editValue == 0{
                 addChild()
             }else{
@@ -300,7 +302,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         actionTap.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(actionTap, animated: true, completion: nil)
     }
-
+    
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
@@ -316,7 +318,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
             let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
             let imageUniqueName : Int64 = Int64(NSDate().timeIntervalSince1970 * 1000);
             fileUrl1 = docDir.appendingPathComponent("\(imageUniqueName).png");
-       
+            
         }
         else{
             (UIImagePickerController.isSourceTypeAvailable(.photoLibrary))
@@ -349,10 +351,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
             metaData.contentType = "image/jpg"
             
             storeRef.putData(imageData as Data, metadata: metaData){ metadata,error in
-//                let size = metadata?.size
-                // You can also access to download URL after upload.
-               
-
+                
                 if let error = error {
                     print(error.localizedDescription)
                     return
@@ -374,7 +373,7 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         
         self.present(alertController, animated: false, completion: nil)
     }
-   
+    
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
@@ -392,31 +391,13 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
             present(ac, animated: true)
         }
     }
-
+    
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
     
-//    func imageProfile() -> String{
-//
-//        var data :NSData = NSData()
-//        if let image = imageTakeFoto.image{
-//            data = UIImageJPEGRepresentation(image, 0.1)! as NSData
-//        }
-//        let base64String = data.base64EncodedString(options: .lineLength64Characters)
-//
-//        return base64String ?? "avatar_default"
-//    }
-//    func imageProfileUpdate(foto: UIImage) -> String{
-//
-//        var data :NSData = NSData()
-//        data = UIImageJPEGRepresentation(foto, 0.1)! as NSData
-//        let base64String = data.base64EncodedString(options: .lineLength64Characters)
-//
-//        return base64String ?? "avatar_default"
-//    }
     func refreshProfileImage(){
         if childPerson.image == "" || childPerson.image == "null"{
             imageTakeFoto.image = UIImage(named: "avatar_default")
@@ -446,15 +427,15 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     func changeBorderOf(textField : UITextField){
-    
+        
         textField.layer.borderColor = #colorLiteral(red: 0.8352941176, green: 0.2352941176, blue: 0.007843137255, alpha: 1)
         textField.layer.masksToBounds = true
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 5
         textField.tintColor = #colorLiteral(red: 0.9647058824, green: 0.5294117647, blue: 0.007843137255, alpha: 1)
-
+        
     }
-  
+    
     
     func textFieldShouldBeginEditing (_ textField: UITextField) -> Bool {
         textField.text = ""
@@ -492,7 +473,6 @@ class NewChildViewController: UIViewController, UIImagePickerControllerDelegate,
         textView.tintColor = #colorLiteral(red: 0.9647058824, green: 0.5294117647, blue: 0.007843137255, alpha: 1)
         
     }
-    
 }
 
 

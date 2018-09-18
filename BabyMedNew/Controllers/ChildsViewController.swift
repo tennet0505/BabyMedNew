@@ -66,8 +66,6 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.isUserInteractionEnabled = true
-        
-        
     }
     
     override func viewDidLoad() {
@@ -77,7 +75,6 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         checkReachability()
         pullToRefresh()
         userID = (Auth.auth().currentUser?.uid)!
-        
         
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     }
@@ -143,8 +140,6 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 }
             }
         }
-        
-        
         return cell!
     }
     
@@ -248,8 +243,6 @@ class ChildsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             SVProgressHUD.dismiss()
         })
         self.tableView.reloadData()
-        
-        print(childArray)
     }
     
     
